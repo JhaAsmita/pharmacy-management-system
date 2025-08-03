@@ -1,0 +1,618 @@
+/* admin.css */
+
+/* === Theme Variables === */
+:root {
+  /* Background color for main content */
+  --bg-color: #f6fbff;
+
+  /* Background color for cards/panels, with transparency */
+  --card-bg: rgba(255, 255, 255, 0.25);
+
+  /* Primary brand color */
+  --primary-color: #2d7bb1;
+
+  /* Darker shade of primary for hover effects, etc. */
+  --primary-color-dark: #1c5b87;
+
+  /* Main text color */
+  --text-color: #1f2d3d;
+
+  /* Border color with light transparency */
+  --border-color: rgba(31, 45, 61, 0.15);
+
+  /* Shadow color for subtle box shadows */
+  --shadow-color: rgba(45, 123, 177, 0.2);
+
+  /* Glow effect used on some headings */
+  --glow: 0 0 12px rgba(45, 123, 177, 0.25);
+
+  /* Blur effect used for backdrop filters */
+  --blur: blur(14px);
+
+  /* Font family used throughout */
+  --font: "Poppins", sans-serif;
+
+  /* Sidebar width when fully expanded */
+  --sidebar-wide: 260px;
+
+  /* Sidebar width when collapsed/narrow */
+  --sidebar-narrow: 80px;
+}
+
+/* === Base and Reset Styles === */
+/* Apply box-sizing: border-box to all elements and pseudo elements
+   so padding and border included in element's total width/height */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+
+  /* Hide scrollbar for IE and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Set full height for html and body to allow flex layout */
+html,
+body {
+  height: 100%;
+}
+
+/* Body styles */
+body {
+  /* Use the custom font */
+  font-family: var(--font);
+
+  /* Background gradient */
+  background: linear-gradient(135deg, #ebf5fc, #dceefb, #f6fbff);
+
+  /* Text color */
+  color: var(--text-color);
+
+  /* Remove default margin */
+  margin: 0;
+
+  /* Use flexbox so main content can be easily positioned */
+  display: flex;
+
+  /* Minimum width to prevent layout breaking on very narrow screens */
+  min-width: 320px;
+}
+
+/* === Main Content Area === */
+main {
+  /* Full width of remaining space */
+  width: 100%;
+
+  /* Padding around content */
+  padding: 1rem 1rem 2rem;
+
+  /* Background color */
+  background: var(--bg-color);
+
+  /* At least full viewport height */
+  min-height: 100vh;
+}
+
+/* Larger screens (desktops): add left margin to make space for sidebar */
+@media (min-width: 1024px) {
+  main {
+    margin-left: var(--sidebar-wide); /* leave space for sidebar */
+    padding: 2rem 3rem; /* more padding */
+  }
+}
+
+/* Medium screens (tablets): smaller sidebar and adjusted padding */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  main {
+    margin-left: var(--sidebar-narrow); /* narrow sidebar space */
+    padding: 2rem; /* balanced padding */
+  }
+}
+
+/* === Headings === */
+h2 {
+  /* Primary dark color */
+  color: var(--primary-color-dark);
+
+  /* Add subtle glowing text shadow */
+  text-shadow: var(--glow);
+
+  /* Margin below heading */
+  margin: 0 0 1rem;
+
+  /* Tight line height */
+  line-height: 1.25;
+
+  /* Font size */
+  font-size: 1.25rem;
+}
+
+/* === Sections === */
+section {
+  /* Card background with transparency */
+  background: var(--card-bg);
+
+  /* Blur effect behind card */
+  backdrop-filter: var(--blur);
+
+  /* Rounded corners */
+  border-radius: 18px;
+
+  /* Drop shadow */
+  box-shadow: 0 8px 20px var(--shadow-color);
+
+  /* Space below section */
+  margin-bottom: 1.25rem;
+
+  /* Inner padding */
+  padding: 1rem 1rem;
+}
+
+/* Larger spacing on tablets and desktops */
+@media (min-width: 768px) {
+  section {
+    margin-bottom: 2rem;
+    padding: 1.25rem 1.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  section {
+    padding: 1.5rem 2rem;
+  }
+}
+
+/* === User Info (e.g., email display) === */
+.user-info {
+  /* Center text */
+  text-align: center;
+}
+
+/* === Logout Button Styles === */
+.logout-btn {
+  /* Space above button */
+  margin-top: 0.75rem;
+
+  /* Padding inside button */
+  padding: 0.65rem 1.2rem;
+
+  /* Remove default border */
+  border: none;
+
+  /* Background color using primary */
+  background: var(--primary-color);
+
+  /* White text */
+  color: white;
+
+  /* Rounded corners */
+  border-radius: 10px;
+
+  /* Cursor changes to pointer on hover */
+  cursor: pointer;
+
+  /* Bold font */
+  font-weight: 600;
+
+  /* Subtle box shadow for depth */
+  box-shadow: 0 0 10px rgba(45, 123, 177, 0.3);
+
+  /* Smooth transition for hover effects */
+  transition: all 0.3s ease;
+
+  /* Full width by default */
+  width: 100%;
+}
+
+/* On larger screens, button width adjusts */
+@media (min-width: 480px) {
+  .logout-btn {
+    width: auto;
+  }
+}
+
+/* Hover effect for logout button */
+.logout-btn:hover {
+  /* Darker background */
+  background-color: var(--primary-color-dark);
+
+  /* Slight upward movement */
+  transform: translateY(-1px);
+
+  /* Stronger shadow glow */
+  box-shadow: 0 0 16px rgba(45, 123, 177, 0.5);
+}
+
+/* === Form Styles === */
+.form-grid {
+  /* Use CSS grid for layout */
+  display: grid;
+
+  /* Gap between grid items */
+  gap: 0.75rem;
+}
+
+/* Two columns layout on tablets and larger */
+@media (min-width: 768px) {
+  .form-grid {
+    /* 2 columns of equal width */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    /* Align items at the end of the cell vertically */
+    align-items: end;
+  }
+}
+
+/* Form group (label + input/select container) */
+.form-group {
+  /* Use flex column layout */
+  display: flex;
+  flex-direction: column;
+
+  /* Space between label and input */
+  gap: 0.4rem;
+}
+
+/* Label styling */
+label {
+  /* Slightly smaller font */
+  font-size: 0.9rem;
+
+  /* Bold font weight */
+  font-weight: 600;
+
+  /* Primary dark color */
+  color: var(--primary-color-dark);
+}
+
+/* Inputs and selects */
+input,
+select {
+  /* Inner padding */
+  padding: 0.6rem 0.9rem;
+
+  /* Rounded corners */
+  border-radius: 10px;
+
+  /* Light border */
+  border: 1px solid var(--border-color);
+
+  /* Full width */
+  width: 100%;
+
+  /* Font size */
+  font-size: 1rem;
+
+  /* White background */
+  background: white;
+
+  /* Remove default focus outline */
+  outline: none;
+}
+
+/* Focus styles for inputs and selects */
+input:focus,
+select:focus {
+  /* Highlight border with primary color */
+  border-color: var(--primary-color);
+
+  /* Subtle shadow ring around element */
+  box-shadow: 0 0 0 3px rgba(45, 123, 177, 0.15);
+}
+
+/* Form action buttons container */
+.form-actions {
+  /* Flex layout for buttons */
+  display: flex;
+
+  /* Gap between buttons */
+  gap: 0.75rem;
+}
+
+/* Align buttons to start on larger screens */
+@media (min-width: 768px) {
+  .form-actions {
+    justify-content: flex-start;
+  }
+}
+
+/* Primary buttons and submit buttons */
+button.primary,
+button[type="submit"] {
+  /* Primary background */
+  background: var(--primary-color);
+
+  /* White text */
+  color: white;
+
+  /* No border */
+  border: none;
+
+  /* Padding */
+  padding: 0.75rem 1.2rem;
+
+  /* Rounded corners */
+  border-radius: 12px;
+
+  /* Pointer cursor */
+  cursor: pointer;
+
+  /* Font size */
+  font-size: 1rem;
+
+  /* Bold font */
+  font-weight: 700;
+
+  /* Smooth transitions on color and transform */
+  transition: background-color 0.25s ease, transform 0.1s ease;
+
+  /* Full width by default */
+  width: 100%;
+}
+
+/* On wider screens, width auto */
+@media (min-width: 480px) {
+  button.primary,
+  button[type="submit"] {
+    width: auto;
+  }
+}
+
+/* Hover effect for primary buttons */
+button.primary:hover,
+button[type="submit"]:hover {
+  /* Darker background */
+  background: var(--primary-color-dark);
+
+  /* Slight upward movement */
+  transform: translateY(-1px);
+}
+
+/* Delete buttons (red buttons) */
+.delete-btn {
+  /* Red background */
+  background: #e53935;
+
+  /* White text */
+  color: white;
+
+  /* Padding */
+  padding: 0.55rem 0.9rem;
+
+  /* No border */
+  border: none;
+
+  /* Rounded corners */
+  border-radius: 10px;
+
+  /* Font size */
+  font-size: 0.95rem;
+
+  /* Pointer cursor */
+  cursor: pointer;
+
+  /* Smooth transition */
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+/* Hover effect for delete buttons */
+.delete-btn:hover {
+  /* Darker red background */
+  background: #b71c1c;
+
+  /* Slight upward movement */
+  transform: translateY(-1px);
+}
+
+/* === Table Styling === */
+.table-responsive {
+  /* Full width container */
+  width: 100%;
+
+  /* Enable horizontal scrolling on overflow */
+  overflow-x: auto;
+
+  /* Smooth scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Table general styling */
+table {
+  /* Full width */
+  width: 100%;
+
+  /* Remove gaps between cells */
+  border-collapse: collapse;
+
+  /* Margin above table */
+  margin-top: 0.5rem;
+
+  /* White translucent background */
+  background: rgba(255, 255, 255, 0.5);
+
+  /* Rounded corners */
+  border-radius: 12px;
+
+  /* Hide overflow */
+  overflow: hidden;
+}
+
+/* Table cells padding and text styling */
+table th,
+table td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  vertical-align: middle;
+}
+
+/* Table header row styling */
+table thead tr {
+  border-bottom: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+/* Hover effect on table rows */
+table tbody tr:hover {
+  background: rgba(45, 123, 177, 0.08);
+}
+
+/* === Responsive Table for Mobile === */
+@media (max-width: 640px) {
+  .table-responsive {
+    /* Show overflow to stack rows */
+    overflow: visible;
+  }
+
+  /* Hide the table headers */
+  table thead {
+    display: none;
+  }
+
+  /* Make all table elements block level */
+  table,
+  table tbody,
+  table tr,
+  table td {
+    display: block;
+    width: 100%;
+  }
+
+  /* Style individual rows with margin and border */
+  table tbody tr {
+    margin-bottom: 0.9rem;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(45, 123, 177, 0.12);
+    overflow: hidden;
+  }
+
+  /* Table cells use grid to align label and value */
+  table td {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  /* Remove bottom border on last cell */
+  table td:last-child {
+    border-bottom: none;
+  }
+
+  /* Show the label before each cell's content from data-label attribute */
+  table td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: var(--primary-color-dark);
+  }
+
+  /* Make delete buttons full width on small screens */
+  table td .delete-btn {
+    width: 100%;
+  }
+}
+
+/* === Extra small phones (less than 400px) tweaks === */
+@media (max-width: 400px) {
+  /* Slightly smaller headings */
+  h2 {
+    font-size: 1.1rem;
+  }
+
+  /* Less padding and slightly smaller border-radius on sections */
+  section {
+    padding: 0.9rem 0.9rem;
+    border-radius: 16px;
+  }
+
+  /* Adjust table cells grid sizing and padding */
+  table td {
+    grid-template-columns: 100px 1fr;
+    padding: 0.65rem 0.8rem;
+  }
+
+  /* Smaller font size for inputs and selects */
+  input,
+  select {
+    font-size: 0.95rem;
+  }
+
+  /* Slightly smaller buttons padding */
+  button.primary,
+  .logout-btn {
+    padding: 0.7rem 1rem;
+  }
+}
+
+/* ===== Modal System Styling ===== */
+/* Background overlay behind modals */
+.modal-backdrop {
+  /* Fix overlay to cover full viewport */
+  position: fixed;
+  inset: 0; /* shorthand for top:0; right:0; bottom:0; left:0; */
+
+  /* Semi-transparent black */
+  background: rgba(0, 0, 0, 0.5);
+
+  /* Ensure it appears above other content */
+  z-index: 1000;
+}
+
+/* Modal container box */
+.modal {
+  /* Fixed position centered on screen */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+  /* Center exactly using transform */
+  transform: translate(-50%, -50%);
+
+  /* White background */
+  background: white;
+
+  /* Rounded corners */
+  border-radius: 12px;
+
+  /* Padding inside modal */
+  padding: 1.2rem;
+
+  /* Responsive width */
+  width: 90%;
+  max-width: 400px;
+
+  /* Shadow for depth */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+
+  /* Ensure modal is on top of backdrop */
+  z-index: 1001;
+}
+
+/* Modal content heading */
+.modal-content h3 {
+  margin-top: 0;
+  color: var(--primary-color-dark);
+}
+
+/* Modal content paragraph */
+.modal-content p {
+  margin: 0.5rem 0 1rem;
+}
+
+/* Modal action buttons container */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+}
+
+/* Utility class to hide elements */
+.hidden {
+  display: none !important;
+}

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Payment Management - PMS</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="css/sidebar-navigation.css" />
+    <link rel="stylesheet" href="css/payment-management.css" />
+  </head>
+  <body>
+    <!-- Sidebar Navigation -->
+    <div id="sidebar-container">
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar">
+        <i class="fas fa-bars"></i>
+      </button>
+      <aside class="sidebar" id="sidebar">
+        <div class="logo">PMS</div>
+        <nav>
+          <a href="user-dashboard.html"
+            ><i class="fas fa-chart-line"></i
+            ><span style="color: white">Dashboard</span></a
+          >
+          <a href="user-inventory.html"
+            ><i class="fas fa-boxes"></i
+            ><span style="color: white">Inventory</span></a
+          >
+          <a href="user-billing.html"
+            ><i class="fas fa-shopping-cart"></i
+            ><span style="color: white">Billing</span></a
+          >
+          <a href="user-payment-management.html" class="active"
+            ><i class="fas fa-money-bill-wave"></i
+            ><span style="color: white">Payments</span></a
+          >
+        </nav>
+        <div class="user-info">
+          Logged in as:<br /><strong id="userEmail">Loading...</strong>
+        </div>
+        <button class="logout-btn" id="logoutBtn">
+          <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+        </button>
+      </aside>
+    </div>
+
+    <main>
+      <section class="pending-payments-summary">
+        <h2>Pending Payments</h2>
+        <ul>
+          <li>Total Unpaid Amount: Rs. <span id="unpaid-total">0</span></li>
+          <li>Pending From: <span id="pending-count">0</span> Customers</li>
+        </ul>
+      </section>
+
+      <section class="filter-section">
+        <form
+          id="filterForm"
+          autocomplete="off"
+          aria-label="Filter payments form"
+        >
+          <div class="filter-row">
+            <input
+              type="search"
+              id="searchInput"
+              name="search"
+              placeholder="Search by customer name, phone, or sale ID"
+              aria-label="Search payments"
+            />
+            <select
+              id="customerTypeFilter"
+              name="customerType"
+              aria-label="Filter by customer type"
+            >
+              <option value="">All Types</option>
+              <option value="retail">Retail</option>
+              <option value="b2b">B2B</option>
+            </select>
+            <input
+              type="number"
+              id="minAmountFilter"
+              name="minAmount"
+              placeholder="Min Amount Left"
+              min="0"
+              step="0.01"
+              aria-label="Minimum payment left filter"
+            />
+            <input
+              type="number"
+              id="maxAmountFilter"
+              name="maxAmount"
+              placeholder="Max Amount Left"
+              min="0"
+              step="0.01"
+              aria-label="Maximum payment left filter"
+            />
+          </div>
+          <div class="filter-row">
+            <label for="dateFromFilter">Date From:</label>
+            <input
+              type="date"
+              id="dateFromFilter"
+              name="dateFrom"
+              aria-label="Filter from date"
+            />
+            <label for="dateToFilter">Date To:</label>
+            <input
+              type="date"
+              id="dateToFilter"
+              name="dateTo"
+              aria-label="Filter to date"
+            />
+            <button type="submit" class="btn-filter">Apply Filters</button>
+            <button type="button" id="clearFiltersBtn" class="btn-clear">
+              Clear Filters
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section>
+        <h2>Payments Pending</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Customer Name</th>
+                <th>Phone</th>
+                <th>Sale Date</th>
+                <th>Sale Type</th>
+                <th>Grand Total (Rs.)</th>
+                <th>Discount (Rs.)</th>
+                <th>Amount Paid (Rs.)</th>
+                <th>Amount Left (Rs.)</th>
+                <th>Sales ID</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="payments-table-body">
+              <tr>
+                <td colspan="10">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <div
+      id="updatePaymentModal"
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="updatePaymentTitle"
+      aria-describedby="updatePaymentDesc"
+    >
+      <div class="modal-content">
+        <span
+          class="close-btn"
+          id="modalCloseBtn"
+          role="button"
+          aria-label="Close modal"
+          >&times;</span
+        >
+        <h3 id="updatePaymentTitle">Update Payment</h3>
+        <form id="update-payment-form">
+          <div class="form-group">
+            <label for="amountPaidInput"
+              >Amount Paid (Rs.) <span id="maxAmountLabel"></span
+            ></label>
+            <input
+              type="number"
+              id="amountPaidInput"
+              name="amountPaid"
+              min="1"
+              required
+              step="0.01"
+              aria-describedby="maxAmountLabel"
+            />
+          </div>
+          <div class="form-group">
+            <label for="saleDescriptionInput"
+              >Sale Description (Optional)</label
+            >
+            <textarea
+              id="saleDescriptionInput"
+              name="saleDescription"
+              rows="3"
+              placeholder="Enter payment description or notes"
+            ></textarea>
+          </div>
+          <button type="submit" class="btn-update">Update Payment</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <script type="module" src="js/user-payment-management.js"></script>
+  </body>
+</html>

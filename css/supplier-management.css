@@ -1,0 +1,878 @@
+/* ============================
+   Root-level CSS Variables
+   ============================
+   Define core theme colors, sizes, and reusable values for consistency.
+   Using CSS variables allows easy theming and scaling across the stylesheet.
+*/
+:root {
+  /* Background colors */
+  --bg-color: #f6fbff;
+  /* Main background color for content outside cards */
+
+  /* Semi-transparent white for frosted glass effect on cards */
+  --card-bg: rgba(255, 255, 255, 0.25);
+
+  /* Primary theme colors */
+  --primary-color: #2d7bb1;
+  /* Main blue accent */
+  --primary-dark: #1a4f73;
+  /* Darker shade for hover/active states */
+
+  /* Text and borders */
+  --text-color: #1f2d3d;
+  /* Default text color */
+  --border-color: rgba(179, 208, 243, 0.6);
+  /* Light border color for inputs/cards */
+
+  /* Shadows and glow effects */
+  --shadow-color: rgba(45, 123, 177, 0.12);
+  /* Soft shadow used for cards/buttons */
+  --glow: 0 0 15px rgba(45, 123, 177, 0.4);
+  /* Subtle glow effect for headings */
+
+  /* Blur effect for frosted glass */
+  --blur: blur(15px);
+
+  /* Font family used across the site */
+  --font: "Poppins", sans-serif;
+
+  /* Border radius sizes for various elements */
+  --border-radius-large: 20px;
+  /* For main sections/modals */
+  --border-radius-medium: 12px;
+  /* For cards and buttons */
+  --border-radius-small: 8px;
+  /* For inputs and small buttons */
+
+  /* Transition speed and easing for smooth UI animations */
+  --transition-speed: 0.3s ease-out;
+
+  /* Desktop-specific spacing and font size adjustments for compact layout */
+  --desktop-main-padding: 2rem;
+  --desktop-section-padding: 1.5rem 2rem;
+  --desktop-section-margin-bottom: 1.5rem;
+  --desktop-h2-font-size: 1.8rem;
+  --desktop-h5-font-size: 1.1rem;
+  --desktop-form-label-font-size: 0.85rem;
+  --desktop-input-padding: 0.7rem 0.9rem;
+  --desktop-input-font-size: 0.88rem;
+  --desktop-button-padding: 0.7rem 1.4rem;
+  --desktop-button-font-size: 0.88rem;
+  --desktop-table-padding: 0.6rem 0.8rem;
+  --desktop-table-font-size: 0.82rem;
+  --desktop-card-gap: 0.8rem;
+  --desktop-form-grid-gap: 1.2rem;
+}
+
+/* ============================
+   Global Element Styles
+   ============================ */
+
+/* Hide scrollbars on IE and Firefox for a cleaner look */
+* {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Body setup */
+body {
+  margin: 0;
+  /* Remove default margin */
+  font-family: var(--font);
+  /* Use defined font */
+  /* Background gradient for subtle and clean look */
+  background: linear-gradient(135deg, #eef5fe 0%, #f8fbfd 100%);
+  color: var(--text-color);
+  /* Set default text color */
+  overflow-x: hidden;
+  /* Prevent horizontal scroll */
+  min-height: 100vh;
+  /* Full viewport height */
+  line-height: 1.6;
+  /* Comfortable line height for readability */
+  display: flex;
+  /* To allow sidebar and main content flexbox layout */
+}
+
+/* ============================
+   Main Content Area
+   ============================ */
+
+/* Main content container adjacent to sidebar */
+.main {
+  margin-left: 260px;
+  /* Space for sidebar width */
+  padding: var(--desktop-main-padding);
+  min-height: 100vh;
+  /* Full viewport height */
+  background: var(--bg-color);
+  /* Background color for main content */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+  /* Soft shadow to lift the main area */
+  border-radius: var(--border-radius-large);
+  max-width: calc(100% - 280px);
+  /* Leave room for sidebar */
+  transition: margin-left var(--transition-speed),
+    max-width var(--transition-speed);
+  box-sizing: border-box;
+  /* Include padding/borders in width */
+  flex: 1;
+  /* Allow main area to fill remaining horizontal space */
+  display: flex;
+  /* Layout children vertically */
+  flex-direction: column;
+  gap: 2rem;
+  /* Space between child sections */
+}
+
+/* When sidebar is collapsed, reduce left margin and increase max width */
+body.sidebar-collapsed .main {
+  margin-left: 80px;
+  max-width: calc(100% - 100px);
+}
+
+/* ============================
+   Headings
+   ============================ */
+
+/* Section titles styled for emphasis */
+h2.section-title {
+  color: var(--primary-dark);
+  /* Darker accent color */
+  margin-bottom: 1.2rem;
+  text-shadow: var(--glow);
+  /* Subtle glow effect */
+  font-size: var(--desktop-h2-font-size);
+  font-weight: 600;
+  /* Bold text */
+}
+
+/* ============================
+   Card Containers (Forms, Lists)
+   ============================ */
+
+/* Common styles for form containers and supplier lists */
+.form-container,
+.supplier-list {
+  background: var(--card-bg);
+  /* Frosted glass transparent background */
+  backdrop-filter: var(--blur);
+  /* Blur effect behind the card */
+  border: 1px solid var(--border-color);
+  /* Soft border */
+  border-radius: var(--border-radius-large);
+  padding: var(--desktop-section-padding);
+  box-shadow: var(--shadow-color);
+  transition: box-shadow var(--transition-speed);
+  margin-bottom: var(--desktop-section-margin-bottom);
+}
+
+/* On hover, deepen shadow to lift the card visually */
+.form-container:hover,
+.supplier-list:hover {
+  box-shadow: 0 12px 35px rgba(45, 123, 177, 0.2);
+}
+
+/* ============================
+   Form Grid Layout
+   ============================ */
+
+/* Grid container for form inputs, allowing multiple columns */
+.form-grid {
+  display: grid;
+  /* Automatically fill available space with minimum 280px wide columns */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--desktop-form-grid-gap);
+  margin-top: 1rem;
+}
+
+/* Form group wrapper for label + input/textarea */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* Special case: form group spans entire grid width */
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+/* ============================
+   Form Labels and Inputs
+   ============================ */
+
+/* Labels styled for clarity and color */
+form label {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--primary-dark);
+  font-size: var(--desktop-form-label-font-size);
+}
+
+/* Inputs and textareas styled with consistent padding and border */
+form input,
+form textarea {
+  width: 100%;
+  padding: var(--desktop-input-padding);
+  margin-bottom: 0.8rem;
+  border-radius: var(--border-radius-small);
+  border: 1px solid rgba(179, 208, 243, 0.8);
+  background: rgba(255, 255, 255, 0.6);
+  font-size: var(--desktop-input-font-size);
+  color: var(--text-color);
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: border-color var(--transition-speed),
+    box-shadow var(--transition-speed);
+}
+
+/* Highlight input and textarea on focus */
+form input:focus,
+form textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(45, 123, 177, 0.2),
+    inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Textarea minimum height and resize option */
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* ============================
+   Buttons
+   ============================ */
+
+/* Primary button styles (blue with shadow and hover effect) */
+.primary-btn {
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 600;
+  padding: var(--desktop-button-padding);
+  border-radius: var(--border-radius-small);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-speed);
+  box-shadow: 0 4px 10px var(--shadow-color);
+  font-size: var(--desktop-button-font-size);
+}
+
+/* Primary button hover effect */
+.primary-btn:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(45, 123, 177, 0.3);
+}
+
+/* Secondary button (light background with blue border/text) */
+.secondary-btn {
+  background-color: #f0f6fb;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  font-weight: 600;
+  padding: var(--desktop-button-padding);
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  transition: all var(--transition-speed);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  font-size: var(--desktop-button-font-size);
+}
+
+/* Secondary button hover effect */
+.secondary-btn:hover {
+  background-color: #e1edf8;
+  color: var(--primary-dark);
+  border-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+/* ============================
+   Supplier Cards
+   ============================ */
+
+/* Individual supplier card container */
+.supplier-card {
+  background: rgba(255, 255, 255, 0.75);
+  /* More opaque than form containers */
+  border-radius: var(--border-radius-medium);
+  padding: 1rem 1.2rem;
+  margin-bottom: 0.8rem;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  transition: all var(--transition-speed);
+  cursor: pointer;
+}
+
+/* Hover effect lifts card slightly and deepens shadow */
+.supplier-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(45, 123, 177, 0.2);
+}
+
+/* Header text inside supplier cards */
+.supplier-header {
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--primary-dark);
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(45, 123, 177, 0.15);
+  margin-bottom: 0.6rem;
+}
+
+/* Hidden by default, shows details when toggled */
+.supplier-details {
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-color);
+  display: none;
+}
+
+/* Paragraph spacing inside details */
+.supplier-details p {
+  margin: 0.3rem 0;
+}
+
+/* Container for supplier action buttons */
+.supplier-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.8rem;
+  justify-content: flex-end;
+}
+
+/* Buttons inside supplier actions */
+.supplier-actions button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: background-color var(--transition-speed), transform 0.2s ease-out;
+}
+
+/* Edit button green style */
+.edit-btn {
+  background: #28a745;
+}
+
+.edit-btn:hover {
+  background: #1e7e34;
+  transform: translateY(-1px);
+}
+
+/* Delete button red style */
+.delete-btn {
+  background: #dc3545;
+}
+
+.delete-btn:hover {
+  background: #c82333;
+  transform: translateY(-1px);
+}
+
+/* ============================
+   Search Box
+   ============================ */
+
+/* Container for search input and icon */
+.search-box {
+  margin-bottom: 1.5rem;
+  position: relative;
+  /* For positioning the search icon */
+}
+
+/* Search input styling */
+.search-box input {
+  width: 100%;
+  padding: var(--desktop-input-padding);
+  padding-right: 2.5rem;
+  /* Leave space for icon */
+  border-radius: var(--border-radius-medium);
+  border: 1px solid rgba(179, 208, 243, 0.8);
+  background: rgba(255, 255, 255, 0.6);
+  font-size: var(--desktop-input-font-size);
+  color: var(--text-color);
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: border-color var(--transition-speed),
+    box-shadow var(--transition-speed);
+}
+
+/* Search icon styling (positioned absolutely inside input) */
+.search-box i {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary-dark);
+  font-size: 0.95rem;
+  pointer-events: none;
+  /* Allow clicks to go through icon */
+}
+
+/* ============================
+   MODAL STYLES
+   ============================ */
+
+/* Modal container overlay (full screen dimmed background) */
+.modal-container {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(31, 45, 61, 0.75);
+  /* Dark overlay */
+  backdrop-filter: var(--blur);
+  /* Blur background behind modal */
+  align-items: center;
+  /* Center modal vertically */
+  justify-content: center;
+  /* Center modal horizontally */
+  z-index: 10000;
+  /* On top of all content */
+  opacity: 0;
+  transition: opacity var(--transition-speed);
+}
+
+/* When modal is active, show and allow interaction */
+.modal-container.active {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Inner modal dialog styling for Edit modal with frosted glass effect */
+#editModal .modal-dialog {
+  background: var(--card-bg);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-medium);
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  max-width: 420px;
+  width: 90%;
+  position: relative;
+  animation: slideIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* Inner modal dialogs for Alert and Confirm modals (solid white background) */
+#alert-modal .modal-dialog,
+#confirm-modal .modal-dialog {
+  background-color: var(--bg-color);
+  padding: 2rem;
+  border-radius: var(--border-radius-medium);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  max-width: 420px;
+  width: 90%;
+  position: relative;
+  animation: slideIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+  box-sizing: border-box;
+  text-align: center;
+  border: 1px solid rgba(45, 123, 177, 0.2);
+}
+
+/* Modal headers */
+.modal-dialog h3 {
+  margin-top: 0;
+  color: var(--primary-dark);
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Modal paragraph text */
+.modal-dialog p {
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+/* Inputs and textareas inside modals */
+.modal-dialog input,
+.modal-dialog textarea {
+  width: 100%;
+  padding: var(--desktop-input-padding);
+  margin-bottom: 1rem;
+  border-radius: var(--border-radius-small);
+  border: 1px solid rgba(179, 208, 243, 0.8);
+  background: rgba(255, 255, 255, 0.6);
+  font-size: var(--desktop-input-font-size);
+  color: var(--text-color);
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* Buttons inside modals (submit, primary, secondary, delete) */
+.modal-dialog button[type="submit"],
+.modal-dialog .primary-btn,
+.modal-dialog .secondary-btn,
+.modal-dialog .delete-btn {
+  width: auto;
+  padding: var(--desktop-button-padding);
+  border-radius: var(--border-radius-small);
+  font-weight: 600;
+  font-size: var(--desktop-button-font-size);
+  box-shadow: 0 4px 8px var(--shadow-color);
+  transition: all var(--transition-speed);
+}
+
+/* Close button hover effect rotates and darkens */
+.close-btn:hover {
+  color: #555;
+  /* Darker grey on hover */
+  transform: rotate(90deg);
+  /* Rotate icon for visual feedback */
+}
+
+/* Modal footer container for buttons (alert/confirm) */
+.modal-footer {
+  display: flex;
+  /* Arrange buttons side by side */
+  justify-content: center;
+  /* Center buttons horizontally */
+  gap: 0.8rem;
+  /* Space between buttons */
+  margin-top: 1rem;
+  /* Space above the footer */
+}
+
+/* ============================
+   Toast Notifications
+   ============================ */
+
+/* Container for all toast notifications */
+#toast-container {
+  position: fixed;
+  /* Fixed position relative to viewport */
+  bottom: 15px;
+  /* 15px from bottom edge */
+  left: 50%;
+  /* Center horizontally */
+  transform: translateX(-50%);
+  /* Adjust position to exact center */
+  z-index: 10001;
+  /* Ensure it appears above all other elements */
+  display: flex;
+  /* Flex container to stack multiple toasts */
+  flex-direction: column;
+  /* Stack notifications vertically */
+  gap: 8px;
+  /* Space between each toast */
+}
+
+/* Individual toast notification */
+.toast {
+  background-color: #333;
+  /* Default dark background */
+  color: #fff;
+  /* White text for contrast */
+  padding: 10px 18px;
+  /* Padding inside toast for spacing */
+  border-radius: 8px;
+  /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  /* Subtle shadow for depth */
+  opacity: 0;
+  /* Hidden by default */
+  visibility: hidden;
+  /* Remove from flow when hidden */
+  transform: translateY(15px);
+  /* Slight downward offset when hidden */
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+  /* Smooth show/hide */
+  min-width: 200px;
+  /* Minimum width */
+  text-align: center;
+  /* Center the text */
+  font-size: 0.85rem;
+  /* Slightly smaller font size */
+}
+
+/* Show toast - makes it visible and slides it up */
+.toast.show {
+  opacity: 1;
+  /* Fully visible */
+  visibility: visible;
+  /* Make part of flow */
+  transform: translateY(0);
+  /* Reset position */
+}
+
+/* Different types of toast notifications with distinct colors */
+
+/* Success toast */
+.toast-success {
+  background-color: #4caf50;
+  /* Green background */
+}
+
+/* Error toast */
+.toast-error {
+  background-color: #f44336;
+  /* Red background */
+}
+
+/* Info toast */
+.toast-info {
+  background-color: #2196f3;
+  /* Blue background */
+}
+
+/* ============================
+   Animations
+   ============================ */
+
+/* Fade in effect for elements */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    /* Start fully transparent */
+  }
+
+  to {
+    opacity: 1;
+    /* End fully opaque */
+  }
+}
+
+/* Slide in effect for modals */
+@keyframes slideIn {
+  from {
+    transform: translateY(-80px) scale(0.9);
+    /* Start slightly up and smaller */
+    opacity: 0;
+    /* Start transparent */
+  }
+
+  to {
+    transform: translateY(0) scale(1);
+    /* End at normal position and size */
+    opacity: 1;
+    /* Fully visible */
+  }
+}
+
+/* ============================
+   Responsive Design
+   ============================ */
+
+/* Medium to large screens (<= 1200px) */
+@media (max-width: 1200px) {
+  .main {
+    margin-left: 0;
+    /* Remove sidebar margin */
+    max-width: 100%;
+    /* Full width */
+    border-radius: 0;
+    /* No rounding for full width */
+    padding: 2rem;
+    /* Increased padding for breathing space */
+  }
+
+  /* Adjust form grid columns */
+  .form-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    /* Slightly narrower columns */
+    gap: 1.5rem;
+    /* Larger gaps */
+  }
+
+  /* Adjust padding and font size for inputs */
+  form input,
+  form textarea,
+  .search-box input {
+    padding: 0.8rem 1rem;
+    /* More comfortable padding */
+    font-size: 0.9rem;
+    /* Slightly bigger text */
+  }
+
+  /* Buttons get larger padding and font size */
+  .primary-btn,
+  .secondary-btn,
+  .supplier-actions button,
+  .modal-dialog button {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  /* Adjust supplier details font size */
+  .supplier-details {
+    font-size: 0.9rem;
+  }
+}
+
+/* Smaller tablets and landscape phones (<= 992px) */
+@media (max-width: 992px) {
+  .form-container,
+  .supplier-list {
+    padding: 1.8rem 2rem;
+    /* Slightly reduced padding */
+  }
+
+  /* Increase bottom margin for inputs */
+  form input,
+  form textarea {
+    margin-bottom: 1.2rem;
+  }
+
+  /* Force single column layout for forms */
+  .form-grid {
+    grid-template-columns: 1fr;
+    /* One column */
+    gap: 1rem;
+    /* Standard gap */
+  }
+
+  /* Reset full-width form groups to normal */
+  .form-group.full-width {
+    grid-column: auto;
+  }
+}
+
+/* Tablets and larger phones portrait (<= 768px) */
+@media (max-width: 768px) {
+  .main {
+    padding: 1.5rem;
+    /* Reduced padding */
+    gap: 1.8rem;
+    /* Less gap between sections */
+  }
+
+  h2.section-title {
+    font-size: 1.8rem;
+    /* Slightly smaller headings */
+  }
+
+  .form-container,
+  .supplier-list {
+    padding: 1.5rem 1.8rem;
+    /* Smaller padding */
+    border-radius: var(--border-radius-medium);
+    /* Medium radius */
+  }
+
+  /* Form label font size */
+  form label {
+    font-size: 0.9rem;
+  }
+
+  /* Input and textarea padding and font size */
+  form input,
+  form textarea,
+  .search-box input,
+  .modal-dialog input,
+  .modal-dialog textarea {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    width: 100%;
+    /* Ensure full width */
+  }
+
+  /* Buttons padding and font size */
+  .primary-btn,
+  .secondary-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  /* Supplier actions layout */
+  .supplier-actions {
+    flex-direction: column;
+    /* Stack buttons vertically */
+    gap: 0.8rem;
+    /* Spacing between buttons */
+  }
+
+  /* Supplier action buttons full width */
+  .supplier-actions button {
+    width: 100%;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+  }
+
+  /* Modal dialog adjustments */
+  .modal-dialog {
+    padding: 2rem;
+    max-width: 95%;
+  }
+
+  .modal-dialog h3 {
+    font-size: 1.6rem;
+  }
+
+  /* Modal footer stack buttons vertically */
+  .modal-footer {
+    flex-direction: column-reverse;
+    gap: 0.8rem;
+  }
+
+  /* Modal footer buttons full width */
+  .modal-footer .primary-btn,
+  .modal-footer .secondary-btn,
+  .modal-footer .delete-btn {
+    width: 100%;
+  }
+}
+
+/* Mobile phones (<= 480px) */
+@media (max-width: 480px) {
+  .main {
+    padding: 1rem;
+    /* Smaller padding */
+    gap: 1.5rem;
+    /* Less gap */
+  }
+
+  h2.section-title {
+    font-size: 1.6rem;
+    /* Smaller headings */
+  }
+
+  .form-container,
+  .supplier-list {
+    padding: 1.2rem 1.5rem;
+    /* Compact padding */
+  }
+
+  .supplier-details {
+    font-size: 0.85rem;
+    /* Smaller text */
+  }
+
+  /* Even smaller gap between supplier action buttons */
+  .supplier-actions {
+    gap: 0.6rem;
+  }
+
+  /* Smaller buttons */
+  .supplier-actions button {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  /* Modal dialog smaller padding */
+  .modal-dialog {
+    padding: 1.5rem;
+  }
+
+  .modal-dialog h3 {
+    font-size: 1.4rem;
+  }
+}

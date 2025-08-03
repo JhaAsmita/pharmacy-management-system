@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<!-- Defines the document type as HTML5 -->
+
+<html lang="en">
+  <!-- Root element of the HTML document; language set to English -->
+
+  <head>
+    <!-- Head section contains meta info, links to stylesheets, fonts, etc. -->
+
+    <meta charset="UTF-8" />
+    <!-- Sets character encoding to UTF-8 -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Ensures proper scaling and responsiveness on mobile devices -->
+
+    <title>User Inventory - PMS</title>
+    <!-- Page title displayed in browser tab -->
+
+    <!-- Link to external CSS file for sidebar navigation styles -->
+    <link rel="stylesheet" href="css/sidebar-navigation.css" />
+
+    <!-- Link to external CSS file for user inventory page specific styles -->
+    <link rel="stylesheet" href="css/user-inventory.css" />
+
+    <!-- Google Fonts: Import Poppins font family with various weights -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome: For using icons (bars, search, plus, etc.) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <!-- Body contains all visible content and interactive elements -->
+
+    <div id="sidebar-container">
+      <!-- Container wrapping the sidebar and toggle button -->
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar">
+        <!-- Button to toggle the sidebar open/close -->
+        <i class="fas fa-bars"></i>
+        <!-- Hamburger icon from Font Awesome -->
+      </button>
+
+      <aside class="sidebar" id="sidebar">
+        <!-- Sidebar navigation panel -->
+
+        <div class="logo">PMS</div>
+        <!-- Logo or branding text for the system -->
+
+        <nav>
+          <!-- Navigation links inside sidebar -->
+
+          <a href="admin.html">
+            <!-- Link to user management page -->
+            <i class="fas fa-users"></i>
+            <!-- Icon representing users -->
+            <span style="color: white">Users</span>
+            <!-- Link label -->
+          </a>
+
+          <a href="pharmacy-details.html">
+            <!-- Link to pharmacy details page -->
+            <i class="fas fa-clinic-medical"></i>
+            <span style="color: white">Pharmacy Details</span>
+          </a>
+
+          <a href="dashboard.html">
+            <!-- Link to dashboard page -->
+            <i class="fas fa-chart-line"></i>
+            <span style="color: white">Dashboard</span>
+          </a>
+
+          <a href="inventory.html" class="active">
+            <!-- Link to current inventory page, marked active -->
+            <i class="fas fa-boxes"></i>
+            <span style="color: white">Inventory</span>
+          </a>
+
+          <a href="supplier-management.html">
+            <!-- Link to supplier management page -->
+            <i class="fas fa-file-invoice"></i>
+            <span style="color: white">Suppliers</span>
+          </a>
+
+          <a href="billing.html">
+            <!-- Link to billing page -->
+            <i class="fas fa-shopping-cart"></i>
+            <span style="color: white">Billing</span>
+          </a>
+
+          <a href="payment-management.html">
+            <!-- Link to payment management page -->
+            <i class="fas fa-money-bill-wave"></i>
+            <span style="color: white">Payments</span>
+          </a>
+
+          <a href="report.html">
+            <!-- Link to reports page -->
+            <i class="fas fa-chart-pie"></i>
+            <span style="color: white">Reports</span>
+          </a>
+        </nav>
+
+        <div class="user-info">
+          <!-- Shows info about the currently logged-in user -->
+          Logged in as:<br />
+          <strong id="userEmail">Loading...</strong>
+          <!-- User email will be dynamically inserted here by JS -->
+        </div>
+
+        <button class="logout-btn" id="logoutBtn">
+          <!-- Logout button -->
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Logout</span>
+        </button>
+      </aside>
+    </div>
+
+    <main class="main" role="main">
+      <!-- Main content area where inventory management happens -->
+
+      <form id="medicine-form" aria-label="Add or edit medicine">
+        <!-- Form for adding or editing medicine records -->
+
+        <h5 id="form-title">Add Medicine</h5>
+        <!-- Form title that changes dynamically to Add or Edit -->
+
+        <input type="hidden" id="medicine-id" />
+        <!-- Hidden input to store medicine ID when editing -->
+
+        <div class="form-grid">
+          <!-- Grid container for organizing form fields -->
+
+          <div class="form-group">
+            <label for="medicine-name">Name *</label>
+            <input
+              type="text"
+              id="medicine-name"
+              placeholder="Enter medicine name"
+              required
+            />
+            <!-- Required text input for medicine name -->
+          </div>
+
+          <div class="form-group">
+            <label for="medicine-batch">Batch No</label>
+            <input
+              type="text"
+              id="medicine-batch"
+              placeholder="Enter batch number"
+            />
+            <!-- Optional text input for batch number -->
+          </div>
+
+          <div class="form-group">
+            <label for="medicine-quantity">Quantity *</label>
+            <input
+              type="number"
+              id="medicine-quantity"
+              placeholder="Enter quantity"
+              min="0"
+              required
+              onkeydown="if(event.key==='0') event.preventDefault();"
+              oninput="this.value = this.value.replace(/^0+/, '')"
+            />
+            <!--
+              Required number input for quantity.
+              Prevents typing zero as the first digit (to avoid leading zeros).
+              Removes leading zeros dynamically on input.
+            -->
+          </div>
+
+          <div class="form-group">
+            <label for="medicine-expiry">Expiry Date *</label>
+            <input type="date" id="medicine-expiry" required />
+            <!-- Required date input for expiry date -->
+          </div>
+
+          <div class="form-group">
+            <label for="medicine-manufacturer">Manufacturer</label>
+            <input
+              type="text"
+              id="medicine-manufacturer"
+              placeholder="Enter manufacturer"
+            />
+            <!-- Optional manufacturer text input -->
+          </div>
+
+          <div class="form-group">
+            <label for="medicine-buying-price">Buying Price</label>
+            <input
+              type="number"
+              step="0.01"
+              id="medicine-buying-price"
+              placeholder="Enter buying price"
+            />
+            <!-- Optional number input for buying price with decimal support -->
+          </div>
+
+          <div class="form-group">
+            <label for="medicine-selling-price">Selling Price *</label>
+            <input
+              type="number"
+              step="0.01"
+              id="medicine-selling-price"
+              placeholder="Enter selling price"
+              required
+            />
+            <!-- Required number input for selling price with decimal support -->
+          </div>
+
+          <div class="form-group">
+            <label for="medicine-rack">Rack</label>
+            <input
+              type="text"
+              id="medicine-rack"
+              placeholder="Enter rack number or location"
+            />
+            <!-- Optional text input for rack location -->
+          </div>
+
+          <div class="form-group">
+            <label for="medicine-category">Category *</label>
+            <div class="select-group">
+              <select id="medicine-category" required>
+                <option value="">Select Category</option>
+                <!-- Categories will be dynamically populated -->
+              </select>
+              <button type="button" id="add-category-btn" title="Add Category">
+                <i class="fas fa-plus"></i>
+                <!-- Button to open modal for adding new category -->
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="medicine-supplier">Supplier *</label>
+            <select id="medicine-supplier" required>
+              <option value="">Select Supplier</option>
+              <!-- Suppliers will be dynamically populated -->
+            </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="medicine-description">Description</label>
+            <textarea
+              id="medicine-description"
+              placeholder="Enter description (optional)"
+            ></textarea>
+            <!-- Optional textarea for additional description -->
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <!-- Buttons at the bottom of the form -->
+
+          <button type="button" id="btn-cancel" class="secondary-btn">
+            Cancel
+          </button>
+          <!-- Cancel button to reset or close form -->
+
+          <button type="submit" class="primary-btn">Save Medicine</button>
+          <!-- Submit button to save the medicine -->
+        </div>
+      </form>
+
+      <!-- Modal for adding new categories -->
+      <div id="category-modal" class="modal">
+        <div class="modal-content">
+          <span class="close-modal" data-modal="category-modal">&times;</span>
+          <!-- Close button for modal -->
+
+          <h3>Add New Category</h3>
+
+          <input
+            type="text"
+            id="new-category-name"
+            placeholder="Enter category name"
+          />
+          <!-- Input to enter new category name -->
+
+          <button id="confirm-add-category" class="primary-btn">
+            Add Category
+          </button>
+          <!-- Button to confirm adding new category -->
+        </div>
+      </div>
+
+      <!-- Generic alert modal to display messages -->
+      <div id="alert-modal" class="modal">
+        <div class="modal-content">
+          <span class="close-modal" data-modal="alert-modal">&times;</span>
+          <h3 id="alert-modal-title">Alert</h3>
+          <p id="alert-modal-message"></p>
+          <div class="modal-footer">
+            <button id="alert-modal-ok" class="primary-btn">OK</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Confirmation modal for user actions -->
+      <div id="confirm-modal" class="modal">
+        <div class="modal-content">
+          <span class="close-modal" data-modal="confirm-modal">&times;</span>
+          <h3 id="confirm-modal-title">Confirm Action</h3>
+          <p id="confirm-modal-message"></p>
+          <div class="modal-footer">
+            <button id="confirm-modal-cancel" class="secondary-btn">
+              Cancel
+            </button>
+            <button id="confirm-modal-ok" class="primary-btn">Confirm</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter section above the inventory table -->
+      <section class="filter-section" aria-label="Medicine filters">
+        <div class="filter-grid">
+          <div class="filter-group">
+            <input
+              type="text"
+              id="search-filter"
+              placeholder="Search by name"
+              class="search-input"
+            />
+            <i class="fas fa-search search-icon"></i>
+            <!-- Search input with search icon -->
+          </div>
+
+          <select id="expiry-filter" class="filter-select">
+            <option value="">Filter by expiry</option>
+            <option value="expired">Expired</option>
+            <option value="valid">Valid</option>
+            <!-- Filter medicines based on expiry status -->
+          </select>
+
+          <select id="quantity-filter" class="filter-select">
+            <option value="">Filter by stock</option>
+            <option value="low">Low Stock (&lt;10)</option>
+            <option value="sufficient">Sufficient</option>
+            <!-- Filter medicines based on quantity available -->
+          </select>
+
+          <select id="category-filter" class="filter-select">
+            <option value="">Filter by category</option>
+            <!-- Populated dynamically with categories -->
+          </select>
+
+          <select id="supplier-filter" class="filter-select">
+            <option value="">Filter by supplier</option>
+            <!-- Populated dynamically with suppliers -->
+          </select>
+
+          <div class="action-buttons">
+            <!-- Buttons for clearing filters and importing/exporting data -->
+
+            <button id="btn-clear-filters" type="button" class="secondary-btn">
+              Clear Filters
+            </button>
+
+            <button id="btn-export" type="button" class="secondary-btn">
+              Export JSON
+            </button>
+
+            <button id="btn-import" type="button" class="secondary-btn">
+              Import JSON
+            </button>
+
+            <input type="file" id="file-input" accept=".json" hidden />
+            <!-- Hidden file input for importing JSON files -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Table container for displaying medicines inventory -->
+      <div class="table-container">
+        <table aria-label="Medicines inventory table">
+          <thead>
+            <tr>
+              <!-- Table headers defining the columns -->
+              <th>Name</th>
+              <th>Batch No</th>
+              <th>Qty</th>
+              <th>Expiry</th>
+              <th>Manufacturer</th>
+              <th>Buy Price</th>
+              <th>Sell Price</th>
+              <th>Category</th>
+              <th>Supplier</th>
+              <th>GST</th>
+              <th>Description</th>
+              <th>Rack</th>
+              <th>Date Added</th>
+              <th>Actions</th>
+              <!-- Last column for edit/delete actions -->
+            </tr>
+          </thead>
+          <tbody id="medicine-table"></tbody>
+          <!-- Table body where JS dynamically inserts medicine rows -->
+        </table>
+      </div>
+    </main>
+
+    <!-- Firebase SDK scripts for using Firebase features -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <!-- Your custom JS module to handle inventory logic, data fetching, events -->
+    <script type="module" src="js/inventory.js"></script>
+  </body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Billing - PMS</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="css/sidebar-navigation.css" />
+    <link rel="stylesheet" href="css/billing.css" />
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  </head>
+  <body>
+    <!-- Sidebar Navigation -->
+    <div id="sidebar-container">
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar">
+        <i class="fas fa-bars"></i>
+      </button>
+      <aside class="sidebar" id="sidebar">
+        <div class="logo">PMS</div>
+        <nav>
+          <a href="user-dashboard.html"
+            ><i class="fas fa-chart-line"></i
+            ><span style="color: white">Dashboard</span></a
+          >
+          <a href="user-inventory.html"
+            ><i class="fas fa-boxes"></i
+            ><span style="color: white">Inventory</span></a
+          >
+          <a href="user-billing.html"
+            ><i class="fas fa-shopping-cart"></i
+            ><span style="color: white">Billing</span></a
+          >
+          <a href="user-payment-management.html"
+            ><i class="fas fa-money-bill-wave"></i
+            ><span style="color: white">Payments</span></a
+          >
+        </nav>
+        <div class="user-info">
+          Logged in as:<br /><strong id="userEmail">Loading...</strong>
+        </div>
+        <button class="logout-btn" id="logoutBtn">
+          <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+        </button>
+      </aside>
+    </div>
+
+    <main class="main" role="main" aria-label="Billing Page">
+      <div class="billing-header">
+        <h2>New Bill</h2>
+        <div class="header-actions"></div>
+      </div>
+
+      <div class="billing-container">
+        <div class="billing-section customer-section">
+          <div class="sales-type-container">
+            <label for="sales-type">Sales Type</label>
+            <div class="select-wrapper">
+              <select id="sales-type" name="sales-type">
+                <option value="" disabled selected>Select sales type</option>
+                <option value="retail">Retail</option>
+                <option value="b2b">B2B/WHOLESALER</option>
+              </select>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+          </div>
+
+          <section id="retail-customer-info" class="customer-info-container">
+            <h3><i class="fas fa-user"></i> Retail Customer Information</h3>
+            <div class="form-group">
+              <label for="retail-customer-name">Customer Name</label>
+              <input
+                type="text"
+                id="retail-customer-name"
+                name="retail-customer-name"
+                placeholder="Enter customer name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="retail-customer-phone">Phone Number</label>
+              <input
+                type="tel"
+                id="retail-customer-phone"
+                name="retail-customer-phone"
+                placeholder="Enter phone number"
+              />
+            </div>
+          </section>
+
+          <section id="b2b-customer-info" class="customer-info-container">
+            <h3><i class="fas fa-building"></i> B2B Customer Information</h3>
+            <div class="form-group">
+              <label for="b2b-search">Search Pharmacy</label>
+              <div id="b2b-search-container" class="search-input-container">
+                <input
+                  type="text"
+                  id="b2b-search"
+                  name="b2b-search"
+                  placeholder="Search B2B pharmacies..."
+                />
+                <i class="fas fa-search"></i>
+                <div id="b2b-suggestions" class="suggestions-dropdown"></div>
+              </div>
+            </div>
+            <div id="b2b-selected-details" class="selected-pharmacy-details">
+              <h4>Selected Pharmacy:</h4>
+              <div id="b2b-details-content"></div>
+            </div>
+          </section>
+        </div>
+
+        <div class="billing-section search-section">
+          <div class="search-container">
+            <div class="search-input-container">
+              <input
+                type="text"
+                id="medicine-search"
+                placeholder="Search medicine by name..."
+              />
+              <i class="fas fa-search"></i>
+              <div id="suggestions" class="suggestions-dropdown"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="billing-section table-section">
+          <div class="table-container">
+            <table id="billing-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Qty</th>
+                  <th>Expiry</th>
+                  <th>Rack</th>
+                  <th>Category</th>
+                  <th>Description</th>
+                  <th>Unit Price</th>
+                  <th>Stock Qty</th>
+                  <th>Total</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="billing-section summary-section">
+          <div class="discount-vat-container">
+            <div class="input-group">
+              <label for="discount">Discount (%)</label>
+              <input
+                type="number"
+                id="discount"
+                min="0"
+                max="100"
+                value="0"
+                step="0.1"
+              />
+            </div>
+            <div class="input-group">
+              <label for="vat">VAT (%)</label>
+              <input
+                type="number"
+                id="vat"
+                min="0"
+                max="100"
+                value="0"
+                step="0.1"
+              />
+            </div>
+          </div>
+
+          <div class="payment-info-container">
+            <div class="input-group">
+              <label for="payment-type">Payment Type</label>
+              <select id="payment-type" name="payment-type" required>
+                <option value="" disabled selected>Select payment type</option>
+                <option value="cash">Cash</option>
+                <option value="cheque">Cheque</option>
+                <option value="online">Online</option>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <label for="payment-status">Payment Status</label>
+              <select id="payment-status" name="payment-status" required>
+                <option value="" disabled selected>
+                  Select payment status
+                </option>
+                <option value="done">Done</option>
+                <option value="left">Left</option>
+              </select>
+            </div>
+
+            <div
+              class="input-group"
+              id="amount-paid-group"
+              style="display: none"
+            >
+              <label for="amount-paid">Amount Paid (Rs)</label>
+              <input
+                type="number"
+                id="amount-paid"
+                min="0"
+                step="0.01"
+                placeholder="Enter amount paid"
+              />
+            </div>
+
+            <div
+              class="input-group"
+              id="amount-left-group"
+              style="display: none"
+            >
+              <label>Amount Left (Rs)</label>
+              <input type="number" id="amount-left" readonly />
+            </div>
+          </div>
+
+          <div class="grand-total-container">
+            <div class="grand-total">
+              <span>Grand Total:</span>
+              <span id="grand-total">Rs 0.00</span>
+            </div>
+          </div>
+          <button id="print-invoice-btn" class="primary-btn">
+            <i class="fas fa-print"></i> Print Invoice
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <div id="info-modal" class="modal-container">
+      <div class="modal-dialog">
+        <button class="close-btn" data-modal-id="info-modal">&times;</button>
+        <h3 id="info-modal-title">Message</h3>
+        <p id="info-modal-body"></p>
+        <div class="modal-footer">
+          <button id="info-modal-ok" class="primary-btn">OK</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="confirm-modal" class="modal-container">
+      <div class="modal-dialog">
+        <button class="close-btn" data-modal-id="confirm-modal">&times;</button>
+        <h3 id="confirm-modal-title">Confirm</h3>
+        <p id="confirm-modal-body"></p>
+        <div class="modal-footer">
+          <button id="confirm-cancel" class="secondary-btn">Cancel</button>
+          <button id="confirm-ok" class="primary-btn">Yes</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/user-sidebar-navigation.js"></script>
+    <script type="module" src="js/user-billing.js"></script>
+  </body>
+</html>

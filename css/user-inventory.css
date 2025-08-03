@@ -1,0 +1,561 @@
+:root {
+  /* Core Theme Variables from admin.css */
+  --bg-color: #f6fbff; /* Base background color for main content areas outside cards */
+  --card-bg: rgba(
+    255,
+    255,
+    255,
+    0.25
+  ); /* Frosted glass effect color for card backgrounds */
+  --primary-color: #2d7bb1; /* Primary theme color - used for buttons, highlights */
+  --primary-dark: #1a4f73; /* Darker shade of primary color - for hover states and accents */
+  --text-color: #1f2d3d; /* Main text color used throughout */
+  --border-color: rgba(
+    179,
+    208,
+    243,
+    0.6
+  ); /* Soft border color for inputs and containers */
+  --shadow-color: rgba(45, 123, 177, 0.12); /* Light, subtle shadow for depth */
+  --glow: 0 0 15px rgba(45, 123, 177, 0.4); /* Subtle glow effect for focus or highlights */
+  --blur: blur(15px); /* Strong blur filter for frosted glass effect */
+  --font: "Poppins", sans-serif; /* Primary font for the app */
+
+  /* Consistent variables for border-radius and transitions (from admin.css) */
+  --border-radius-large: 20px;
+  --border-radius-medium: 12px;
+  --border-radius-small: 8px;
+  --transition-speed: 0.3s ease-out; /* Duration and easing for smooth transitions */
+
+  /* Background gradient applied to body to match theme */
+  --body-gradient: linear-gradient(135deg, #eef5fe 0%, #f8fbfd 100%);
+}
+
+/* Reset default margin and padding, set font and base colors */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font); /* Use theme font */
+  background: var(--body-gradient); /* Use background gradient for page */
+  color: var(--text-color); /* Use theme text color */
+  height: 100%; /* Full height for layout */
+}
+
+/* Main content area styles */
+.main {
+  margin-left: 260px; /* Leave space for sidebar when expanded */
+  padding: 2rem;
+  min-height: 100vh; /* Fill full viewport height */
+  background: var(--bg-color); /* Main background color */
+  box-shadow: 0 0 16px var(--shadow-color); /* Soft shadow around main container */
+  border-radius: var(--border-radius-medium); /* Rounded corners */
+  max-width: calc(100% - 280px); /* Responsive width minus sidebar + padding */
+  transition: margin-left var(--transition-speed),
+    max-width var(--transition-speed); /* Smooth transition when sidebar toggles */
+}
+
+/* When sidebar is collapsed (body has sidebar-collapsed class) */
+body.sidebar-collapsed .main {
+  margin-left: 80px; /* Reduce left margin to collapsed sidebar width */
+  max-width: calc(100% - 100px); /* Adjust width accordingly */
+}
+
+/* Medicine form container styling */
+form#medicine-form {
+  background: var(--card-bg); /* Frosted glass background */
+  backdrop-filter: var(--blur); /* Blur effect behind the form */
+  padding: 1.5rem; /* Inner spacing */
+  border-radius: var(--border-radius-medium); /* Rounded corners */
+  margin-bottom: 2rem; /* Space below form */
+  box-shadow: 0 2px 8px var(--shadow-color); /* Subtle shadow for elevation */
+}
+
+/* Form title styling */
+form#medicine-form h5 {
+  font-weight: 600; /* Semi-bold */
+  color: var(--primary-dark); /* Dark primary color */
+  margin-bottom: 1.5rem; /* Space below title */
+  font-size: 1.25rem; /* Larger text size */
+}
+
+/* Grid layout for form fields */
+.form-grid {
+  width: 97%; /* Slightly less than full width for padding */
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(250px, 1fr)
+  ); /* Responsive columns min 250px */
+  gap: 1.25rem; /* Space between fields */
+  margin-bottom: 1rem;
+}
+
+/* Form group container (label + input/select/textarea) */
+.form-group {
+  margin-right: 10px; /* Small right margin */
+  display: flex;
+  flex-direction: column; /* Stack label and input vertically */
+  gap: 0.5rem; /* Space between label and input */
+}
+
+/* Full width form groups span entire grid row */
+.form-group.full-width {
+  grid-column: 1 / -1; /* Span from first to last column */
+}
+
+/* Form labels */
+.form-group label {
+  font-size: 0.9rem; /* Slightly smaller text */
+  font-weight: 500; /* Medium weight */
+  color: var(--primary-dark); /* Dark primary color */
+}
+
+/* Form inputs, selects, and textareas styles */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.75rem; /* Inner padding */
+  border: 1px solid var(--border-color); /* Soft border */
+  border-radius: var(--border-radius-small); /* Rounded corners */
+  font-size: 0.95rem; /* Normal readable size */
+  color: var(--text-color); /* Text color */
+  transition: all var(--transition-speed); /* Smooth focus transitions */
+  width: 100%; /* Full width */
+  background: rgba(
+    255,
+    255,
+    255,
+    0.6
+  ); /* Semi-transparent white background for readability */
+}
+
+/* Focus state styles for inputs/selects/textareas */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--primary-color); /* Highlight border */
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 0 2px rgba(45, 123, 177, 0.2); /* Subtle blue glow */
+}
+
+/* Textarea specific minimum height and resizable vertically */
+textarea#medicine-description {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Group containing select box and add button for categories */
+.select-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Space between select and button */
+}
+
+/* Select input inside select-group */
+.select-group select {
+  flex: 1; /* Take all available space */
+  padding: 0.75rem;
+}
+
+/* Add category button styling */
+.select-group button {
+  background-color: var(--primary-color); /* Primary blue */
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem;
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover state for add category button */
+.select-group button:hover {
+  background-color: var(--primary-dark); /* Darker primary color */
+}
+
+/* Primary buttons (e.g. Save, Confirm) */
+.primary-btn {
+  background-color: var(--primary-color);
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  transition: all var(--transition-speed);
+}
+
+/* Hover effect for primary buttons */
+.primary-btn:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px); /* Slight lift */
+}
+
+/* Secondary buttons (e.g. Cancel, Clear Filters) */
+.secondary-btn {
+  background-color: #f0f6fb; /* Light background */
+  border: 1px solid var(--primary-color); /* Border with primary color */
+  color: var(--primary-color); /* Text color */
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  transition: all var(--transition-speed);
+}
+
+/* Hover effect for secondary buttons */
+.secondary-btn:hover {
+  background-color: #e1edf8; /* Slightly darker background */
+}
+
+/* Footer section inside modals or forms to align buttons */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to right */
+  gap: 1rem; /* Space between buttons */
+  margin-top: 1rem;
+}
+
+/* Filter section container styling */
+.filter-section {
+  background: var(--card-bg); /* Frosted glass background */
+  backdrop-filter: var(--blur); /* Blur behind filter area */
+  border: 1px solid var(--border-color); /* Soft border */
+  border-radius: var(--border-radius-medium);
+  box-shadow: 0 2px 8px var(--shadow-color); /* Elevation shadow */
+  margin-bottom: 2rem; /* Spacing below */
+}
+
+/* Grid layout for filter inputs and buttons */
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(200px, 1fr)
+  ); /* Responsive columns */
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Container for search input and icon */
+.filter-group {
+  position: relative; /* For absolutely positioned search icon */
+}
+
+/* Search input styling */
+.search-input {
+  padding: 0.75rem 0.75rem 0.75rem 2.5rem; /* Left padding for icon */
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-small);
+  font-size: 0.95rem;
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--text-color);
+}
+
+/* Search icon positioned inside input */
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary-dark);
+}
+
+/* Filter dropdown selects */
+.filter-select {
+  padding: 0.75rem;
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-small);
+  font-size: 0.95rem;
+  background-color: rgba(255, 255, 255, 0.6);
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+/* Container for filter action buttons (clear, import, export) */
+.action-buttons {
+  display: flex;
+  gap: 0.75rem;
+  grid-column: 1 / -1; /* Span all columns */
+  justify-content: flex-end; /* Align to right */
+  flex-wrap: wrap; /* Wrap on smaller widths */
+}
+
+/* Container for medicines table */
+.table-container {
+  overflow-x: auto; /* Enable horizontal scroll if needed */
+  border-radius: var(--border-radius-medium);
+  box-shadow: 0 2px 10px var(--shadow-color);
+  background: rgba(255, 255, 255, 0.9); /* Semi-opaque white background */
+  backdrop-filter: var(--blur); /* Blur behind table */
+}
+
+/* Medicine inventory table base styles */
+table {
+  width: 100%;
+  border-collapse: collapse; /* Remove gaps between cells */
+  min-width: 1000px; /* Minimum width for good layout */
+}
+
+/* Table head styles */
+thead {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Table header cells */
+thead th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 500;
+  font-size: 0.9rem;
+  white-space: nowrap; /* Prevent line breaks */
+}
+
+/* Table body rows */
+tbody tr {
+  border-bottom: 1px solid rgba(45, 123, 177, 0.1);
+  transition: background-color var(--transition-speed);
+}
+
+/* Alternate row background color for readability */
+tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Hover effect for table rows */
+tbody tr:hover {
+  background-color: rgba(45, 123, 177, 0.15);
+}
+
+/* Table body cells */
+tbody td {
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: var(--text-color);
+  vertical-align: middle;
+}
+
+/* Special styling for expired items */
+tbody td.expired {
+  color: #c53030; /* Red color */
+  font-weight: 600;
+}
+
+/* Actions cell with buttons */
+tbody td.actions {
+  display: flex;
+  gap: 0.75rem;
+  white-space: nowrap;
+}
+
+/* Individual action buttons in table (edit/delete etc.) */
+.action-btn {
+  background: rgba(45, 123, 177, 0.1); /* Light background */
+  border: 1px solid rgba(45, 123, 177, 0.2);
+  cursor: pointer;
+  color: var(--primary-dark);
+  font-size: 1rem;
+  padding: 0.5rem;
+  border-radius: var(--border-radius-small);
+  transition: all var(--transition-speed);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover effect for action buttons */
+.action-btn:hover {
+  background-color: var(--primary-dark);
+  color: white;
+  transform: scale(1.1); /* Slight zoom */
+}
+
+/* Modal container styling */
+.modal {
+  display: none; /* Hidden by default - shown with JS */
+  position: fixed; /* Fixed position over entire screen */
+  z-index: 1050; /* Above other content except toasts */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full screen width */
+  height: 100%; /* Full screen height */
+  overflow: auto; /* Scroll if content is long */
+  background-color: rgba(31, 45, 61, 0.75); /* Dark semi-transparent backdrop */
+  backdrop-filter: var(--blur); /* Blur backdrop */
+  align-items: center; /* Center modal vertically */
+  justify-content: center; /* Center modal horizontally */
+  animation: fadeIn var(--transition-speed); /* Fade in animation */
+}
+
+/* Modal inner content box */
+.modal-content {
+  background-color: var(--bg-color); /* White with slight tint */
+  padding: 2.5rem;
+  border-radius: var(--border-radius-medium);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Strong shadow */
+  width: 90%; /* Responsive width */
+  max-width: 500px; /* Max width */
+  position: relative; /* For close button positioning */
+  text-align: center;
+  animation: slideIn var(--transition-speed); /* Slide in animation */
+}
+
+/* Modal close (X) button */
+.close-modal {
+  color: #a0a0a0; /* Soft gray */
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color var(--transition-speed);
+}
+
+/* Close button hover/focus states */
+.close-modal:hover,
+.close-modal:focus {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+/* Modal headings */
+.modal-content h3 {
+  margin-top: 0;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+/* Modal paragraphs */
+.modal-content p {
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+/* Modal input fields */
+.modal-content input {
+  width: calc(100% - 20px); /* Account for padding */
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-small);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* Toast notification base styles */
+.toast {
+  visibility: hidden; /* Hidden initially */
+  min-width: 250px;
+  background-color: var(--primary-dark); /* Dark blue background */
+  color: #fff;
+  text-align: center;
+  border-radius: var(--border-radius-small);
+  padding: 16px;
+  position: fixed;
+  z-index: 1100; /* Above modals */
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 30px;
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity var(--transition-speed), bottom var(--transition-speed);
+}
+
+/* Show toast notification */
+.toast.show {
+  visibility: visible;
+  opacity: 1;
+  bottom: 50px; /* Slide up */
+}
+
+/* Success toast color */
+.toast-success {
+  background-color: #4caf50; /* Green */
+}
+
+/* Error toast color */
+.toast-error {
+  background-color: #f44336; /* Red */
+}
+
+/* Fade in keyframe animation for modals */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Slide in keyframe animation for modal content */
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive tweaks for medium screens */
+@media (max-width: 1200px) {
+  .main {
+    margin-left: 0; /* Remove left margin for overlay sidebar */
+    max-width: 100%;
+    border-radius: 0; /* Remove rounded corners */
+    padding: 1.5rem;
+  }
+}
+
+/* Responsive tweaks for small screens (mobile) */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr; /* Single column form */
+    gap: 1rem;
+  }
+
+  .filter-grid {
+    grid-template-columns: 1fr; /* Single column filters */
+    gap: 0.75rem;
+  }
+
+  .action-buttons {
+    justify-content: center; /* Center filter buttons */
+    flex-direction: column; /* Stack vertically */
+    gap: 0.5rem;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse; /* Stack modal footer buttons vertically reversed */
+    gap: 0.75rem;
+  }
+
+  /* Buttons take full width on small screens */
+  .primary-btn,
+  .secondary-btn {
+    width: 100%;
+  }
+
+  .search-input {
+    padding: 0.75rem 0.75rem 0.75rem 2.5rem; /* Padding for search icon */
+  }
+
+  .table-container {
+    padding: 0.5rem; /* Padding around table for small screens */
+  }
+}

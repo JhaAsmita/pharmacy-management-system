@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>User Inventory - PMS</title>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="css/sidebar-navigation.css" />
+    <link rel="stylesheet" href="css/user-inventory.css" />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Sidebar Navigation -->
+    <div id="sidebar-container">
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar">
+        <i class="fas fa-bars"></i>
+      </button>
+      <aside class="sidebar" id="sidebar">
+        <div class="logo">PMS</div>
+        <nav>
+          <a href="user-dashboard.html"
+            ><i class="fas fa-chart-line"></i
+            ><span style="color: white">Dashboard</span></a
+          >
+          <a href="user-inventory.html" class="active"
+            ><i class="fas fa-boxes"></i
+            ><span style="color: white">Inventory</span></a
+          >
+          <a href="billing.html"
+            ><i class="fas fa-shopping-cart"></i
+            ><span style="color: white">Billing</span></a
+          >
+          <a href="user-payment-management.html"
+            ><i class="fas fa-money-bill-wave"></i
+            ><span style="color: white">Payments</span></a
+          >
+        </nav>
+        <div class="user-info">
+          Logged in as:<br /><strong id="userEmail">Loading...</strong>
+        </div>
+        <button class="logout-btn" id="logoutBtn">
+          <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+        </button>
+      </aside>
+    </div>
+
+    <!-- Replace your <main> content with this updated one -->
+    <main class="main" role="main">
+      <!-- Form -->
+      <form id="medicine-form" aria-label="Add or edit medicine">
+        <h5 id="form-title">Add Medicine</h5>
+        <input type="hidden" id="medicine-id" />
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="medicine-name">Name *</label>
+            <input
+              type="text"
+              id="medicine-name"
+              placeholder="Enter medicine name"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="medicine-batch">Batch No</label>
+            <input
+              type="text"
+              id="medicine-batch"
+              placeholder="Enter batch number"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="medicine-quantity">Quantity *</label>
+            <input
+              type="number"
+              id="medicine-quantity"
+              placeholder="Enter quantity"
+              min="0"
+              required
+              onkeydown="if(event.key==='0') event.preventDefault();"
+              oninput="this.value = this.value.replace(/^0+/, '')"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="medicine-expiry">Expiry Date *</label>
+            <input type="date" id="medicine-expiry" required />
+          </div>
+
+          <div class="form-group">
+            <label for="medicine-manufacturer">Manufacturer</label>
+            <input
+              type="text"
+              id="medicine-manufacturer"
+              placeholder="Enter manufacturer"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="medicine-buying-price">Buying Price</label>
+            <input
+              type="number"
+              step="0.01"
+              id="medicine-buying-price"
+              placeholder="Enter buying price"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="medicine-selling-price">Selling Price *</label>
+            <input
+              type="number"
+              step="0.01"
+              id="medicine-selling-price"
+              placeholder="Enter selling price"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="medicine-rack">Rack</label>
+            <input
+              type="text"
+              id="medicine-rack"
+              placeholder="Enter rack number or location"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="medicine-category">Category *</label>
+            <div class="select-group">
+              <select id="medicine-category" required>
+                <option value="">Select Category</option>
+              </select>
+              <button type="button" id="add-category-btn" title="Add Category">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="medicine-supplier">Supplier *</label>
+            <select id="medicine-supplier" required>
+              <option value="">Select Supplier</option>
+            </select>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="medicine-description">Description</label>
+            <textarea
+              id="medicine-description"
+              placeholder="Enter description (optional)"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="btn-cancel" class="secondary-btn">
+            Cancel
+          </button>
+          <button type="submit" class="primary-btn">Save Medicine</button>
+        </div>
+      </form>
+
+      <!-- Add Category Modal -->
+      <div id="category-modal" class="modal">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <h3>Add New Category</h3>
+          <input
+            type="text"
+            id="new-category-name"
+            placeholder="Enter category name"
+          />
+          <button id="confirm-add-category" class="primary-btn">
+            Add Category
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter Section -->
+      <section class="filter-section" aria-label="Medicine filters">
+        <div class="filter-grid">
+          <div class="filter-group">
+            <input
+              type="text"
+              id="search-filter"
+              placeholder="Search by name"
+              class="search-input"
+            />
+            <i class="fas fa-search search-icon"></i>
+          </div>
+
+          <select id="expiry-filter" class="filter-select">
+            <option value="">Filter by expiry</option>
+            <option value="expired">Expired</option>
+            <option value="valid">Valid</option>
+          </select>
+
+          <select id="quantity-filter" class="filter-select">
+            <option value="">Filter by stock</option>
+            <option value="low">Low Stock (&lt;10)</option>
+            <option value="sufficient">Sufficient</option>
+          </select>
+
+          <select id="category-filter" class="filter-select">
+            <option value="">Filter by category</option>
+          </select>
+
+          <select id="supplier-filter" class="filter-select">
+            <option value="">Filter by supplier</option>
+          </select>
+
+          <div class="action-buttons">
+            <button id="btn-clear-filters" type="button" class="secondary-btn">
+              Clear Filters
+            </button>
+            <button id="btn-export" type="button" class="secondary-btn">
+              Export JSON
+            </button>
+            <button id="btn-import" type="button" class="secondary-btn">
+              Import JSON
+            </button>
+            <input type="file" id="file-input" accept=".json" hidden />
+          </div>
+        </div>
+      </section>
+
+      <!-- Inventory Table -->
+      <div class="table-container">
+        <table aria-label="Medicines inventory table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Batch No</th>
+              <th>Qty</th>
+              <th>Expiry</th>
+              <th>Manufacturer</th>
+              <th>Buy Price</th>
+              <th>Sell Price</th>
+              <th>Category</th>
+              <th>Supplier</th>
+              <th>GST</th>
+              <th>Description</th>
+              <th>Rack</th>
+              <th>Date Added</th>
+            </tr>
+          </thead>
+          <tbody id="medicine-table"></tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <!-- Inventory Script -->
+    <script type="module" src="js/user-inventory.js"></script>
+  </body>
+</html>

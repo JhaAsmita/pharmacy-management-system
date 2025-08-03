@@ -1,0 +1,940 @@
+/* Advanced CSS for Billing Page - Themed with Admin.css and Desktop Optimized */
+
+/* --- Variables (Consistent & Refined) --- */
+:root {
+  /* Admin.css Core Theme Variables */
+  --admin-bg-color: #f6fbff; /* Light background color for admin pages */
+  --admin-card-bg: rgba(
+    255,
+    255,
+    255,
+    0.25
+  ); /* Semi-transparent white for cards (glass effect) */
+  --admin-primary-color: #2d7bb1; /* Primary blue color used for branding and highlights */
+  --admin-primary-color-dark: #1c5b87; /* Darker shade of primary for text, hover states */
+  --admin-text-color: #1f2d3d; /* Main text color for readability */
+  --admin-border-color: rgba(
+    31,
+    45,
+    61,
+    0.15
+  ); /* Subtle border color matching text theme */
+  --admin-shadow-color: rgba(
+    45,
+    123,
+    177,
+    0.2
+  ); /* Soft shadow color used throughout */
+  --admin-glow: 0 0 12px rgba(45, 123, 177, 0.25); /* Glow effect using primary color */
+  --admin-blur: blur(14px); /* Blur effect for frosted glass visuals */
+  --admin-font: "Poppins", sans-serif; /* Admin font family */
+
+  /* Billing Page Specific Variables - Derived from Admin Theme */
+  --bg-color-light: var(
+    --admin-bg-color
+  ); /* Background color for billing page main content */
+  --bg-color-gradient: linear-gradient(
+    135deg,
+    #ebf5fc,
+    #dceefb,
+    #f6fbff
+  ); /* Gradient background for page body */
+  --card-bg-transparent: var(
+    --admin-card-bg
+  ); /* Transparent card background for glass effect */
+  --primary-color: var(--admin-primary-color); /* Primary blue */
+  --primary-dark: var(
+    --admin-primary-color-dark
+  ); /* Darker primary for hover and emphasis */
+  --secondary-color: #6c757d; /* Secondary neutral color (used for buttons like clear/cancel) */
+  --text-color-dark: var(--admin-text-color); /* Main text color */
+  --text-color-light: rgba(
+    31,
+    45,
+    61,
+    0.7
+  ); /* Lighter text color for secondary info */
+  --border-color-light: var(--admin-border-color); /* Border color */
+  --shadow-soft: 0 8px 20px var(--admin-shadow-color); /* Soft shadow for cards and containers */
+  --shadow-hover: 0 12px 30px rgba(45, 123, 177, 0.35); /* Stronger shadow on hover */
+  --glow-subtle: var(--admin-glow); /* Glow effect for headings */
+  --blur-effect: var(--admin-blur); /* Blur for glass effect */
+  --font-family: var(--admin-font); /* Font family */
+
+  /* Border radius sizes consistent with admin theme */
+  --border-radius-large: 18px; /* Large radius for main cards */
+  --border-radius-medium: 12px; /* Medium radius for buttons, smaller cards */
+  --border-radius-small: 10px; /* Small radius for inputs, buttons */
+  --transition-speed: 0.3s ease-out; /* Transition speed for smooth effects */
+
+  /* NEW: Desktop-specific sizing variables for a tighter layout */
+  --desktop-main-padding: 2rem; /* Padding around main content */
+  --desktop-section-padding: 1.5rem 2rem; /* Padding inside each section */
+  --desktop-section-margin-bottom: 1.5rem; /* Space between billing sections */
+  --desktop-h2-font-size: 1.6rem; /* Heading size for h2 */
+  --desktop-form-label-font-size: 0.85rem; /* Smaller label text */
+  --desktop-input-padding: 0.7rem 0.9rem; /* Padding inside input/select */
+  --desktop-input-font-size: 0.88rem; /* Input text size */
+  --desktop-button-padding: 0.7rem 1.4rem; /* Button padding */
+  --desktop-button-font-size: 0.88rem; /* Button text size */
+  --desktop-table-padding: 0.6rem 0.8rem; /* Table cell padding */
+  --desktop-table-font-size: 0.82rem; /* Table text size */
+  --desktop-card-gap: 0.8rem; /* Gap in grids/cards */
+  --desktop-form-grid-gap: 1.2rem; /* Gap in form grids */
+}
+
+/* Remove scrollbars for IE and Firefox */
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* --- Base Styles --- */
+body {
+  margin: 0; /* Remove default margin */
+  font-family: var(--font-family); /* Use admin font */
+  background: var(--bg-color-gradient); /* Page background gradient */
+  color: var(--text-color-dark); /* Default text color */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  min-height: 100vh; /* Full viewport height */
+  line-height: 1.6; /* Comfortable line height */
+  display: flex; /* Flex container for sidebar + main */
+}
+
+/* --- Main Content Layout --- */
+main {
+  margin-left: 260px; /* Offset for sidebar width */
+  padding: var(--desktop-main-padding); /* Inner spacing */
+  min-height: 100vh;
+  background: var(--bg-color-light); /* Solid background for main */
+  box-shadow: 0 8px 20px var(--admin-shadow-color); /* Subtle shadow */
+  border-radius: var(--border-radius-large); /* Rounded corners */
+  max-width: calc(100% - 280px); /* Responsive width */
+  transition: margin-left var(--transition-speed),
+    max-width var(--transition-speed); /* Smooth sidebar toggle */
+  box-sizing: border-box;
+  flex: 1; /* Allow to grow horizontally */
+  display: flex;
+  flex-direction: column;
+  gap: 2rem; /* Space between child sections */
+}
+
+/* Adjust main content margin and width when sidebar is collapsed */
+body.sidebar-collapsed main {
+  margin-left: 80px; /* Smaller sidebar width */
+  max-width: calc(100% - 100px); /* Adjust width accordingly */
+}
+
+/* --- Billing Specific Layouts --- */
+.billing-header {
+  display: flex; /* Horizontal layout */
+  justify-content: space-between; /* Space between title and actions */
+  align-items: center; /* Vertically centered */
+  padding-bottom: 1.2rem; /* Space below */
+  border-bottom: 1px solid var(--admin-border-color); /* Subtle bottom border */
+}
+
+.billing-header h2 {
+  font-size: var(--desktop-h2-font-size); /* Font size for header */
+  color: var(--primary-dark); /* Primary dark color */
+  text-shadow: var(--glow-subtle); /* Subtle glow for emphasis */
+  margin: 0; /* Remove default margin */
+  font-weight: 600; /* Semi-bold */
+  border-bottom: none; /* Remove underline */
+  padding-bottom: 0; /* Remove extra padding */
+}
+
+.billing-container {
+  display: flex; /* Stack sections vertically */
+  flex-direction: column;
+  gap: 2rem; /* Space between sections */
+}
+
+/* --- Billing Section Cards (Frosted Glass Effect) --- */
+.billing-section {
+  background: var(
+    --card-bg-transparent
+  ); /* Semi-transparent white for frosted look */
+  backdrop-filter: var(--blur-effect); /* Blur background behind */
+  border: 1px solid var(--border-color-light); /* Thin border */
+  border-radius: var(--border-radius-large); /* Rounded corners */
+  padding: var(--desktop-section-padding); /* Inner padding */
+  box-shadow: var(--shadow-soft); /* Soft shadow */
+  transition: box-shadow var(--transition-speed); /* Smooth shadow transition */
+  margin-bottom: var(--desktop-section-margin-bottom); /* Spacing below */
+}
+
+.billing-section:hover {
+  box-shadow: var(--shadow-hover); /* Stronger shadow on hover */
+}
+
+/* Fix stacking order of customer and search sections */
+.billing-section.customer-section {
+  position: relative;
+  z-index: 30; /* On top */
+}
+.billing-section.search-section {
+  position: relative;
+  z-index: 20; /* Below customer section */
+}
+
+/* Hide retail and b2b customer sections initially, to be toggled by JS */
+#retail-customer-info {
+  display: none;
+}
+#b2b-customer-info {
+  display: none;
+}
+
+/* --- Grid for form fields: multiple columns if space permits */
+.form-row-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(250px, 1fr)
+  ); /* Responsive multi-column */
+  gap: var(--desktop-form-grid-gap); /* Gap between grid items */
+  margin-bottom: 1rem; /* Space below */
+}
+
+/* --- Form Elements (Inputs, Selects, Search Fields) --- */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem; /* Space between label and input */
+}
+
+.form-group label {
+  font-weight: 500; /* Medium weight */
+  margin-bottom: 0.2rem; /* Space below label */
+  color: var(--primary-dark); /* Dark primary text */
+  font-size: var(--desktop-form-label-font-size); /* Smaller label */
+}
+
+/* Common styles for text, tel, number inputs and selects */
+input[type="text"],
+input[type="tel"],
+input[type="number"],
+select {
+  padding: var(--desktop-input-padding); /* Padding inside input */
+  border-radius: var(--border-radius-small); /* Rounded edges */
+  border: 1px solid var(--admin-border-color); /* Border */
+  background: white; /* White background */
+  font-size: var(--desktop-input-font-size); /* Input text size */
+  color: var(--text-color-dark);
+  width: 100%; /* Full width */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08); /* Inner subtle shadow */
+  transition: border-color var(--transition-speed),
+    box-shadow var(--transition-speed); /* Smooth focus */
+  box-sizing: border-box; /* Include padding/border in width */
+}
+
+/* Focus state for inputs and selects */
+input:focus,
+select:focus {
+  outline: none; /* Remove default outline */
+  border-color: var(--primary-color); /* Highlight border */
+  box-shadow: 0 0 0 3px rgba(45, 123, 177, 0.2),
+    inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Blue glow + inset shadow */
+}
+
+/* Select wrapper icon positioning */
+.select-wrapper {
+  position: relative;
+}
+.select-wrapper select {
+  appearance: none; /* Remove default arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 2.2rem; /* Space for custom arrow icon */
+}
+.select-wrapper i {
+  position: absolute;
+  right: 0.8rem; /* Position icon inside select */
+  top: 50%;
+  transform: translateY(-50%); /* Center vertically */
+  color: var(--primary-dark); /* Primary dark color */
+  pointer-events: none; /* Prevent interaction */
+  font-size: 0.85rem; /* Small icon */
+}
+
+/* Search Container with icon */
+.search-input-container {
+  position: relative;
+  display: flex;
+  align-items: center; /* Vertically center input and icon */
+}
+.search-input-container i {
+  position: absolute;
+  right: 0.8rem; /* Right aligned icon */
+  color: var(--primary-dark);
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+.search-input-container input {
+  padding-right: 2.2rem; /* Padding to avoid icon overlap */
+}
+
+/* --- Suggestions Dropdown --- */
+.suggestions-dropdown {
+  position: absolute; /* Positioned below input */
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bg-color-light); /* White background */
+  border-radius: var(--border-radius-medium); /* Rounded corners */
+  border: 1px solid var(--border-color-light); /* Border */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Shadow for dropdown */
+  z-index: 1000; /* Above other content */
+  max-height: 200px; /* Limit max height */
+  overflow-y: auto; /* Scroll if overflow */
+  margin-top: 0.4rem; /* Space from input */
+  animation: fadeIn 0.2s ease-out; /* Fade in animation */
+  padding: 0.3rem 0; /* Padding top and bottom */
+  scrollbar-width: thin; /* Firefox scrollbar style */
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent; /* Scrollbar colors */
+}
+
+/* Webkit scrollbar styling */
+.suggestions-dropdown::-webkit-scrollbar {
+  width: 6px;
+  background: transparent;
+}
+.suggestions-dropdown::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+/* Suggestion Item Style */
+.suggestion-item,
+.b2b-suggestion-item {
+  padding: 0.6rem 0.9rem; /* Padding for clickable area */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background var(--transition-speed); /* Smooth background transition */
+  font-size: 0.85rem; /* Small font */
+  border-bottom: 1px solid rgba(31, 45, 61, 0.08); /* Separator line */
+}
+
+.suggestion-item:last-child,
+.b2b-suggestion-item:last-child {
+  border-bottom: none; /* Remove border from last item */
+}
+
+/* Hover effect for suggestion items */
+.suggestion-item:hover,
+.b2b-suggestion-item:hover {
+  background: rgba(45, 123, 177, 0.1); /* Light blue background */
+  color: var(--primary-dark); /* Dark primary text */
+}
+
+/* Description styling for suggestions */
+.suggestion-desc,
+.b2b-suggestion-details {
+  font-size: 0.75rem; /* Smaller text */
+  color: var(--text-color-light); /* Light text color */
+  margin-top: 0.1rem; /* Small gap above */
+  line-height: 1.3; /* Line height for readability */
+}
+
+/* --- Selected B2B Pharmacy Details --- */
+.selected-pharmacy-details {
+  background: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
+  border: 1px dashed var(--border-color-light); /* Dashed border for emphasis */
+  border-radius: var(--border-radius-medium); /* Rounded corners */
+  padding: 1rem 1.2rem; /* Inner padding */
+  margin-top: 1rem; /* Space above */
+  box-shadow: inset 0 0 6px rgba(45, 123, 177, 0.06); /* Inner subtle glow */
+}
+
+.selected-pharmacy-details h4 {
+  color: var(--primary-color); /* Primary blue for header */
+  margin-top: 0;
+  margin-bottom: 0.8rem; /* Space below */
+  font-size: 1rem; /* Medium font size */
+  font-weight: 600; /* Semi-bold */
+}
+
+#b2b-details-content div {
+  font-size: 0.85rem; /* Text size */
+  color: var(--text-color-dark); /* Dark text */
+  margin-bottom: 0.3rem; /* Space below */
+}
+#b2b-details-content div:last-child {
+  margin-bottom: 0; /* Remove bottom margin for last */
+}
+
+/* --- Billing Table --- */
+.table-container {
+  overflow-x: auto; /* Horizontal scroll if needed */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  padding-bottom: 10px; /* Padding below */
+  border-radius: var(--border-radius-medium); /* Rounded corners */
+  background: rgba(255, 255, 255, 0.9); /* Mostly opaque white background */
+  backdrop-filter: var(--blur-effect); /* Frosted glass effect */
+  box-shadow: 0 4px 10px var(--admin-shadow-color); /* Soft shadow */
+}
+
+#billing-table {
+  width: 100%; /* Full width */
+  border-collapse: collapse; /* Remove double borders */
+  font-size: var(--desktop-table-font-size); /* Font size */
+  color: var(--text-color-dark); /* Text color */
+  min-width: 800px; /* Minimum width for readability */
+}
+#billing-table thead {
+  background: var(--primary-color); /* Primary color background */
+  color: white; /* White text */
+  font-weight: 600;
+  text-align: left; /* Left aligned headers */
+}
+#billing-table th,
+#billing-table td {
+  padding: var(--desktop-table-padding); /* Padding inside cells */
+  border-bottom: 1px solid var(--admin-border-color); /* Cell border */
+  white-space: nowrap; /* Prevent wrapping */
+}
+#billing-table tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.7); /* Zebra striping */
+}
+#billing-table tbody tr:hover {
+  background: rgba(45, 123, 177, 0.15); /* Hover highlight */
+}
+
+/* Quantity input in table */
+#billing-table .qty-input {
+  width: 60px; /* Fixed width for quantity inputs */
+  padding: 0.5rem 0.6rem; /* Padding inside input */
+  border-radius: var(--border-radius-small); /* Rounded edges */
+  text-align: center; /* Centered text */
+  font-size: 0.85rem; /* Font size */
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05); /* Inner subtle shadow */
+  border: 1px solid var(--admin-border-color); /* Border */
+  background: white;
+}
+
+/* Table action buttons */
+/* Styles buttons used for actions like deleting/removing items in the billing table */
+#billing-table .action-btn {
+  background: #dc3545; /* Red background indicates a destructive action (delete/remove) */
+  color: white; /* White text for contrast */
+  padding: 0.4rem 0.7rem; /* Small padding to keep buttons compact */
+  border-radius: var(
+    --border-radius-small
+  ); /* Rounded corners consistent with input/button radius */
+  border: none; /* No border for cleaner look */
+  cursor: pointer; /* Cursor changes to pointer on hover to indicate clickable */
+  font-size: 0.8rem; /* Slightly smaller font for buttons inside table */
+  transition: background var(--transition-speed); /* Smooth background color transition on hover */
+}
+
+/* Hover effect for action buttons */
+#billing-table .action-btn:hover {
+  background: #b71c1c; /* Darker red to give visual feedback on hover */
+}
+
+/* --- Summary Section --- */
+/* Container for discount and VAT input groups */
+.discount-vat-container {
+  display: grid; /* Use CSS grid for layout */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(200px, 1fr)
+  ); /* Responsive columns that auto-fit with minimum width */
+  gap: 1.5rem; /* Spacing between grid items */
+  max-width: 600px; /* Maximum width to prevent overly wide containers */
+  margin-bottom: 1.5rem; /* Space below container */
+}
+
+/* Ensures input groups inside discount-vat container do not flex-grow */
+.discount-vat-container .input-group {
+  flex: none; /* Prevent input groups from stretching */
+}
+
+/* General input group styling */
+.input-group {
+  display: flex;
+  flex-direction: column; /* Stack label and input vertically */
+}
+
+/* Label inside input groups */
+.input-group label {
+  font-weight: 600; /* Semi-bold text for better readability */
+  margin-bottom: 0.3rem; /* Small space below label */
+  color: var(--primary-dark); /* Primary dark color for emphasis */
+  font-size: var(
+    --desktop-form-label-font-size
+  ); /* Use desktop scaled label size */
+}
+
+/* --- Payment Info Container --- */
+/* Grid container for payment-related input groups */
+.payment-info-container {
+  display: grid; /* Use CSS grid for flexible layout */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(180px, 1fr)
+  ); /* Responsive columns with minimum width */
+  gap: 1.5rem; /* Spacing between items */
+  margin-bottom: 1.5rem; /* Space below container */
+  align-items: flex-end; /* Align input fields to the bottom */
+  max-width: 800px; /* Limit maximum width */
+}
+
+/* Reset flex and min-width inside payment info inputs */
+.payment-info-container .input-group {
+  flex: none; /* Prevent flex growth */
+  min-width: unset; /* Remove default min-width */
+}
+
+/* Readonly input style for "amount-left" field */
+#amount-left {
+  background: rgba(
+    31,
+    45,
+    61,
+    0.05
+  ); /* Very light grey background for disabled look */
+  border: 1px solid var(--border-color-light); /* Light border matching theme */
+  border-radius: var(
+    --border-radius-small
+  ); /* Rounded corners consistent with inputs */
+  padding: var(--desktop-input-padding); /* Consistent input padding */
+  font-size: var(--desktop-input-font-size); /* Smaller font size for desktop */
+  color: var(--text-color-dark); /* Dark text for readability */
+  cursor: not-allowed; /* Show disabled cursor */
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05); /* Inner shadow for depth */
+}
+
+/* --- Grand Total Section --- */
+/* Container for displaying the grand total */
+.grand-total-container {
+  display: flex; /* Flexbox for alignment */
+  justify-content: flex-end; /* Align content to the right */
+  font-size: 1.6rem; /* Large font for emphasis */
+  font-weight: 700; /* Bold text */
+  color: var(--primary-dark); /* Primary dark color for visual importance */
+  margin-bottom: 1rem; /* Space below the container */
+  user-select: none; /* Prevent text selection */
+  text-shadow: var(--glow-subtle); /* Subtle glow for emphasis */
+}
+
+/* Adds spacing between "Total:" label and the amount */
+.grand-total span:first-child {
+  margin-right: 0.5rem; /* Space after label */
+}
+
+/* --- Button Styles --- */
+/* Primary buttons (reuse from admin.css theme) */
+.primary-btn {
+  background-color: var(--primary-color); /* Primary theme color */
+  color: white; /* White text */
+  font-weight: 600; /* Semi-bold */
+  padding: var(--desktop-button-padding); /* Consistent padding */
+  border-radius: var(--border-radius-small); /* Rounded corners */
+  border: none; /* No border */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: all 0.3s ease; /* Smooth transition for all properties */
+  box-shadow: 0 4px 8px var(--admin-shadow-color); /* Soft shadow for depth */
+  font-size: var(--desktop-button-font-size); /* Scaled font size */
+}
+
+/* Hover effect for primary buttons */
+.primary-btn:hover {
+  background-color: var(--primary-dark); /* Darker primary color */
+  transform: translateY(-1px); /* Slight lift on hover */
+  box-shadow: 0 6px 14px rgba(45, 123, 177, 0.3); /* Stronger shadow on hover */
+}
+
+/* --- Modal Styles --- */
+
+/* Modal overlay container (dark semi-transparent background with blur) */
+.modal-container {
+  display: none; /* Hidden by default */
+  position: fixed; /* Fixed to viewport */
+  top: 0;
+  left: 0;
+  width: 100%; /* Full viewport width */
+  height: 100%; /* Full viewport height */
+  background: rgba(31, 45, 61, 0.75); /* Dark overlay with opacity */
+  backdrop-filter: var(--blur-effect); /* Blur effect behind modal */
+  align-items: center; /* Vertically center modal content */
+  justify-content: center; /* Horizontally center modal content */
+  z-index: 10000; /* High stacking order */
+  opacity: 0; /* Invisible initially */
+  transition: opacity var(--transition-speed); /* Fade transition */
+}
+
+/* Active modal overlay */
+.modal-container.active {
+  display: flex; /* Make visible and use flexbox */
+  opacity: 1; /* Fully visible */
+  pointer-events: auto; /* Allow interaction */
+}
+
+/* Modal dialog box styling */
+.modal-dialog {
+  background-color: var(--bg-color-light); /* Light background */
+  padding: 2rem 2.5rem; /* Inner spacing */
+  border-radius: var(--border-radius-medium); /* Rounded corners */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25); /* Drop shadow for depth */
+  max-width: 400px; /* Maximum width */
+  width: 90%; /* Responsive width */
+  position: relative; /* For positioning close button */
+  animation: slideIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1.2); /* Entrance animation */
+  box-sizing: border-box; /* Includes padding in width */
+  text-align: center; /* Center text */
+  border: 1px solid var(--admin-border-color); /* Border matching theme */
+}
+
+/* Modal heading */
+.modal-dialog h3 {
+  margin-top: 0; /* Remove top margin */
+  color: var(--primary-dark); /* Primary dark color */
+  margin-bottom: 1rem; /* Space below heading */
+  font-size: 1.5rem; /* Large font */
+  border-bottom: none; /* No bottom border */
+  padding-bottom: 0; /* No padding */
+}
+
+/* Modal paragraph */
+.modal-dialog p {
+  margin-bottom: 1.5rem; /* Space below text */
+  color: var(--text-color-light); /* Light text for contrast */
+  line-height: 1.5; /* Readable line spacing */
+  font-size: 0.95rem; /* Slightly smaller text */
+}
+
+/* Close button inside modal */
+.close-btn {
+  position: absolute; /* Positioned in top right corner */
+  top: 0.8rem; /* Top spacing */
+  right: 1rem; /* Right spacing */
+  background: transparent; /* No background */
+  border: none; /* No border */
+  font-size: 1.8rem; /* Large font for visibility */
+  color: #a0a0a0; /* Gray color */
+  cursor: pointer; /* Pointer cursor */
+  transition: color var(--transition-speed), transform 0.2s ease-out; /* Smooth transitions */
+}
+
+/* Close button hover effect */
+.close-btn:hover {
+  color: #555; /* Darker gray on hover */
+  transform: rotate(90deg); /* Rotate for playful effect */
+}
+
+/* Modal footer for action buttons */
+.modal-footer {
+  display: flex; /* Flexbox for layout */
+  justify-content: center; /* Center buttons horizontally */
+  gap: 0.8rem; /* Space between buttons */
+  margin-top: 1rem; /* Space above footer */
+}
+
+/* --- Keyframe Animations --- */
+
+/* Fade in effect for dropdowns and modals */
+@keyframes fadeIn {
+  from {
+    opacity: 0; /* Start invisible */
+  }
+  to {
+    opacity: 1; /* End fully visible */
+  }
+}
+
+/* Slide in animation for modal dialog */
+@keyframes slideIn {
+  from {
+    transform: translateY(-80px) scale(0.9); /* Start slightly up and scaled down */
+    opacity: 0; /* Start invisible */
+  }
+  to {
+    transform: translateY(0) scale(1); /* End at normal position and scale */
+    opacity: 1; /* Fully visible */
+  }
+}
+
+/* --- Responsive Adjustments --- */
+
+/* Adjustments for screens <= 1200px (smaller desktops and large tablets) */
+@media (max-width: 1200px) {
+  main {
+    margin-left: 0; /* Remove sidebar margin for smaller screens */
+    max-width: 100%; /* Full width */
+    border-radius: 0; /* Remove rounding */
+    padding: 2rem; /* Consistent padding */
+  }
+  .payment-info-container {
+    max-width: 100%; /* Full width */
+  }
+
+  /* Form grid adapts to minimum 280px columns */
+  .form-row-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* Increase input padding and font size */
+  input[type="text"],
+  input[type="tel"],
+  input[type="number"],
+  select {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  /* Button size adjustments */
+  .primary-btn,
+  .secondary-btn,
+  .delete-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  /* Table cell padding and font size */
+  #billing-table th,
+  #billing-table td {
+    padding: 0.9rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  /* Quantity input in table */
+  #billing-table .qty-input {
+    width: 70px;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  /* Larger grand total font */
+  .grand-total-container {
+    font-size: 1.8rem;
+  }
+
+  /* Modal size increase */
+  .modal-dialog {
+    padding: 2.5rem 3rem;
+    max-width: 480px;
+  }
+
+  /* Modal heading and paragraph larger */
+  .modal-dialog h3 {
+    font-size: 1.8rem;
+  }
+  .modal-dialog p {
+    font-size: 1.05rem;
+  }
+
+  /* Close button bigger and repositioned */
+  .close-btn {
+    font-size: 2.2rem;
+    top: 1rem;
+    right: 1.2rem;
+  }
+}
+
+/* Adjustments for screens <= 992px (tablets) */
+@media (max-width: 992px) {
+  .billing-section {
+    padding: 1.8rem 2rem; /* Slightly reduced padding */
+  }
+  .discount-vat-container {
+    flex-direction: column; /* Stack vertically */
+    max-width: 100%; /* Full width */
+    grid-template-columns: 1fr; /* Single column */
+  }
+  .payment-info-container {
+    flex-direction: column; /* Stack vertically */
+    align-items: stretch; /* Stretch inputs */
+    gap: 1.2rem;
+    grid-template-columns: 1fr; /* Single column */
+  }
+  .payment-info-container .input-group {
+    min-width: unset;
+    flex: 1 1 auto; /* Allow flexible sizing */
+  }
+
+  /* Single column form grid for smaller tablets */
+  .form-row-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem; /* Standard gap */
+  }
+}
+
+/* Adjustments for screens <= 768px (small tablets and large phones) */
+@media (max-width: 768px) {
+  main {
+    padding: 1.5rem;
+    gap: 1.8rem;
+  }
+
+  .billing-header h2 {
+    font-size: 1.8rem; /* Larger heading */
+  }
+
+  .billing-section {
+    padding: 1.5rem 1.8rem;
+    border-radius: var(--border-radius-medium); /* Less rounding */
+  }
+
+  .form-group label {
+    font-size: 0.9rem; /* Slightly larger label */
+  }
+
+  /* Inputs and selects padding and font */
+  input[type="text"],
+  input[type="tel"],
+  input[type="number"],
+  select {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  /* Buttons sized for touch */
+  .primary-btn,
+  .secondary-btn,
+  .delete-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  /* Table cells smaller font and padding */
+  #billing-table th,
+  #billing-table td {
+    padding: 0.9rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  /* Quantity input smaller */
+  #billing-table .qty-input {
+    width: 60px;
+    padding: 0.5rem;
+  }
+
+  /* Grand total centered and smaller */
+  .grand-total-container {
+    font-size: 1.5rem;
+    justify-content: center; /* Center text */
+  }
+
+  /* Modal size and padding reduced */
+  .modal-dialog {
+    padding: 2rem;
+    max-width: 95%;
+  }
+
+  .modal-dialog h3 {
+    font-size: 1.6rem;
+  }
+
+  /* Modal footer buttons stack vertically */
+  .modal-footer {
+    flex-direction: column-reverse;
+    gap: 0.8rem;
+  }
+
+  /* Buttons inside modal footer fill width */
+  .modal-footer .primary-btn,
+  .modal-footer .secondary-btn,
+  .modal-footer .delete-btn {
+    width: 100%;
+  }
+}
+
+/* Adjustments for screens <= 480px (phones) */
+@media (max-width: 480px) {
+  main {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
+  .billing-header h2 {
+    font-size: 1.6rem; /* Smaller heading */
+  }
+
+  .billing-section {
+    padding: 1.2rem 1.5rem; /* Less padding */
+  }
+
+  /* Suggestions dropdown padding smaller */
+  .suggestions-dropdown {
+    padding: 0.2rem 0;
+  }
+
+  /* Suggestion items smaller padding and font */
+  .suggestion-item,
+  .b2b-suggestion-item {
+    padding: 0.7rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  /* Suggestion description smaller font */
+  .suggestion-desc,
+  .b2b-suggestion-details {
+    font-size: 0.75rem;
+  }
+
+  /* Minimum width reduced for billing table */
+  #billing-table {
+    min-width: 600px;
+  }
+
+  /* Modal dialog smaller padding */
+  .modal-dialog {
+    padding: 1.5rem;
+  }
+
+  .modal-dialog h3 {
+    font-size: 1.4rem;
+  }
+
+  /* Form group margin adjustments */
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+  }
+
+  /* Inputs and textareas smaller padding and font */
+  .form-group input,
+  .form-group textarea {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  /* Submit button adjustments */
+  button.btn-update[type="submit"] {
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  /* Close button smaller size and positioning */
+  .close-btn {
+    font-size: 1.8rem;
+    top: 0.8rem;
+    right: 1rem;
+  }
+}
+
+/* Global button styles fallback if admin.css is not imported */
+/* Ensures consistent styling across buttons */
+.primary-btn {
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius-small);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px var(--admin-shadow-color);
+}
+
+.primary-btn:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(45, 123, 177, 0.35);
+}

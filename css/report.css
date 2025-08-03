@@ -1,0 +1,1157 @@
+/* css/report.css */
+
+/* --- Variables --- */
+:root {
+  /* Define CSS custom properties (variables) for colors, fonts, sizes, shadows, and layout.
+     These allow easy theming and consistent styling throughout the report page. */
+
+  /* Base background color for the page */
+  --bg-color: #f6fbff;
+
+  /* Card background with a frosted glass effect using partial transparency */
+  --card-bg: rgba(255, 255, 255, 0.25);
+
+  /* Primary brand color used in borders, icons, buttons, etc. */
+  --primary-color: #2d7bb1;
+
+  /* Darker shade of the primary color for hover effects or headings */
+  --primary-color-dark: #1c5b87;
+
+  /* Main text color for readability */
+  --text-color: #1f2d3d;
+
+  /* Border color used for subtle outlines */
+  --border-color: rgba(31, 45, 61, 0.15);
+
+  /* Shadow color for box shadows to add depth */
+  --shadow-color: rgba(45, 123, 177, 0.2);
+
+  /* Glow effect for text shadows or highlights */
+  --glow: 0 0 12px rgba(45, 123, 177, 0.25);
+
+  /* Blur effect for frosted glass style */
+  --blur: blur(14px);
+
+  /* Font family for the entire report */
+  --font: "Poppins", sans-serif;
+
+  /* Semantic colors for status and alerts matching the admin theme */
+  --danger-color: #e53935; /* Used for errors or deletes */
+  --success-color: #4caf50; /* Used for success messages */
+  --warning-color: #ffc107; /* Used for warnings */
+  --info-color: #17a2b8; /* Info color */
+
+  /* Text colors with different opacity levels for hierarchy */
+  --report-text-dark: var(--text-color);
+  --report-text-medium: rgba(31, 45, 61, 0.8);
+  --report-text-light: rgba(31, 45, 61, 0.5);
+
+  /* Card background and header backgrounds */
+  --report-card-bg: var(--card-bg);
+  --report-header-bg: rgba(45, 123, 177, 0.08);
+
+  /* Borders and dividers */
+  --report-border-color: var(--border-color);
+  --report-divider-color: rgba(31, 45, 61, 0.1);
+
+  /* Different shadow intensities for cards and panels */
+  --report-box-shadow-light: 0 4px 12px var(--shadow-color);
+  --report-box-shadow-medium: 0 8px 20px var(--shadow-color);
+  --report-box-shadow-strong: 0 12px 30px rgba(45, 123, 177, 0.35);
+
+  /* Border radii for small, medium, and large rounding */
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 18px;
+
+  /* Sidebar width reference */
+  --sidebar-width: 260px;
+
+  /* Variables specifically for desktop layout and scaling to make the design more compact */
+  --desktop-content-padding: 1.2rem;
+  --desktop-page-header-padding: 1rem 1.2rem;
+  --desktop-page-header-h1-font-size: 1.4rem;
+  --desktop-page-header-p-font-size: 0.8rem;
+  --desktop-section-gap: 1.2rem;
+  --desktop-card-padding: 1rem 1.2rem;
+  --desktop-h2-font-size: 1.2rem;
+  --desktop-h2-margin-bottom: 0.8rem;
+
+  --desktop-kpi-grid-gap: 0.8rem;
+  --desktop-kpi-card-padding: 0.8rem;
+  --desktop-kpi-icon-font-size: 1.8rem;
+  --desktop-kpi-h3-font-size: 0.85rem;
+  --desktop-kpi-p-font-size: 1.8em;
+
+  --desktop-chart-options-padding: 0.7rem 0.9rem;
+  --desktop-chart-options-gap: 0.8rem;
+  --desktop-chart-label-font-size: 0.8rem;
+  --desktop-chart-card-padding: 0.9rem;
+  --desktop-chart-h3-font-size: 1rem;
+  --desktop-chart-canvas-height: 220px;
+
+  --desktop-filter-grid-gap: 0.8rem;
+  --desktop-form-label-font-size: 0.75rem;
+  --desktop-input-padding: 0.45rem 0.7rem;
+  --desktop-input-font-size: 0.8rem;
+  --desktop-button-padding: 0.5rem 0.9rem;
+  --desktop-button-font-size: 0.8rem;
+
+  --desktop-table-padding: 0.6rem 0.8rem;
+  --desktop-table-font-size: 0.75rem;
+
+  --desktop-right-panel-width: 720px;
+  --desktop-panel-header-padding: 0.7rem 1rem;
+  --desktop-panel-h3-font-size: 1rem;
+  --desktop-panel-content-padding: 1rem 1.2rem;
+  --desktop-panel-h4-font-size: 0.95rem;
+  --desktop-btn-icon-font-size: 1.1rem;
+
+  /* Height for right panel on mobile devices */
+  --right-panel-height-mobile: 60vh;
+}
+
+/* --- General Layout & Page Structure --- */
+body {
+  font-family: var(--font); /* Use defined font */
+  margin: 0; /* Remove default margin */
+  /* Background uses a soft gradient for subtle visual interest */
+  background: linear-gradient(135deg, #ebf5fc, #dceefb, #f6fbff);
+  color: var(--report-text-dark); /* Use main text color */
+  line-height: 1.6; /* Comfortable line height */
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  min-height: 100%; /* Ensure body is at least full viewport height */
+  display: flex; /* Use flexbox to structure main layout */
+  height: 100%; /* Full height */
+}
+
+/* Sidebar flex behavior */
+.sidebar {
+  flex-shrink: 0; /* Prevent sidebar from shrinking when page resizes */
+}
+
+/* Wrapper that contains main content and right detail panel */
+.main-content-and-panel-wrapper {
+  flex-grow: 1; /* Take up remaining space */
+  display: flex; /* Use flexbox for layout */
+  position: relative; /* Position relative to manage overlays/panels */
+  overflow: hidden; /* Hide overflow to prevent scrollbars */
+}
+
+/* Main content area */
+.content {
+  flex-grow: 1; /* Fill available space */
+  padding: var(--desktop-content-padding); /* Consistent padding */
+  box-sizing: border-box; /* Include padding in width/height */
+  overflow-y: auto; /* Enable vertical scroll if content overflows */
+  height: 100%; /* Full height */
+  transition: margin-right 0.3s ease; /* Smooth margin changes */
+
+  min-width: 0; /* Fix flexbox overflow issues */
+
+  /* Hide scrollbars on different browsers */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari */
+.content::-webkit-scrollbar {
+  display: none;
+}
+
+/* When right panel is open, reduce main content width with right margin */
+.main-content-and-panel-wrapper.panel-active .content {
+  margin-right: var(--desktop-right-panel-width);
+}
+
+/* Page header container */
+.page-header {
+  background: var(--report-card-bg); /* Frosted glass background */
+  backdrop-filter: var(--blur); /* Blur effect behind */
+  padding: var(--desktop-page-header-padding);
+  border-radius: var(--border-radius-lg); /* Rounded corners */
+  box-shadow: var(--report-box-shadow-medium); /* Shadow for depth */
+  margin-bottom: var(--desktop-section-gap);
+  border-left: 5px solid var(--primary-color); /* Colored left border for accent */
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Space between header elements */
+}
+
+/* Main header text */
+.page-header h1 {
+  margin: 0;
+  font-size: var(--desktop-page-header-h1-font-size);
+  color: var(--primary-color-dark);
+  text-shadow: var(--glow); /* Slight glow for emphasis */
+}
+
+/* Subtitle paragraph */
+.page-header p {
+  margin: 0;
+  font-size: var(--desktop-page-header-p-font-size);
+  color: var(--report-text-medium);
+}
+
+/* Authorization message box (e.g. no access) */
+.auth-message {
+  text-align: center;
+  padding: 0.8rem;
+  background-color: #ffebee; /* Soft red background */
+  color: var(--danger-color); /* Red text */
+  border: 1px solid var(--danger-color);
+  border-radius: var(--border-radius-md);
+  font-weight: 600;
+  margin-bottom: var(--desktop-section-gap);
+}
+
+/* Generic card container used for sections like KPIs, tables, etc. */
+.card-container {
+  background: var(--report-card-bg);
+  backdrop-filter: var(--blur);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--report-box-shadow-medium);
+  margin-bottom: var(--desktop-section-gap);
+  padding: var(--desktop-card-padding);
+  /* No border as admin theme does not explicitly use border on sections */
+}
+
+/* Section heading */
+.card-container h2 {
+  color: var(--primary-color-dark);
+  font-size: var(--desktop-h2-font-size);
+  margin-top: 0;
+  margin-bottom: var(--desktop-h2-margin-bottom);
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--report-divider-color);
+  text-shadow: var(--glow);
+}
+
+/* --- KPI Section --- */
+
+/* KPI grid layout: auto-adjust columns with minimum width 180px */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--desktop-kpi-grid-gap);
+  margin-bottom: var(--desktop-section-gap);
+}
+
+/* KPI card styling: frosted glass with shadow and left border accent */
+.kpi-card {
+  background: var(--report-card-bg);
+  backdrop-filter: var(--blur);
+  padding: var(--desktop-kpi-card-padding);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--report-box-shadow-light);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-left: 5px solid var(--primary-color);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* Slight elevation and stronger shadow on hover */
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--report-box-shadow-medium);
+}
+
+/* KPI icon size and color */
+.kpi-icon {
+  font-size: var(--desktop-kpi-icon-font-size);
+  color: var(--primary-color);
+  opacity: 0.8; /* Slight transparency for subtle effect */
+}
+
+/* Danger color override for icons showing warnings */
+.kpi-icon.danger-icon {
+  color: var(--danger-color);
+}
+
+/* KPI card heading styling */
+.kpi-card h3 {
+  margin: 0 0 2px 0;
+  color: var(--report-text-medium);
+  font-size: var(--desktop-kpi-h3-font-size);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* KPI card main number text */
+.kpi-card p {
+  margin: 0;
+  font-size: var(--desktop-kpi-p-font-size);
+  font-weight: 700;
+  color: var(--report-text-dark);
+}
+
+/* --- Chart Section Layout --- */
+
+/* Container for all chart-related cards stacked vertically */
+.chart-section-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--desktop-section-gap);
+  margin-top: var(--desktop-section-gap);
+}
+
+/* Options for charts: checkbox filters, etc. */
+.chart-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--desktop-chart-options-gap);
+  margin-bottom: 1rem;
+  padding: var(--desktop-chart-options-padding);
+  background-color: var(--report-header-bg);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--report-box-shadow-light);
+  border: 1px solid var(--report-border-color);
+}
+
+/* Labels for chart options styled with flex for icon+text */
+.chart-options label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+  color: var(--report-text-dark);
+  cursor: pointer;
+  font-size: var(--desktop-chart-label-font-size);
+}
+
+/* Checkboxes sized for desktop and accent color applied */
+.chart-options input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--primary-color);
+}
+
+/* Row for charts: grid layout with min width 250px per card */
+.chart-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--desktop-kpi-grid-gap);
+}
+
+/* Chart cards: frosted glass with border and shadow */
+.chart-card {
+  background: var(--report-card-bg);
+  backdrop-filter: var(--blur);
+  padding: var(--desktop-chart-card-padding);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--report-box-shadow-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid var(--report-border-color);
+}
+
+/* Chart card heading styling */
+.chart-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+  font-size: var(--desktop-chart-h3-font-size);
+  color: var(--primary-color-dark);
+  text-align: center;
+  border-bottom: none;
+  padding-bottom: 0;
+  text-shadow: var(--glow);
+}
+
+/* Container for chart canvas, fixed height for consistent layout */
+.chart-canvas-container {
+  position: relative;
+  height: var(--desktop-chart-canvas-height);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Full width modifier for some chart cards */
+.chart-full-width {
+  width: 100%;
+}
+
+/* --- Sales Filters Section --- */
+
+/* Grid layout for sales filters with flexible columns and spacing */
+.sales-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--desktop-filter-grid-gap);
+  align-items: flex-end; /* Align inputs/buttons at bottom */
+  margin-bottom: var(--desktop-section-gap);
+}
+
+/* Wrapper for each input and label */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels styled for clarity and icon integration */
+.form-group label {
+  margin-bottom: 4px;
+  font-weight: 600;
+  color: var(--primary-color-dark);
+  font-size: var(--desktop-form-label-font-size);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Inputs and selects: full width, padded, border with rounded corners */
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group input[type="number"],
+.form-group select {
+  width: 100%;
+  padding: var(--desktop-input-padding);
+  border: 1px solid var(--report-border-color);
+  border-radius: var(--border-radius-md);
+  background: white; /* Solid background for readability */
+  color: var(--report-text-dark);
+  font-size: var(--desktop-input-font-size);
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none; /* Remove default outline */
+}
+
+/* Focus styles to highlight the active input/select */
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(45, 123, 177, 0.15);
+  outline: none;
+}
+
+/* Container for filter action buttons */
+.form-actions {
+  grid-column: span 1; /* Ensure buttons align within grid */
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  align-self: flex-end; /* Align to bottom of filter inputs */
+}
+
+/* --- Buttons --- */
+
+/* Base button styling for consistent look */
+.btn {
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: var(--desktop-button-font-size);
+  padding: var(--desktop-button-padding);
+  border-radius: var(--border-radius-md);
+  font-weight: 700;
+  transition: background-color 0.25s ease, transform 0.1s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 0 4px 10px rgba(45, 123, 177, 0.2);
+}
+
+/* Hover effect to slightly lift button and intensify shadow */
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(45, 123, 177, 0.3);
+}
+
+/* Primary buttons (blue) */
+.primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+.primary:hover {
+  background-color: var(--primary-color-dark);
+}
+
+/* Delete buttons with red background */
+.delete-btn {
+  background-color: var(--danger-color);
+  color: white;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.75rem;
+  border-radius: 6px;
+}
+.delete-btn:hover {
+  background-color: #b71c1c; /* Darker red */
+  transform: translateY(-1px);
+}
+
+/* --- Table styles --- */
+
+/* Wrapper for horizontal scrolling on smaller devices */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+/* Data tables styling */
+.data-table {
+  width: 100%;
+  border-collapse: collapse; /* Remove space between cells */
+  margin-top: 0.5rem;
+  background: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+  backdrop-filter: var(--blur); /* Frosted glass effect */
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  min-width: 700px; /* Prevent too narrow tables, enable horizontal scroll */
+  font-size: var(--desktop-table-font-size);
+}
+
+/* Table header row */
+.data-table thead tr {
+  border-bottom: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  font-weight: 700;
+  background-color: rgba(45, 123, 177, 0.05);
+}
+
+/* Table header and cell styles */
+.data-table th,
+.data-table td {
+  padding: var(--desktop-table-padding);
+  border-bottom: 1px solid var(--report-border-color);
+  text-align: left;
+  color: var(--report-text-dark);
+  vertical-align: middle;
+}
+
+/* Alternate row shading for readability */
+.data-table tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Hover highlight on rows */
+.data-table tbody tr:hover {
+  background: rgba(45, 123, 177, 0.08);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(45, 123, 177, 0.2);
+}
+
+/* Message shown when no records are present */
+.data-table .no-records {
+  text-align: center;
+  font-style: italic;
+  color: var(--report-text-light);
+  padding: 15px;
+}
+/* === Mobile-first stacked table (phones, incl. 375x667) === */
+/* This media query applies when the viewport is <= 640px (typically phones). 
+   It transforms the data table from a horizontal table layout into a vertical stacked layout 
+   for better readability and usability on small screens. */
+@media (max-width: 640px) {
+  /* Disable horizontal scroll for table container because rows will stack vertically */
+  .table-responsive {
+    overflow: visible; /* stacked rows don't require horizontal scroll */
+  }
+
+  /* Hide the table header because labels will be shown inside each cell */
+  .data-table thead {
+    display: none;
+  }
+
+  /* Make table and all its parts display as block elements */
+  .data-table,
+  .data-table tbody,
+  .data-table tr,
+  .data-table td {
+    display: block;
+    width: 100%; /* full width blocks for stacking */
+  }
+
+  /* Add spacing, border, background, and shadow to each row to look like cards */
+  .data-table tbody tr {
+    margin-bottom: 0.8rem; /* spacing between rows, smaller than desktop */
+    border: 1px solid var(--report-border-color);
+    border-radius: var(--border-radius-md); /* rounded corners */
+    background: white; /* solid white background for clarity */
+    box-shadow: 0 4px 12px rgba(45, 123, 177, 0.12); /* subtle shadow for depth */
+    overflow: hidden;
+  }
+
+  /* Each cell uses CSS grid to create two columns: label and value */
+  .data-table td {
+    display: grid;
+    grid-template-columns: 100px 1fr; /* fixed label width, flexible content */
+    gap: 0.4rem; /* small gap between label and content */
+    padding: 0.6rem 0.8rem; /* padding inside cells */
+    border-bottom: 1px solid var(--report-border-color);
+    font-size: 0.85rem; /* slightly larger for readability */
+  }
+
+  /* Remove bottom border on last cell in a row */
+  .data-table td:last-child {
+    border-bottom: none;
+  }
+
+  /* Use data-label attribute from each cell to display the label on the left */
+  .data-table td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: var(--primary-color-dark); /* styled label color */
+  }
+
+  /* Make delete buttons inside table cells full width on phones */
+  .data-table td .delete-btn {
+    width: 100%;
+  }
+}
+
+/* --- Right Detail Panel --- */
+/* This panel slides in from the right to show detailed info about selected items */
+/* It is fixed on the right side for desktop and switches position/responsiveness on smaller screens */
+.right-detail-panel {
+  width: var(--desktop-right-panel-width); /* fixed width on desktop */
+  background: var(
+    --report-card-bg
+  ); /* frosted glass background consistent with admin theme */
+  backdrop-filter: var(--blur); /* apply blur behind panel */
+  box-shadow: var(--report-box-shadow-strong); /* strong shadow for emphasis */
+  transition: transform 0.3s ease-in-out; /* smooth slide animation */
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000; /* appear above most page content */
+  border-left: 1px solid var(--report-border-color); /* subtle border on left */
+
+  position: fixed; /* fixed to viewport */
+  top: 0;
+  right: 0;
+  height: 100%;
+  transform: translateX(
+    var(--desktop-right-panel-width)
+  ); /* initially translated off-screen to the right */
+  overflow-y: auto; /* enable vertical scroll if content overflows */
+}
+
+/* When active, panel slides fully into view */
+.right-detail-panel.active {
+  transform: translateX(0);
+}
+
+/* Header section of the panel with title and action buttons */
+.panel-header {
+  display: flex;
+  justify-content: space-between; /* space between title and buttons */
+  align-items: center;
+  padding: var(--desktop-panel-header-padding); /* consistent padding */
+  border-bottom: 1px solid var(--report-divider-color);
+  background-color: var(--report-header-bg); /* distinct header background */
+  flex-shrink: 0; /* prevent shrinking */
+}
+
+/* Panel title styling */
+.panel-header h3 {
+  margin: 0;
+  font-size: var(--desktop-panel-h3-font-size); /* consistent font size */
+  color: var(--primary-color-dark);
+  text-shadow: var(--glow); /* subtle glow effect */
+}
+
+/* Container for buttons in the panel header */
+.panel-actions {
+  display: flex;
+  gap: 6px; /* spacing between buttons */
+}
+
+/* Main content area inside the panel */
+.panel-content {
+  padding: var(--desktop-panel-content-padding);
+  flex-grow: 1; /* fill remaining vertical space */
+}
+
+/* Subheadings inside panel content */
+.panel-content h4 {
+  color: var(--primary-color-dark);
+  margin-top: 1rem;
+  margin-bottom: 0.7rem;
+  font-size: var(--desktop-panel-h4-font-size);
+  text-shadow: var(--glow);
+}
+
+/* Horizontal rule styling in panel content */
+.panel-content hr {
+  border: none;
+  border-top: 1px solid var(--report-divider-color);
+  margin: 1rem 0;
+}
+
+/* Lists inside panel content */
+.panel-content ul {
+  list-style-type: disc;
+  padding-left: 1.2rem;
+  margin-bottom: 0.8rem;
+}
+
+/* List items styling */
+.panel-content li {
+  margin-bottom: 2px;
+  font-size: 0.85rem;
+}
+
+/* Tables inside panel content */
+.panel-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.7rem;
+}
+
+/* Table headers and cells inside panel */
+.panel-content table th,
+.panel-content table td {
+  border: 1px solid var(--report-border-color);
+  padding: 0.5rem;
+  text-align: left;
+  color: var(--report-text-dark);
+  font-size: 0.8rem;
+}
+
+/* Icon buttons used inside panel (e.g. close, print) */
+.btn-icon {
+  background: none;
+  border: none;
+  color: var(--report-text-medium);
+  font-size: var(--desktop-btn-icon-font-size);
+  padding: 3px 5px;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover effect on icon buttons */
+.btn-icon:hover {
+  color: var(--primary-color);
+  transform: scale(1.1);
+}
+
+/* Utility class to hide elements forcibly */
+.hidden {
+  display: none !important;
+}
+
+/* --- Responsive Layout for Tablets/Smaller Desktops (e.g., < 1024px) --- */
+@media screen and (max-width: 1024px) {
+  /* Increase padding in main content for tablet screens */
+  .content {
+    padding: 1.5rem;
+  }
+
+  /* When right panel is active, stack main content and panel vertically */
+  .main-content-and-panel-wrapper.panel-active {
+    flex-direction: column; /* stack vertically */
+    height: auto;
+    overflow-y: auto;
+  }
+
+  /* Main content loses right margin and has adjusted overflow when stacked */
+  .main-content-and-panel-wrapper.panel-active .content {
+    margin-right: 0;
+    height: auto;
+    overflow-y: visible;
+    padding-bottom: 1.5rem;
+  }
+
+  /* Right detail panel becomes static block inside page flow on tablets */
+  .right-detail-panel {
+    position: static;
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    box-shadow: none; /* no shadow as part of normal flow */
+    border-left: none;
+    border-top: 1px solid var(--report-border-color);
+    transform: translateX(0); /* always visible */
+  }
+
+  /* Adjust page header padding and spacing for tablet */
+  .page-header {
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+  .page-header p {
+    font-size: 0.85rem;
+  }
+
+  /* Card container padding and margin increase */
+  .card-container {
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .card-container h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.8rem;
+  }
+
+  /* KPI grid and card spacing adjustments */
+  .kpi-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.8rem;
+  }
+  .kpi-card {
+    padding: 1rem;
+    gap: 10px;
+  }
+  .kpi-icon {
+    font-size: 2rem;
+  }
+  .kpi-card h3 {
+    font-size: 0.9rem;
+  }
+  .kpi-card p {
+    font-size: 2em;
+  }
+
+  /* Chart section spacing and padding increase */
+  .chart-section-layout {
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+  }
+  .chart-options {
+    padding: 0.9rem 1.2rem;
+    gap: 1rem;
+  }
+  .chart-options label {
+    font-size: 0.85rem;
+  }
+  .chart-row {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .chart-card {
+    padding: 1rem;
+  }
+  .chart-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  .chart-canvas-container {
+    height: 250px;
+  }
+
+  /* Sales filters grid and input size adjustments */
+  .sales-filters {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .form-group label {
+    font-size: 0.8rem;
+  }
+  .form-group input,
+  .form-group select {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  .form-actions {
+    gap: 0.8rem;
+  }
+  .btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+  .delete-btn {
+    padding: 0.45rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  /* Table cell padding and font size adjustments */
+  .data-table th,
+  .data-table td {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.8rem;
+  }
+
+  /* Right panel header and content padding increase */
+  .panel-header {
+    padding: 0.9rem 1.2rem;
+  }
+  .panel-header h3 {
+    font-size: 1.1rem;
+  }
+  .panel-actions {
+    gap: 8px;
+  }
+  .panel-content {
+    padding: 1.2rem 1.5rem;
+  }
+  .panel-content h4 {
+    font-size: 1rem;
+  }
+  .panel-content li {
+    font-size: 0.8rem;
+  }
+  .panel-content table th,
+  .panel-content table td {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+  .btn-icon {
+    font-size: 1.2rem;
+    padding: 4px 6px;
+  }
+}
+
+/* --- Responsive Layout for Mobile Phones (e.g., < 768px) --- */
+@media screen and (max-width: 768px) {
+  /* Adjust content padding */
+  .content {
+    padding: 15px;
+  }
+  /* Adjust page header */
+  .page-header {
+    padding: 15px 20px;
+    margin-bottom: 20px;
+  }
+  .page-header h1 {
+    font-size: 1.6rem;
+  }
+  .page-header p {
+    font-size: 0.85rem;
+  }
+
+  /* Stack KPI grid and sales filters to single column */
+  .kpi-grid,
+  .sales-filters {
+    grid-template-columns: 1fr;
+  }
+  /* KPI cards style adjustments */
+  .kpi-card {
+    flex-direction: row; /* icon and text side by side */
+    justify-content: center;
+    text-align: left;
+    padding: 12px 15px;
+  }
+  .kpi-icon {
+    font-size: 2rem;
+  }
+  .kpi-card h3 {
+    font-size: 0.9rem;
+  }
+  .kpi-card p {
+    font-size: 2em;
+  }
+
+  /* Chart layouts stack vertically */
+  .chart-section-layout,
+  .chart-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+  /* Chart options stack vertically */
+  .chart-options {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 15px;
+  }
+  .chart-options label {
+    font-size: 0.85rem;
+  }
+  /* Chart cards padding and heading sizes */
+  .chart-card {
+    padding: 12px;
+  }
+  .chart-card h3 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  /* Chart canvas height slightly smaller */
+  .chart-canvas-container {
+    height: 220px;
+  }
+
+  /* Form labels and inputs sizing */
+  .form-group label {
+    font-size: 0.85rem;
+  }
+  .form-group input,
+  .form-group select {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  /* Form actions stack vertically */
+  .form-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  /* Buttons full width on mobile */
+  .btn {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+  /* Delete button width resets inside table cells */
+  .delete-btn {
+    width: auto;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  /* Table responsiveness */
+  .table-responsive {
+    overflow-x: auto; /* enable horizontal scroll */
+  }
+  /* Table min width to force scroll */
+  .data-table {
+    min-width: 600px;
+    width: auto;
+  }
+  /* Table cells nowrap for better horizontal scroll behavior */
+  .data-table thead th,
+  .data-table tbody td {
+    white-space: nowrap;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  /* Right detail panel for small screens moves to bottom */
+  .right-detail-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0; /* start hidden */
+    max-height: var(--right-panel-height-mobile);
+    transition: height 0.3s ease-in-out, transform 0s;
+    box-shadow: var(--report-box-shadow-strong);
+    border-top: 1px solid var(--report-border-color);
+    transform: translateY(100%); /* move off screen */
+  }
+  /* When active, slide panel up and set height */
+  .right-detail-panel.active {
+    height: var(--right-panel-height-mobile);
+    transform: translateY(0);
+  }
+  /* Add bottom margin to main content when panel visible */
+  .main-content-and-panel-wrapper.panel-active .content {
+    margin-bottom: var(--right-panel-height-mobile);
+  }
+  /* Panel header styling for mobile */
+  .panel-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+  }
+  .panel-header h3 {
+    font-size: 1.1rem;
+  }
+  .panel-content {
+    padding: 15px;
+  }
+  .panel-content h4 {
+    font-size: 1rem;
+  }
+  .panel-content li {
+    font-size: 0.8rem;
+  }
+  /* Smaller padding and font size for table cells in panel */
+  .panel-content table th,
+  .panel-content table td {
+    padding: 0.4rem;
+    font-size: 0.75rem;
+  }
+  /* Icon button sizing on mobile */
+  .btn-icon {
+    font-size: 1.1rem;
+    padding: 2px 4px;
+  }
+}
+
+/* --- Print Specific Styles (for right-detail-panel content only) --- */
+/* When printing, hide all page content except the detail panel content */
+/* Styles focus on making printed report clean and readable */
+@media print {
+  /* Hide everything except the main wrapper */
+  body > *:not(.main-content-and-panel-wrapper) {
+    display: none !important;
+  }
+  /* Hide sidebar */
+  .sidebar {
+    display: none !important;
+  }
+  /* Hide main content */
+  .main-content-and-panel-wrapper .content {
+    display: none !important;
+  }
+
+  /* Make right detail panel static and full width for printing */
+  .right-detail-panel {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+    background-color: white !important;
+    transform: none !important;
+  }
+
+  /* Hide panel header and action buttons on print */
+  .panel-header,
+  .panel-actions,
+  #close-panel-btn,
+  #print-panel-btn {
+    display: none !important;
+  }
+
+  /* Main content in panel for print */
+  .panel-content {
+    font-size: 11pt;
+    color: black !important;
+    width: 100%;
+    margin: 0;
+    padding: 15mm;
+    box-sizing: border-box;
+  }
+
+  /* Headings styles for print */
+  .panel-content h1,
+  .panel-content h2,
+  .panel-content h3,
+  .panel-content h4 {
+    color: black !important;
+    border-bottom: 1px solid #ccc !important;
+    padding-bottom: 5px;
+    margin-top: 15px;
+  }
+  /* Paragraph and list item print styles */
+  .panel-content p,
+  .panel-content li {
+    color: black !important;
+    line-height: 1.4;
+  }
+  /* Tables for print: border and padding adjustments */
+  .panel-content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 10px;
+  }
+  .panel-content th,
+  .panel-content td {
+    border: 1px solid #ddd !important;
+    padding: 8px !important;
+    text-align: left !important;
+    color: black !important;
+    white-space: normal !important; /* wrap text for print */
+  }
+  /* Remove data-label pseudo content for print */
+  .panel-content td::before {
+    content: none !important;
+  }
+}

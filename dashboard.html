@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<!-- Declare this document as HTML5 -->
+<html lang="en">
+  <!-- Set the language of the page to English -->
+  <head>
+    <!-- Metadata section of the page -->
+
+    <meta charset="UTF-8" />
+    <!-- Character encoding set to UTF-8 for proper text rendering -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Responsive design: viewport width = device width, initial zoom = 1 -->
+
+    <title>Admin Dashboard - PMS</title>
+    <!-- The title shown on the browser tab -->
+
+    <!-- Import Google Fonts - Poppins family with different font weights -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Import Font Awesome 6 icons from CDN for icons like users, boxes, charts etc -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <!-- Link to custom CSS file that styles the sidebar navigation -->
+    <link rel="stylesheet" href="css/sidebar-navigation.css" />
+
+    <!-- Link to custom CSS file for the main dashboard page styles -->
+    <link rel="stylesheet" href="css/dashboard.css" />
+  </head>
+
+  <body>
+    <!-- Body of the document -->
+
+    <div id="sidebar-container">
+      <!-- Container for sidebar and its toggle button -->
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar">
+        <!-- Button to toggle sidebar visibility on smaller screens -->
+
+        <i class="fas fa-bars"></i>
+        <!-- Hamburger icon from Font Awesome -->
+      </button>
+
+      <aside class="sidebar" id="sidebar">
+        <!-- Sidebar container holding navigation links -->
+
+        <div class="logo">PMS</div>
+        <!-- Application logo or title displayed at top of sidebar -->
+
+        <nav>
+          <!-- Navigation menu -->
+
+          <a href="admin.html"
+            ><i class="fas fa-users"></i
+            ><span style="color: white">Users</span></a
+          >
+          <!-- Link to User management page with user icon -->
+
+          <a href="pharmacy-details.html"
+            ><i class="fas fa-clinic-medical"></i
+            ><span style="color: white">Pharmacy Details</span></a
+          >
+          <!-- Link to Pharmacy Details page with medical icon -->
+
+          <a href="dashboard.html" class="active"
+            ><i class="fas fa-chart-line"></i
+            ><span style="color: white">Dashboard</span></a
+          >
+          <!-- Link to current dashboard page with active class for styling -->
+
+          <a href="inventory.html"
+            ><i class="fas fa-boxes"></i
+            ><span style="color: white">Inventory</span></a
+          >
+          <!-- Link to Inventory page with boxes icon -->
+
+          <a href="supplier-management.html"
+            ><i class="fas fa-file-invoice"></i
+            ><span style="color: white">Suppliers</span></a
+          >
+          <!-- Link to Supplier Management with invoice icon -->
+
+          <a href="billing.html"
+            ><i class="fas fa-shopping-cart"></i
+            ><span style="color: white">Billing</span></a
+          >
+          <!-- Link to Billing page with shopping cart icon -->
+
+          <a href="payment-management.html"
+            ><i class="fas fa-money-bill-wave"></i
+            ><span style="color: white">Payments</span></a
+          >
+          <!-- Link to Payment Management with money bill icon -->
+
+          <a href="report.html"
+            ><i class="fas fa-chart-pie"></i
+            ><span style="color: white">Reports</span></a
+          >
+          <!-- Link to Reports page with pie chart icon -->
+        </nav>
+
+        <div class="user-info">
+          <!-- Displays logged in user info in sidebar -->
+
+          Logged in as:<br /><strong id="userEmail">Loading...</strong>
+          <!-- Placeholder text "Loading..." until user email is loaded dynamically -->
+        </div>
+
+        <button class="logout-btn" id="logoutBtn">
+          <!-- Button for user logout -->
+
+          <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+          <!-- Logout icon and text -->
+        </button>
+      </aside>
+    </div>
+
+    <main>
+      <!-- Main content area -->
+
+      <section class="user-info-section">
+        <!-- Section showing current logged in user details -->
+
+        <h3>Welcome, <span id="user-name">Loading...</span></h3>
+        <!-- User's name placeholder -->
+
+        <p>Email: <span id="user-email">Loading...</span></p>
+        <!-- User's email placeholder -->
+
+        <p>Role: <span id="user-role">Loading...</span></p>
+        <!-- User role placeholder -->
+      </section>
+
+      <section>
+        <h2>Overview Summary</h2>
+        <!-- High-level KPIs summary -->
+
+        <div class="kpi-grid">
+          <!-- Grid container for KPI cards -->
+
+          <div class="kpi-card">
+            <!-- KPI card: Total Medicines -->
+
+            <i class="fas fa-box kpi-icon"></i>
+            <!-- Icon representing medicines -->
+
+            <div>
+              <h3>Total Medicines</h3>
+              <p id="total-medicines">0</p>
+              <!-- Display total medicines count, initially 0 -->
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <!-- KPI card: Finished stock (out of stock) -->
+
+            <i class="fas fa-box-open kpi-icon danger-icon"></i>
+            <!-- Icon with danger style to indicate attention -->
+
+            <div>
+              <h3>Finished</h3>
+              <p id="finished-stock">0</p>
+              <!-- Number of finished stock items -->
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <!-- KPI card: Expired Medicines -->
+
+            <i class="fas fa-calendar-times kpi-icon danger-icon"></i>
+            <!-- Danger icon for expired -->
+
+            <div>
+              <h3>Expired Medicines</h3>
+              <p id="expired-count">0</p>
+              <!-- Count of expired medicines -->
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <!-- KPI card: Near expiry (less than 10 days) -->
+
+            <i class="fas fa-exclamation-triangle kpi-icon warning-icon"></i>
+            <!-- Warning icon -->
+
+            <div>
+              <h3>Near Expiry (&lt;10d)</h3>
+              <p id="near-expiry-count">0</p>
+              <!-- Count of medicines near expiry -->
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <!-- KPI card: Low stock (less than 10 quantity) -->
+
+            <i class="fas fa-boxes kpi-icon warning-icon"></i>
+            <!-- Warning icon -->
+
+            <div>
+              <h3>Low Stock (&lt;10)</h3>
+              <p id="low-stock-count">0</p>
+              <!-- Count of low stock medicines -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>System Summary</h2>
+        <!-- System-wide stats -->
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <!-- Registered pharmacies count -->
+
+            <i class="fas fa-clinic-medical kpi-icon"></i>
+
+            <div>
+              <h3>Registered Pharmacies</h3>
+              <p id="pharmacy-count">0</p>
+              <!-- Number of registered pharmacies -->
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <!-- B2B requests count -->
+
+            <i class="fas fa-handshake kpi-icon"></i>
+
+            <div>
+              <h3>B2B Requests</h3>
+              <p id="b2b-request-count">0</p>
+              <!-- Number of business-to-business requests -->
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <!-- Sales today -->
+
+            <i class="fas fa-chart-line kpi-icon"></i>
+
+            <div>
+              <h3>Sales (Today)</h3>
+              <p>Rs. <span id="sales-today">0.00</span></p>
+              <!-- Sales amount today in Rupees -->
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <!-- Sales this month -->
+
+            <i class="fas fa-calendar-alt kpi-icon"></i>
+
+            <div>
+              <h3>Sales (This Month)</h3>
+              <p>Rs. <span id="sales-month">0.00</span></p>
+              <!-- Sales amount this month -->
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <!-- Sales this year -->
+
+            <i class="fas fa-calendar-check kpi-icon"></i>
+
+            <div>
+              <h3>Sales (This Year)</h3>
+              <p>Rs. <span id="sales-year">0.00</span></p>
+              <!-- Sales amount this year -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Pending Payments</h2>
+        <!-- Payment-related KPIs -->
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <!-- Total unpaid amount -->
+
+            <i class="fas fa-piggy-bank kpi-icon danger-icon"></i>
+
+            <div>
+              <h3>Unpaid Amount</h3>
+              <p>Rs. <span id="unpaid-total">0.00</span></p>
+              <!-- Sum of unpaid payments -->
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <!-- Number of customers with pending payments -->
+
+            <i class="fas fa-user-friends kpi-icon danger-icon"></i>
+
+            <div>
+              <h3>Pending From</h3>
+              <p><span id="pending-count">0</span> Customers</p>
+              <!-- Count of customers who have pending payments -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Expired Medicines</h2>
+        <!-- Table listing expired medicines -->
+
+        <div class="table-responsive">
+          <!-- Responsive container to allow horizontal scroll on small screens -->
+
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Batch</th>
+                <th>Expiry</th>
+                <th>Quantity</th>
+                <th>Rack</th>
+              </tr>
+            </thead>
+
+            <tbody id="expired-list">
+              <!-- Table body where expired medicines rows will be dynamically inserted -->
+
+              <tr>
+                <td colspan="5">Loading...</td>
+                <!-- Initial loading placeholder -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>Near Expiry (0–10 days)</h2>
+        <!-- Table listing medicines near expiry -->
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Batch</th>
+                <th>Expiry</th>
+                <th>Days Left</th>
+                <th>Rack</th>
+              </tr>
+            </thead>
+
+            <tbody id="near-expiry-list">
+              <!-- Rows to be inserted dynamically -->
+
+              <tr>
+                <td colspan="5">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>Low Stock Medicines (&lt;10)</h2>
+        <!-- Table showing medicines with low stock -->
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Batch</th>
+                <th>Quantity</th>
+                <th>Rack</th>
+              </tr>
+            </thead>
+
+            <tbody id="low-stock-list">
+              <!-- Dynamically filled rows -->
+
+              <tr>
+                <td colspan="4">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>Finished Medicines (Qty = 0)</h2>
+        <!-- Table showing finished medicines (quantity zero) -->
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Batch</th>
+                <th>Expiry</th>
+                <th>Rack</th>
+              </tr>
+            </thead>
+
+            <tbody id="finished-stock-list">
+              <!-- Rows will be inserted dynamically -->
+
+              <tr>
+                <td colspan="4">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- Firebase SDK scripts for app, authentication, and realtime database -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <!-- Main JavaScript module for dashboard logic and data fetching -->
+    <script type="module" src="js/dashboard.js"></script>
+  </body>
+</html>

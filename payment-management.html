@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Set character encoding to UTF-8 -->
+    <meta charset="UTF-8" />
+    <!-- Make the page responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Page title shown on browser tab -->
+    <title>Payment Management - PMS</title>
+
+    <!-- Google Fonts: Poppins font family for styling text -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome CSS for using icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <!-- Custom CSS for sidebar navigation styles -->
+    <link rel="stylesheet" href="css/sidebar-navigation.css" />
+    <!-- Custom CSS specific for Payment Management page -->
+    <link rel="stylesheet" href="css/payment-management.css" />
+  </head>
+  <body>
+    <!-- Sidebar container for navigation -->
+    <div id="sidebar-container">
+      <!-- Button to toggle sidebar visibility (hamburger menu icon) -->
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar">
+        <i class="fas fa-bars"></i>
+        <!-- Hamburger icon -->
+      </button>
+      <!-- Sidebar navigation menu -->
+      <aside class="sidebar" id="sidebar">
+        <!-- Logo/title area -->
+        <div class="logo">PMS</div>
+        <!-- Navigation links to different pages of the system -->
+        <nav>
+          <!-- User Management page -->
+          <a href="admin.html"
+            ><i class="fas fa-users"></i
+            ><span style="color: white">Users</span></a
+          >
+          <!-- Pharmacy Details page -->
+          <a href="pharmacy-details.html"
+            ><i class="fas fa-clinic-medical"></i
+            ><span style="color: white">Pharmacy Details</span></a
+          >
+          <!-- Dashboard page -->
+          <a href="dashboard.html"
+            ><i class="fas fa-chart-line"></i
+            ><span style="color: white">Dashboard</span></a
+          >
+          <!-- Inventory page -->
+          <a href="inventory.html"
+            ><i class="fas fa-boxes"></i
+            ><span style="color: white">Inventory</span></a
+          >
+          <!-- Supplier Management page -->
+          <a href="supplier-management.html"
+            ><i class="fas fa-file-invoice"></i
+            ><span style="color: white">Suppliers</span></a
+          >
+          <!-- Billing page -->
+          <a href="billing.html"
+            ><i class="fas fa-shopping-cart"></i
+            ><span style="color: white">Billing</span></a
+          >
+          <!-- Current active page: Payment Management -->
+          <a href="payment-management.html" class="active"
+            ><i class="fas fa-money-bill-wave"></i
+            ><span style="color: white">Payments</span></a
+          >
+          <!-- Reports page -->
+          <a href="report.html"
+            ><i class="fas fa-chart-pie"></i
+            ><span style="color: white">Reports</span></a
+          >
+        </nav>
+        <!-- Shows the email of the logged-in user -->
+        <div class="user-info">
+          Logged in as:<br /><strong id="userEmail">Loading...</strong>
+        </div>
+        <!-- Logout button for user to sign out -->
+        <button class="logout-btn" id="logoutBtn">
+          <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+        </button>
+      </aside>
+    </div>
+
+    <!-- Main content of the page -->
+    <main>
+      <!-- Section showing a summary of all pending payments -->
+      <section class="pending-payments-summary">
+        <h2>Pending Payments</h2>
+        <ul>
+          <!-- Total unpaid amount across all customers -->
+          <li>Total Unpaid Amount: Rs. <span id="unpaid-total">0</span></li>
+          <!-- Number of customers who have pending payments -->
+          <li>Pending From: <span id="pending-count">0</span> Customers</li>
+        </ul>
+      </section>
+
+      <!-- Section for filtering the list of payments -->
+      <section class="filter-section">
+        <!-- Filter form with inputs to search and filter payments -->
+        <form
+          id="filterForm"
+          autocomplete="off"
+          aria-label="Filter payments form"
+        >
+          <!-- First row of filters -->
+          <div class="filter-row">
+            <!-- Search input to filter by customer name, phone, or sale ID -->
+            <input
+              type="search"
+              id="searchInput"
+              name="search"
+              placeholder="Search by customer name, phone, or sale ID"
+              aria-label="Search payments"
+            />
+            <!-- Dropdown to filter by customer type (retail or B2B) -->
+            <select
+              id="customerTypeFilter"
+              name="customerType"
+              aria-label="Filter by customer type"
+            >
+              <option value="">All Types</option>
+              <option value="retail">Retail</option>
+              <option value="b2b">B2B</option>
+            </select>
+            <!-- Input to filter payments with minimum amount left -->
+            <input
+              type="number"
+              id="minAmountFilter"
+              name="minAmount"
+              placeholder="Min Amount Left"
+              min="0"
+              step="0.01"
+              aria-label="Minimum payment left filter"
+            />
+            <!-- Input to filter payments with maximum amount left -->
+            <input
+              type="number"
+              id="maxAmountFilter"
+              name="maxAmount"
+              placeholder="Max Amount Left"
+              min="0"
+              step="0.01"
+              aria-label="Maximum payment left filter"
+            />
+          </div>
+          <!-- Second row of filters -->
+          <div class="filter-row">
+            <!-- Filter by start date -->
+            <label for="dateFromFilter">Date From:</label>
+            <input
+              type="date"
+              id="dateFromFilter"
+              name="dateFrom"
+              aria-label="Filter from date"
+            />
+            <!-- Filter by end date -->
+            <label for="dateToFilter">Date To:</label>
+            <input
+              type="date"
+              id="dateToFilter"
+              name="dateTo"
+              aria-label="Filter to date"
+            />
+            <!-- Submit button to apply filters -->
+            <button type="submit" class="btn-filter">Apply Filters</button>
+            <!-- Button to clear all filters -->
+            <button type="button" id="clearFiltersBtn" class="btn-clear">
+              Clear Filters
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Section to display the table of payments that are pending -->
+      <section>
+        <h2>Payments Pending</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Customer Name</th>
+                <th>Phone</th>
+                <th>Sale Date</th>
+                <th>Sale Type</th>
+                <th>Grand Total (Rs.)</th>
+                <th>Discount (Rs.)</th>
+                <th>Amount Paid (Rs.)</th>
+                <th>Amount Left (Rs.)</th>
+                <th>Sales ID</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <!-- Table body where payment rows will be dynamically inserted -->
+            <tbody id="payments-table-body">
+              <!-- Initial loading message before data loads -->
+              <tr>
+                <td colspan="10">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal dialog for updating payment information -->
+    <div
+      id="updatePaymentModal"
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="updatePaymentTitle"
+      aria-describedby="updatePaymentDesc"
+    >
+      <div class="modal-content">
+        <!-- Close button (×) for modal -->
+        <span
+          class="close-btn"
+          id="modalCloseBtn"
+          role="button"
+          aria-label="Close modal"
+          >&times;</span
+        >
+        <!-- Modal title -->
+        <h3 id="updatePaymentTitle">Update Payment</h3>
+        <!-- Form inside modal to update payment -->
+        <form id="update-payment-form">
+          <div class="form-group">
+            <!-- Label for amount paid input, maxAmountLabel will show max allowed -->
+            <label for="amountPaidInput"
+              >Amount Paid (Rs.) <span id="maxAmountLabel"></span
+            ></label>
+            <!-- Number input for entering payment amount -->
+            <input
+              type="number"
+              id="amountPaidInput"
+              name="amountPaid"
+              min="1"
+              required
+              step="0.01"
+              aria-describedby="maxAmountLabel"
+            />
+          </div>
+          <div class="form-group">
+            <!-- Optional textarea to enter description or notes -->
+            <label for="saleDescriptionInput"
+              >Sale Description (Optional)</label
+            >
+            <textarea
+              id="saleDescriptionInput"
+              name="saleDescription"
+              rows="3"
+              placeholder="Enter payment description or notes"
+            ></textarea>
+          </div>
+          <!-- Submit button to update payment -->
+          <button type="submit" class="btn-update">Update Payment</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Firebase SDKs for app initialization, authentication, and realtime database -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <!-- Main JavaScript file for Payment Management page (written as ES module) -->
+    <script type="module" src="js/payment-management.js"></script>
+  </body>
+</html>

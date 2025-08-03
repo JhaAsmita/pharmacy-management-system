@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!-- Declares the document type and version as HTML5 -->
+<html lang="en">
+  <!-- Start of the HTML document with language set to English -->
+
+  <head>
+    <!-- Metadata and page setup -->
+
+    <meta charset="UTF-8" />
+    <!-- Sets the character encoding to UTF-8 -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Ensures responsive design on different screen sizes -->
+
+    <title>PMS - Login</title>
+    <!-- Title of the webpage shown in browser tab -->
+
+    <!-- Fonts & Icons -->
+
+    <!-- Google Fonts: Poppins font with weights 300, 400, and 600 -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome: Provides icon fonts like user, lock, etc. -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <!-- External CSS file specifically for login page styling -->
+    <link rel="stylesheet" href="css/index-login.css" />
+  </head>
+
+  <body>
+    <!-- Main content of the login page -->
+
+    <div class="background-img"></div>
+    <!-- Decorative background image container (styled via CSS) -->
+
+    <div class="animated-shapes">
+      <!-- Container for animated shapes in the background -->
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
+    </div>
+
+    <div class="login-card">
+      <!-- Login card container -->
+
+      <h2>
+        <!-- Heading with icon and text -->
+        <i class="fas fa-prescription-bottle-alt"></i> PMS Login
+      </h2>
+
+      <!-- Login Form -->
+      <form id="loginForm">
+        <!-- Unique ID for form used in JavaScript -->
+
+        <!-- Email Input Group -->
+        <div class="input-group">
+          <!-- Group containing label, icon, and input field -->
+          <label for="username">Email</label>
+          <!-- Descriptive label for email input -->
+          <i class="fas fa-user"></i>
+          <!-- User icon (from Font Awesome) -->
+          <input
+            type="email"
+            id="username"
+            required
+            autocomplete="username"
+            placeholder="Enter your email"
+          />
+          <!-- Input field for email with validation and autocomplete -->
+        </div>
+
+        <!-- Password Input Group -->
+        <div class="input-group">
+          <label for="password">Password</label>
+          <i class="fas fa-lock"></i>
+          <input
+            type="password"
+            id="password"
+            required
+            autocomplete="current-password"
+            placeholder="Enter your password"
+          />
+          <!-- Input field for password with validation -->
+        </div>
+
+        <!-- Button Group -->
+        <div class="input-button-group">
+          <!-- Contains login and B2B register buttons -->
+
+          <button type="submit">Login</button>
+          <!-- Submits the form to trigger login -->
+
+          <button
+            type="button"
+            onclick="window.location.href='register-b2b.html'"
+          >
+            B2B REGISTER
+          </button>
+          <!-- Redirects to B2B registration page when clicked -->
+        </div>
+
+        <!-- Error Message Display -->
+        <p id="error-msg"></p>
+        <!-- Paragraph to show error messages dynamically via JavaScript -->
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      &copy; <span id="year"></span> Pharmacy Management System
+      <!-- Dynamic year insertion for copyright -->
+    </footer>
+
+    <!-- Firebase SDK Scripts -->
+    <!-- Required Firebase libraries for authentication and database -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <!-- Core Firebase library -->
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <!-- Firebase Authentication (for user login) -->
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <!-- Firebase Realtime Database (if needed for login data) -->
+
+    <!-- JavaScript Modules -->
+    <script type="module" src="js/auth.js"></script>
+    <!-- Custom module to handle authentication logic using Firebase -->
+
+    <script type="module" src="js/index-login.js"></script>
+    <!-- Custom module to handle form submission and user interaction on login page -->
+
+    <!-- Dynamic Year Script -->
+    <script>
+      // This script dynamically sets the current year in the footer
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

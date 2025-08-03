@@ -1,0 +1,443 @@
+/* ===== Theme & Base ===== */
+:root {
+  /* CSS variables for consistent theme colors, fonts, sizes */
+
+  --bg-color: #f6fbff; /* Main page background color */
+  --card-bg: rgba(255, 255, 255, 0.25); /* Card backgrounds with transparency */
+  --primary-color: #2d7bb1; /* Primary blue color */
+  --primary-color-dark: #1c5b87; /* Darker shade of primary color for hover, accents */
+  --text-color: #1f2d3d; /* Default text color */
+  --border-color: rgba(31, 45, 61, 0.15); /* Light border color */
+  --shadow-color: rgba(45, 123, 177, 0.2); /* Shadow color with transparency */
+  --glow: 0 0 12px rgba(45, 123, 177, 0.25); /* Glow effect used for text shadows */
+  --blur: blur(14px); /* Backdrop blur effect used in card backgrounds */
+  --font: "Poppins", sans-serif; /* Primary font family */
+  --sidebar-wide: 260px; /* Sidebar width when expanded */
+  --sidebar-narrow: 80px; /* Sidebar width when collapsed */
+}
+
+/* Box sizing applies border and padding inside element width/height */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Full height for html and body */
+html,
+body {
+  height: 100%;
+}
+
+/* Base body styling */
+body {
+  font-family: var(--font); /* Uses Poppins font */
+  background: linear-gradient(135deg, #ebf5fc, #dceefb, #f6fbff);
+  /* Gradient background for subtle light-blue effect */
+  color: var(--text-color);
+  margin: 0; /* Removes default margin */
+  display: flex; /* Allows sidebar + main layout */
+  min-width: 320px; /* Minimum width for responsive layout */
+}
+
+/* Main content area styling */
+main {
+  width: 100%; /* Full width minus sidebar */
+  padding: 1rem 1rem 2rem; /* Inner spacing */
+  background: var(--bg-color); /* Solid background */
+  min-height: 100vh; /* Full viewport height */
+}
+
+/* Desktop spacing when sidebar is visible and wide */
+@media (min-width: 1024px) {
+  main {
+    margin-left: var(--sidebar-wide); /* Space for sidebar */
+    padding: 2rem 3rem; /* Larger padding on desktop */
+  }
+}
+
+/* Tablet spacing when sidebar is collapsed (narrow) */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  main {
+    margin-left: var(--sidebar-narrow); /* Smaller sidebar width */
+    padding: 2rem; /* Moderate padding */
+  }
+}
+
+/* Section headers */
+h2 {
+  color: var(--primary-color-dark); /* Dark blue */
+  text-shadow: var(--glow); /* Glowing effect */
+  margin: 0 0 1rem; /* Bottom margin for spacing */
+  font-size: 1.35rem; /* Larger font size */
+}
+
+/* Smaller section headers */
+h3 {
+  margin: 0; /* Reset margin */
+  font-size: 1.05rem; /* Medium font size */
+}
+
+/* Sections (cards/panels) */
+section {
+  background: var(--card-bg); /* Semi-transparent white background */
+  backdrop-filter: var(--blur); /* Blur effect behind card */
+  border-radius: 18px; /* Rounded corners */
+  box-shadow: 0 8px 20px var(--shadow-color); /* Soft shadow */
+  margin: 0 0 1.25rem; /* Bottom spacing */
+  padding: 1rem; /* Inner spacing */
+}
+/* Increased padding and margin for larger screens */
+@media (min-width: 768px) {
+  section {
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+}
+@media (min-width: 1024px) {
+  section {
+    padding: 1.5rem 2rem;
+  }
+}
+
+/* Logout button styles */
+.logout-btn {
+  background: var(--primary-color); /* Blue background */
+  color: #fff; /* White text */
+  border: 0; /* No border */
+  border-radius: 10px; /* Rounded corners */
+  padding: 0.6rem 1rem; /* Padding */
+  font-weight: 600; /* Bold text */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0 0 10px rgba(45, 123, 177, 0.3); /* Shadow glow */
+  transition: all 0.2s ease; /* Smooth transitions */
+}
+/* Hover effect for logout button */
+.logout-btn:hover {
+  background: var(--primary-color-dark); /* Darker blue */
+  transform: translateY(-1px); /* Slight lift effect */
+}
+
+/* Form grid container for inputs */
+.form-grid {
+  display: grid; /* CSS grid layout */
+  gap: 0.75rem; /* Spacing between items */
+}
+/* On tablets and up, use 2 columns */
+@media (min-width: 768px) {
+  .form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Each form group: label + input stacked vertically */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* Labels */
+label {
+  font-weight: 600; /* Semi-bold */
+  color: var(--primary-color-dark);
+  font-size: 0.92rem;
+}
+
+/* Inputs, selects, textareas share styling */
+input,
+select,
+textarea {
+  width: 100%; /* Full width */
+  padding: 0.65rem 0.9rem; /* Inner padding */
+  border-radius: 10px; /* Rounded corners */
+  border: 1px solid var(--border-color); /* Light border */
+  background: #fff; /* White background */
+  font-size: 1rem;
+  outline: none; /* Remove default focus outline */
+}
+
+/* Focus style for inputs */
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary-color); /* Blue border */
+  box-shadow: 0 0 0 3px rgba(45, 123, 177, 0.15); /* Light blue glow */
+}
+
+/* Subsections for Doctors and Staff lists */
+.subsection {
+  margin-top: 1rem; /* Spacing above */
+}
+
+/* Header of subsection with title and add button aligned horizontally */
+.subsection-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+/* Container for rows inside subsections */
+.rows {
+  display: grid;
+  gap: 0.5rem; /* Spacing between rows */
+}
+
+/* Each row contains inputs and a delete button */
+.rows .row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto; /* Two inputs + delete button */
+  gap: 0.5rem;
+}
+
+/* Inputs in rows */
+.rows .row input {
+  width: 100%;
+}
+
+/* Delete button styling */
+.rows .row button {
+  background: #dc3545; /* Red background */
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 0 0.75rem;
+  cursor: pointer;
+}
+/* Delete button hover darkens red */
+.rows .row button:hover {
+  background: #c82333;
+}
+
+/* On small screens, stack row items vertically */
+@media (max-width: 640px) {
+  .rows .row {
+    grid-template-columns: 1fr; /* Single column */
+  }
+}
+
+/* Container for form action buttons */
+.form-actions {
+  margin-top: 0.75rem;
+  display: flex;
+  gap: 0.75rem; /* Spacing between buttons */
+}
+
+/* Primary buttons (e.g. Save) */
+button.primary {
+  background: var(--primary-color);
+  color: #fff;
+  border: 0;
+  border-radius: 12px;
+  padding: 0.75rem 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+/* Hover effect for primary buttons */
+button.primary:hover {
+  background: var(--primary-color-dark);
+  transform: translateY(-1px);
+}
+
+/* Ghost style buttons: transparent background with border */
+button.ghost {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  border-radius: 10px;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+}
+
+/* Delete and reject buttons styles */
+.delete-btn,
+.reject-btn {
+  background: #e53935; /* Bright red */
+  color: #fff;
+  border: 0;
+  border-radius: 10px;
+  padding: 0.55rem 0.9rem;
+  cursor: pointer;
+}
+/* Hover darkens red */
+.delete-btn:hover,
+.reject-btn:hover {
+  background: #b71c1c;
+}
+
+/* Approve button style */
+.approve-btn {
+  background: var(--primary-color);
+  color: #fff;
+  border: 0;
+  border-radius: 10px;
+  padding: 0.55rem 0.9rem;
+  cursor: pointer;
+}
+/* Approve button hover */
+.approve-btn:hover {
+  background: var(--primary-color-dark);
+}
+
+/* Header of the search/filter section */
+.section-header {
+  display: flex;
+  gap: 0.75rem; /* Spacing between items */
+  align-items: center;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+  justify-content: space-between;
+}
+
+/* Search input styling */
+#pharmacySearchInput {
+  padding: 0.6rem 1rem;
+  width: 280px;
+  max-width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.95); /* Almost solid white */
+  color: #000; /* Black text for readability */
+  font-size: 1rem;
+  outline: none;
+}
+
+/* Container holding split cards for requests and approved */
+.cards-split {
+  display: grid;
+  gap: 1rem;
+}
+/* Two-column layout on large screens */
+@media (min-width: 1024px) {
+  .cards-split {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Group titles for card sections */
+.group-title {
+  color: var(--primary-color);
+  margin: 0.25rem 0 0.5rem;
+  padding: 2rem;
+  border-bottom: 2px solid var(--primary-color-dark);
+}
+
+/* Cards container */
+.cards-section {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem; /* Spacing between cards */
+}
+
+/* Collapsible card styles for requests/approved items */
+.collapsible-card {
+  overflow: hidden; /* Hide content beyond max-height */
+  max-height: 58px; /* Collapsed height */
+  cursor: pointer; /* Pointer on hover */
+  transition: max-height 0.35s ease, box-shadow 0.25s ease;
+  position: relative;
+  background: var(--card-bg); /* Transparent card background */
+  backdrop-filter: var(--blur); /* Blur behind card */
+  border-radius: 16px;
+  padding: 1rem 1rem;
+  box-shadow: 0 8px 20px var(--shadow-color);
+  color: var(--primary-color);
+}
+/* Expanded card grows to show full content */
+.collapsible-card.expanded {
+  max-height: 520px;
+}
+/* Hover shadow for cards */
+.collapsible-card:hover {
+  box-shadow: 0 12px 24px var(--shadow-color);
+}
+/* Card header */
+.collapsible-card h3 {
+  margin: 0 0 0.35rem;
+}
+/* Card content hidden by default */
+.card-content {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none; /* Disable interaction when hidden */
+  color: #414141;
+}
+/* Show content when card expanded */
+.collapsible-card.expanded .card-content {
+  opacity: 1;
+  pointer-events: auto; /* Enable interaction */
+  margin-top: 0.25rem;
+}
+
+/* Container for card action buttons */
+.card-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+/* Small circular button ("chip") used for add doctor/staff */
+.chip-btn {
+  border: 1px solid var(--border-color);
+  background: #fff;
+  color: var(--primary-color-dark);
+  border-radius: 999px; /* Fully rounded */
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+/* Hover effect for chip button */
+.chip-btn:hover {
+  background: #f2f7fb; /* Slightly lighter background */
+}
+
+/* ===== Modal System ===== */
+
+/* Modal backdrop dims the page when modal open */
+.modal-backdrop {
+  position: fixed;
+  inset: 0; /* Full viewport */
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  z-index: 1000; /* Above everything except modals */
+}
+
+/* Modal container styling */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* Center modal via translate */
+  transform: translate(-50%, -50%);
+  background: #fff; /* White background */
+  border-radius: 12px;
+  padding: 1.2rem;
+  width: 90%;
+  max-width: 480px; /* Max width for readability */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25); /* Drop shadow */
+  z-index: 1001; /* Above backdrop */
+}
+
+/* Modal content headings */
+.modal-content h3 {
+  margin: 0 0 0.5rem;
+  color: var(--primary-color-dark);
+}
+
+/* Modal paragraphs */
+.modal-content p {
+  margin: 0.5rem 0 1rem;
+}
+
+/* Modal action buttons container */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end; /* Right aligned */
+  gap: 0.6rem; /* Space between buttons */
+}
+
+/* Utility class to hide elements */
+.hidden {
+  display: none !important;
+}

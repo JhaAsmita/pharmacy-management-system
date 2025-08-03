@@ -1,0 +1,256 @@
+:root {
+  /* Define CSS variables for consistent use across the stylesheet */
+  --primary: #2d7bb1; /* Main accent blue color */
+  --secondary: #2db192; /* Secondary greenish-blue color */
+  --primary-dark: #1c5b87; /* Darker version of primary for hover states */
+  --text-color: #1f2d3d; /* General text color (dark gray) */
+  --glass-bg: rgba(255, 255, 255, 0.2); /* Background for glass effect */
+  --glass-border: rgba(255, 255, 255, 0.3); /* Border color for glass effect */
+  --blur: blur(18px); /* Amount of background blur for glass effect */
+  --glow: 0 0 18px rgba(45, 123, 177, 0.25); /* Glow effect for hover/shadow */
+  --font: "Poppins", sans-serif; /* Font used across the page */
+}
+
+* {
+  /* Apply global reset to remove default spacing and apply box sizing */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font); /* Set global font */
+}
+
+body {
+  /* Overall styling for the page background and alignment */
+  background: linear-gradient(
+    to bottom right,
+    #eaf6ff,
+    #dceefb
+  ); /* Light gradient background */
+  min-height: 100vh; /* Full viewport height */
+  display: flex; /* Flex to center login card */
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Prevent scrollbars */
+  position: relative;
+  color: var(--text-color); /* Set default text color */
+}
+
+/* Background Image Layer */
+.background-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  /* background: url(...) ... */
+  /* Image is commented out – replace with your image path */
+
+  opacity: 0.5; /* Slightly see-through for layering effect */
+  z-index: -2; /* Places behind all other content */
+}
+
+/* Floating Animated Shapes */
+.animated-shapes {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Behind content, above background */
+}
+
+.shape {
+  /* Shared styles for each floating shape */
+  position: absolute;
+  background: rgba(45, 123, 177, 0.2); /* Light blue transparent circle */
+  border-radius: 50%; /* Make it circular */
+  filter: blur(16px); /* Soft glow look */
+  animation: float 16s linear infinite; /* Floating animation */
+}
+
+/* Shape Positions & Delays */
+.shape:nth-child(1) {
+  width: 140px;
+  height: 140px;
+  left: 10%;
+  top: 80%;
+}
+
+.shape:nth-child(2) {
+  width: 100px;
+  height: 100px;
+  left: 70%;
+  top: 90%;
+  animation-delay: 4s;
+}
+
+.shape:nth-child(3) {
+  width: 80px;
+  height: 80px;
+  left: 80%;
+  top: 10%;
+  animation-delay: 2s;
+}
+
+/* Floating animation keyframes */
+@keyframes float {
+  0% {
+    transform: translateY(0) scale(0.9);
+  }
+  50% {
+    transform: translateY(-60px) scale(1.05);
+  }
+  100% {
+    transform: translateY(0) scale(0.9);
+  }
+}
+
+/* Login Card Styling */
+.login-card {
+  width: 400px;
+  padding: 40px;
+  background: var(--glass-bg); /* Transparent glass background */
+  backdrop-filter: var(--blur); /* Blur effect */
+  border: 1px solid var(--glass-border); /* Light border to define card edge */
+  border-radius: 20px; /* Rounded corners */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  animation: fadeIn 0.8s ease-in-out; /* Entry animation */
+}
+
+/* Animation for login card appearance */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px); /* Starts slightly below */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Moves into view */
+  }
+}
+
+/* Header inside login card */
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--primary-dark); /* Dark blue for contrast */
+  font-size: 1.8rem;
+}
+
+.login-card h2 i {
+  margin-right: 10px; /* Space between icon and text */
+}
+
+/* Input field container */
+.input-group {
+  margin-bottom: 20px;
+  position: relative; /* Needed for positioning icon inside */
+}
+
+/* Label above input */
+.input-group label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* Input field styles */
+.input-group input {
+  width: 100%;
+  padding: 12px 14px 12px 42px; /* Left padding for icon */
+  border: 1px solid rgba(255, 255, 255, 0.4); /* Light border */
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.15); /* Slightly transparent background */
+  color: var(--text-color);
+  backdrop-filter: var(--blur); /* Blur for glass effect */
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+/* Input focus effect */
+.input-group input:focus {
+  border-color: var(--primary); /* Highlight border */
+  box-shadow: 0 0 12px rgba(45, 123, 177, 0.3); /* Glow effect */
+  outline: none;
+}
+
+/* Icon inside input field */
+.input-group i {
+  position: absolute;
+  top: 38px;
+  left: 12px;
+  color: #555;
+}
+
+/* Group of buttons */
+.input-button-group {
+  display: flex;
+  flex-direction: row;
+  gap: 10px; /* Space between buttons */
+}
+
+/* Login Button */
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--primary);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(45, 123, 177, 0.3);
+  transition: 0.3s;
+}
+
+/* B2B Register Button – same styling as submit */
+button[type="button"] {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background-color: var(--primary);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(45, 123, 177, 0.3);
+  transition: 0.3s;
+}
+
+/* Hover effects for both buttons */
+button[type="submit"]:hover,
+button[type="button"]:hover {
+  background-color: var(--primary-dark); /* Darker blue on hover */
+  box-shadow: 0 0 22px rgba(45, 123, 177, 0.5);
+  transform: translateY(-2px); /* Slight lift */
+}
+
+/* Error message styling */
+#error-msg {
+  color: #e53935; /* Red color for error text */
+  margin-top: 15px;
+  background-color: rgba(229, 57, 53, 0.1); /* Light red background */
+  padding: 10px;
+  border-radius: 6px;
+  display: none; /* Hidden by default, shown by JS */
+  text-align: center;
+}
+
+/* Footer styling */
+footer {
+  position: absolute;
+  bottom: 20px;
+  text-align: center;
+  color: #444;
+  font-size: 12px;
+  width: 100%;
+}
+
+/* Responsive design for mobile screens */
+@media (max-width: 480px) {
+  .login-card {
+    width: 90%;
+    padding: 30px 20px;
+  }
+}

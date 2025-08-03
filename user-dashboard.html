@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Dashboard - PMS</title>
+
+    <!-- Fonts & Icons -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <!-- Theme & Layout CSS -->
+    <link rel="stylesheet" href="css/sidebar-navigation.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div id="sidebar-container">
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar">
+        <i class="fas fa-bars"></i>
+      </button>
+      <aside class="sidebar" id="sidebar">
+        <div class="logo">PMS</div>
+        <nav>
+          <a href="user-dashboard.html" class="active"
+            ><i class="fas fa-chart-line"></i
+            ><span style="color: white">Dashboard</span></a
+          >
+          <a href="user-inventory.html"
+            ><i class="fas fa-boxes"></i
+            ><span style="color: white">Inventory</span></a
+          >
+          <a href="billing.html"
+            ><i class="fas fa-shopping-cart"></i
+            ><span style="color: white">Billing</span></a
+          >
+          <a href="user-payment-management.html"
+            ><i class="fas fa-money-bill-wave"></i
+            ><span style="color: white">Payments</span></a
+          >
+        </nav>
+        <div class="user-info">
+          Logged in as:<br /><strong id="userEmail">Loading...</strong>
+        </div>
+        <button class="logout-btn" id="logoutBtn">
+          <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+        </button>
+      </aside>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+      <!-- User Info -->
+      <section class="user-info">
+        <h3>Welcome, <span id="user-name">Loading...</span></h3>
+        <p>Email: <span id="user-email">Loading...</span></p>
+        <p>Role: <span id="user-role">Loading...</span></p>
+      </section>
+
+      <!-- Summary Overview -->
+      <section>
+        <h2>Overview Summary</h2>
+        <ul>
+          <li>Total Medicines: <span id="total-medicines">0</span></li>
+          <li>Finished Products (Qty=0): <span id="finished-stock">0</span></li>
+          <li>Low Stock (&lt;10): <span id="low-stock-count">0</span></li>
+        </ul>
+      </section>
+
+      <!-- Low Stock Medicines Table -->
+      <section>
+        <h2>Low Stock Medicines (&lt;10)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Batch</th>
+              <th>Quantity</th>
+              <th>Rack</th>
+            </tr>
+          </thead>
+          <tbody id="low-stock-list">
+            <tr>
+              <td colspan="4">Loading...</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Finished Medicines Table -->
+      <section>
+        <h2>Finished Medicines (Qty = 0)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Batch</th>
+              <th>Expiry</th>
+              <th>Rack</th>
+            </tr>
+          </thead>
+          <tbody id="finished-stock-list">
+            <tr>
+              <td colspan="4">Loading...</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <!-- Main Dashboard Logic -->
+    <script type="module" src="js/user-dashboard.js"></script>
+  </body>
+</html>

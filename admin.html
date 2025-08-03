@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<!-- Declares this document as HTML5 -->
+
+<html lang="en">
+  <!-- Sets the language of the document to English -->
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Sets character encoding to UTF-8 to support most characters -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Ensures proper scaling/responsiveness on all screen sizes -->
+
+    <title>Admin - User Management</title>
+    <!-- Sets the title shown on the browser tab -->
+
+    <!-- Google Fonts: Loads the 'Poppins' font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome Icons for icons (menu, logout, etc.) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <!-- Custom stylesheets for sidebar and admin layout -->
+    <link rel="stylesheet" href="css/sidebar-navigation.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+  </head>
+
+  <body>
+    <!-- Sidebar container -->
+    <div id="sidebar-container">
+      <!-- Toggle button for sidebar -->
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar">
+        <i class="fas fa-bars"></i>
+        <!-- "hamburger" icon -->
+      </button>
+
+      <!-- Sidebar navigation area -->
+      <aside class="sidebar" id="sidebar">
+        <!-- App logo or short name -->
+        <div class="logo">PMS</div>
+
+        <!-- Navigation links -->
+        <nav>
+          <!-- Each link has an icon and label -->
+          <a href="admin.html" class="active">
+            <i class="fas fa-users"></i>
+            <span style="color: white">Users</span>
+          </a>
+          <a href="pharmacy-details.html">
+            <i class="fas fa-clinic-medical"></i>
+            <span style="color: white">Pharmacy Details</span>
+          </a>
+          <a href="dashboard.html">
+            <i class="fas fa-chart-line"></i>
+            <span style="color: white">Dashboard</span>
+          </a>
+          <a href="inventory.html">
+            <i class="fas fa-boxes"></i>
+            <span style="color: white">Inventory</span>
+          </a>
+          <a href="supplier-management.html">
+            <i class="fas fa-file-invoice"></i>
+            <span style="color: white">Suppliers</span>
+          </a>
+          <a href="billing.html">
+            <i class="fas fa-shopping-cart"></i>
+            <span style="color: white">Billing</span>
+          </a>
+          <a href="payment-management.html">
+            <i class="fas fa-money-bill-wave"></i>
+            <span style="color: white">Payments</span>
+          </a>
+          <a href="report.html">
+            <i class="fas fa-chart-pie"></i>
+            <span style="color: white">Reports</span>
+          </a>
+        </nav>
+
+        <!-- Shows logged-in user's email -->
+        <div class="user-info">
+          Logged in as:<br />
+          <strong id="userEmail">Loading...</strong>
+        </div>
+
+        <!-- Logout button -->
+        <button class="logout-btn" id="logoutBtn">
+          <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+        </button>
+      </aside>
+    </div>
+
+    <!-- Main content area -->
+    <main role="main">
+      <!-- Admin email display and logout (used on smaller screens) -->
+      <section class="user-info" style="display: none">
+        <h3>Admin: <span id="admin-email">Loading...</span></h3>
+        <button class="logout-btn" id="logout-btn">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </section>
+
+      <!-- Add Staff User Form -->
+      <section>
+        <h2>Add Staff User</h2>
+        <form id="addUserForm" class="form-grid">
+          <!-- Email input -->
+          <div class="form-group">
+            <label for="newEmail">Email</label>
+            <input type="email" id="newEmail" required />
+          </div>
+
+          <!-- Password input -->
+          <div class="form-group">
+            <label for="newPassword">Password</label>
+            <input type="password" id="newPassword" required />
+          </div>
+
+          <!-- Role dropdown -->
+          <div class="form-group">
+            <label for="newRole">Role</label>
+            <select id="newRole" required>
+              <option value="user">Staff</option>
+            </select>
+          </div>
+
+          <!-- Submit button -->
+          <div class="form-actions">
+            <button type="submit" class="primary">
+              <i class="fas fa-user-plus"></i> Add
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Staff Members Table -->
+      <section>
+        <h2>Staff Members</h2>
+        <div class="table-responsive">
+          <table id="staffTable">
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="usersList">
+              <!-- This content will be replaced by JavaScript -->
+              <tr>
+                <td colspan="3">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Unauthorized message section -->
+      <section>
+        <div
+          id="noAuthorityMessage"
+          style="color: red; font-weight: 600; display: none"
+        ></div>
+      </section>
+    </main>
+
+    <!-- MODALS for Info and Confirmation -->
+    <div id="modal-backdrop" class="modal-backdrop hidden"></div>
+
+    <!-- Info Modal -->
+    <div id="info-modal" class="modal hidden">
+      <div class="modal-content">
+        <h3 id="info-modal-title">Message</h3>
+        <p id="info-modal-body"></p>
+        <button id="info-modal-close" class="primary">OK</button>
+      </div>
+    </div>
+
+    <!-- Confirm Modal (for delete actions) -->
+    <div id="confirm-modal" class="modal hidden">
+      <div class="modal-content">
+        <h3 id="confirm-modal-title">Confirm</h3>
+        <p id="confirm-modal-body"></p>
+        <div class="modal-actions">
+          <button id="confirm-no" class="delete-btn">Cancel</button>
+          <button id="confirm-yes" class="primary">Yes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Firebase SDK Scripts (core, auth, database) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <!-- Custom JS Modules (in load order) -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <!-- Contains Firebase config and initialization -->
+
+    <script type="module" src="js/auth.js"></script>
+    <!-- Handles auth functions like login/logout -->
+
+    <script type="module" src="js/auth-handler.js"></script>
+    <!-- Checks user state, redirects based on role -->
+
+    <script type="module" src="js/admin-sidebar-navigation.js"></script>
+    <!-- Sidebar toggle logic -->
+
+    <script type="module" src="js/admin.js"></script>
+    <!-- Admin page logic: add user, render staff list, modals -->
+  </body>
+</html>

@@ -1,0 +1,890 @@
+/* Advanced CSS for Payment Management Page - Themed with Admin.css and Desktop Optimized */
+
+/* --- Variables (Consistent & Refined) --- */
+:root {
+  /* Admin.css Core Theme Variables */
+  --admin-bg-color: #f6fbff; /* Light background color used throughout admin pages */
+  --admin-card-bg: rgba(
+    255,
+    255,
+    255,
+    0.25
+  ); /* Semi-transparent white for card backgrounds (frosted glass look) */
+  --admin-primary-color: #2d7bb1; /* Main brand blue color */
+  --admin-primary-color-dark: #1c5b87; /* Darker shade of the primary blue, used for hover and headings */
+  --admin-text-color: #1f2d3d; /* Default dark text color */
+  --admin-border-color: rgba(
+    31,
+    45,
+    61,
+    0.15
+  ); /* Light semi-transparent border color */
+  --admin-shadow-color: rgba(
+    45,
+    123,
+    177,
+    0.2
+  ); /* Soft shadow color based on primary blue */
+  --admin-glow: 0 0 12px rgba(45, 123, 177, 0.25); /* Subtle glow effect for headings or highlights */
+  --admin-blur: blur(14px); /* Blur effect for frosted glass backgrounds */
+  --admin-font: "Poppins", sans-serif; /* Primary font used in admin interface */
+
+  /* Payment Management Specific Variables - Derived from Admin Theme */
+  --bg-color-light: var(
+    --admin-bg-color
+  ); /* Light background color from admin theme */
+  --bg-color-gradient: linear-gradient(
+    135deg,
+    #ebf5fc,
+    #dceefb,
+    #f6fbff
+  ); /* Soft blue gradient used as main page background */
+  --card-bg-transparent: var(
+    --admin-card-bg
+  ); /* Card background with glassmorphism effect */
+  --primary-color: var(--admin-primary-color); /* Primary blue reused */
+  --primary-dark: var(
+    --admin-primary-color-dark
+  ); /* Dark primary blue reused */
+  --secondary-color: #6c757d; /* Neutral gray used for secondary buttons (clear/cancel) */
+  --text-color-dark: var(--admin-text-color); /* Dark text reused */
+  --text-color-light: rgba(
+    31,
+    45,
+    61,
+    0.7
+  ); /* Slightly transparent text color for less emphasis */
+  --border-color-light: var(--admin-border-color); /* Border color reused */
+  --shadow-soft: 0 8px 20px var(--admin-shadow-color); /* Soft shadow with moderate spread */
+  --shadow-hover: 0 12px 30px rgba(45, 123, 177, 0.35); /* Deeper shadow on hover states */
+  --glow-subtle: var(--admin-glow); /* Glow effect reused */
+  --blur-effect: var(--admin-blur); /* Blur effect reused */
+  --font-family: var(--admin-font); /* Font family reused */
+
+  /* Border radius sizes matching admin theme */
+  --border-radius-large: 18px; /* For containers and cards */
+  --border-radius-medium: 12px; /* For buttons */
+  --border-radius-small: 10px; /* For inputs and smaller buttons */
+
+  /* Transition speed used for smooth animations */
+  --transition-speed: 0.3s ease-out;
+
+  /* NEW: Desktop-specific scaling variables for compact and neat layout */
+  --desktop-main-padding: 2rem; /* Padding around main content, smaller than mobile */
+  --desktop-section-padding: 1.5rem 2rem; /* Padding inside sections */
+  --desktop-section-gap: 1.8rem; /* Space between main page sections */
+  --desktop-h2-font-size: 1.6rem; /* Slightly smaller main headings */
+  --desktop-summary-item-padding: 0.8rem 1.2rem; /* Padding inside summary items */
+  --desktop-summary-item-font-size: 0.95rem; /* Font size for summary item text */
+  --desktop-summary-span-font-size: 1.05rem; /* Font size for summary item values */
+  --desktop-form-label-font-size: 0.85rem; /* Smaller font size for form labels */
+  --desktop-input-padding: 0.7rem 0.9rem; /* Padding inside form inputs/selects */
+  --desktop-input-font-size: 0.88rem; /* Smaller font for input text */
+  --desktop-button-padding: 0.7rem 1.4rem; /* Button padding for desktop */
+  --desktop-button-font-size: 0.88rem; /* Smaller button text */
+  --desktop-table-padding: 0.6rem 0.8rem; /* Padding inside table cells */
+  --desktop-table-font-size: 0.82rem; /* Smaller table font size */
+  --desktop-filter-grid-gap: 1.2rem; /* Gap between filter form fields */
+  --desktop-modal-padding: 2rem 2.5rem; /* Padding inside modals */
+  --desktop-modal-h3-font-size: 1.5rem; /* Modal heading font size */
+  --desktop-modal-input-padding: 0.7rem 0.9rem; /* Padding in modal inputs */
+  --desktop-modal-input-font-size: 0.88rem; /* Font size in modal inputs */
+}
+
+/* --- Global Body Styles --- */
+body {
+  margin: 0; /* Remove default margin */
+  font-family: var(--font-family); /* Set font from theme */
+  background: var(--bg-color-gradient); /* Set soft gradient background */
+  color: var(--text-color-dark); /* Default text color */
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  min-height: 100vh; /* Ensure full viewport height */
+  line-height: 1.6; /* Comfortable line spacing */
+  display: flex; /* Layout with sidebar + main content side by side */
+}
+
+/* --- Main content area styling --- */
+main {
+  margin-left: 260px; /* Leave space for sidebar (260px wide) */
+  padding: var(--desktop-main-padding); /* Padding around content */
+  min-height: 100vh; /* Full viewport height */
+  background: var(
+    --bg-color-light
+  ); /* Solid background to separate from body */
+  box-shadow: 0 8px 20px var(--admin-shadow-color); /* Soft shadow for depth */
+  border-radius: var(--border-radius-large); /* Rounded corners for main area */
+  max-width: calc(
+    100% - 280px
+  ); /* Max width to prevent overflow beside sidebar */
+  transition: margin-left var(--transition-speed),
+    max-width var(--transition-speed); /* Smooth adjustment when sidebar toggles */
+  box-sizing: border-box; /* Include padding/border in width */
+  flex: 1; /* Fill remaining space */
+  display: flex;
+  flex-direction: column; /* Stack child sections vertically */
+  gap: var(--desktop-section-gap); /* Space between sections */
+}
+
+/* Adjust main content margin and width when sidebar is collapsed */
+body.sidebar-collapsed main {
+  margin-left: 80px; /* Sidebar shrinks, so main content moves left */
+  max-width: calc(100% - 100px); /* Expand main content width */
+}
+
+/* --- Headings --- */
+h2 {
+  font-size: var(--desktop-h2-font-size); /* Smaller font size for desktop */
+  color: var(--primary-dark); /* Dark primary color */
+  text-shadow: var(--glow-subtle); /* Subtle glowing text effect */
+  margin-bottom: 1rem; /* Space below heading */
+  font-weight: 600; /* Semi-bold */
+}
+
+/* --- Pending Payments Summary Container --- */
+.pending-payments-summary {
+  background: var(
+    --card-bg-transparent
+  ); /* Semi-transparent card with frosted glass */
+  backdrop-filter: var(--blur-effect); /* Blur background behind */
+  border: 1px solid var(--border-color-light); /* Light border around card */
+  border-radius: var(--border-radius-large); /* Rounded corners */
+  padding: var(--desktop-section-padding); /* Inner spacing */
+  box-shadow: var(--shadow-soft); /* Soft shadow for card */
+  transition: box-shadow var(--transition-speed); /* Smooth shadow on hover */
+}
+
+/* Slightly intensify shadow when hovering over the summary card */
+.pending-payments-summary:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+/* Reset margin-top to zero for h2 inside summary section */
+.pending-payments-summary h2 {
+  margin-top: 0;
+}
+
+/* List inside the pending payments summary */
+.pending-payments-summary ul {
+  list-style: none; /* Remove default bullet points */
+  padding: 0; /* Remove default padding */
+  display: flex; /* Arrange list items horizontally */
+  flex-wrap: wrap; /* Allow wrapping to next line on narrow widths */
+  gap: 1rem; /* Space between list items */
+  font-weight: 500; /* Medium font weight */
+  font-size: var(--desktop-summary-item-font-size); /* Smaller font size */
+  color: var(--text-color-dark); /* Text color */
+}
+
+/* Each list item styling */
+.pending-payments-summary ul li {
+  flex: 1 1 200px; /* Flexible base width for responsive layout */
+  background: rgba(45, 123, 177, 0.08); /* Light blue background */
+  padding: var(--desktop-summary-item-padding); /* Inner spacing */
+  border-radius: var(--border-radius-medium); /* Rounded corners */
+  text-align: center; /* Center text horizontally */
+  box-shadow: inset 0 0 6px rgba(45, 123, 177, 0.06); /* Soft inner glow */
+  transition: background var(--transition-speed); /* Smooth color change */
+  border: 1px solid rgba(45, 123, 177, 0.15); /* Light border */
+}
+
+/* Darken background on hover to indicate interactivity */
+.pending-payments-summary ul li:hover {
+  background: rgba(45, 123, 177, 0.15);
+}
+
+/* Span inside list items to highlight important values */
+.pending-payments-summary span {
+  font-weight: 600; /* Bold */
+  color: var(--primary-dark); /* Dark primary color */
+  font-size: var(--desktop-summary-span-font-size); /* Slightly bigger font */
+}
+
+/* --- Filter Section --- */
+.filter-section {
+  background: var(--card-bg-transparent); /* Semi-transparent background */
+  backdrop-filter: var(--blur-effect); /* Frosted glass blur */
+  border: 1px solid var(--border-color-light); /* Light border */
+  border-radius: var(--border-radius-large); /* Rounded corners */
+  padding: var(--desktop-section-padding); /* Inner padding */
+  box-shadow: var(--shadow-soft); /* Soft drop shadow */
+  transition: box-shadow var(--transition-speed); /* Smooth shadow changes */
+  margin-bottom: var(
+    --desktop-section-gap
+  ); /* Bottom margin consistent with section gap */
+}
+
+/* Intensify shadow on hover */
+.filter-section:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+/* Each filter row uses CSS Grid for layout */
+.filter-row {
+  display: grid; /* Grid layout */
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  /* Automatically fit as many columns as possible, minimum 180px wide */
+  gap: var(--desktop-filter-grid-gap); /* Space between grid items */
+  margin-bottom: 1rem; /* Space below each filter row */
+  align-items: flex-end; /* Align inputs and labels to the bottom for neatness */
+}
+
+/* Remove bottom margin for last filter row */
+.filter-row:last-child {
+  margin-bottom: 0;
+}
+
+/* Grouping label and input/select vertically */
+.filter-row .form-group {
+  display: flex;
+  flex-direction: column; /* Stack label on top of input */
+  gap: 0.3rem; /* Small gap between label and input */
+}
+
+/* Style for labels inside filter rows */
+.filter-row label {
+  color: var(--primary-dark); /* Dark primary color */
+  font-weight: 500; /* Medium weight */
+  margin-right: 0.2rem; /* Slight right margin */
+  white-space: nowrap; /* Prevent label breaking */
+  font-size: var(--desktop-form-label-font-size); /* Smaller font size */
+}
+
+/* Common styles for filter inputs and selects */
+.filter-row input[type="search"],
+.filter-row input[type="number"],
+.filter-row input[type="date"],
+.filter-row select {
+  padding: var(--desktop-input-padding); /* Inner spacing */
+  border-radius: var(--border-radius-small); /* Rounded corners */
+  border: 1px solid var(--admin-border-color); /* Light border */
+  background: white; /* White background */
+  color: var(--text-color-dark); /* Text color */
+  font-size: var(--desktop-input-font-size); /* Smaller font size */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08); /* Slight inner shadow */
+  transition: border-color var(--transition-speed),
+    box-shadow var(--transition-speed); /* Smooth focus */
+  box-sizing: border-box; /* Include padding and border in width */
+  width: 100%; /* Fill grid column width */
+}
+
+/* Focus state styles for inputs/selects */
+.filter-row input:focus,
+.filter-row select:focus {
+  outline: none; /* Remove default outline */
+  border-color: var(--primary-color); /* Blue border on focus */
+  box-shadow: 0 0 0 3px rgba(45, 123, 177, 0.2),
+    inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Blue glow + subtle inner shadow */
+}
+
+/* Style for select dropdown arrows */
+.filter-row select {
+  appearance: none; /* Remove default arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  /* Custom SVG arrow as background image */
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%231a4f73" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat; /* Do not repeat arrow */
+  background-position: right 0.7rem center; /* Position arrow on right */
+  background-size: 1.1em; /* Size of arrow */
+  padding-right: 2.2rem; /* Right padding for arrow space */
+}
+
+/* Container for filter buttons (Apply & Clear) */
+.filter-buttons {
+  grid-column: span 2; /* Make buttons span two grid columns */
+  display: flex; /* Arrange buttons horizontally */
+  gap: 1rem; /* Space between buttons */
+  margin-top: 0.5rem; /* Top margin */
+}
+
+/* Styles for filter buttons */
+.btn-filter,
+.btn-clear {
+  padding: var(--desktop-button-padding); /* Inner spacing */
+  border-radius: var(--border-radius-medium); /* Rounded corners */
+  border: none; /* Remove default border */
+  font-weight: 600; /* Bold text */
+  font-size: var(--desktop-button-font-size); /* Smaller font */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0 4px 8px var(--admin-shadow-color); /* Soft drop shadow */
+  transition: background-color var(--transition-speed), transform 0.2s ease-out,
+    box-shadow var(--transition-speed); /* Smooth hover effects */
+  flex: 1; /* Allow buttons to fill space evenly */
+  white-space: nowrap; /* Prevent text wrapping */
+}
+
+/* Primary Apply Filters button styling */
+.btn-filter {
+  background-color: var(--primary-color); /* Blue background */
+  color: white; /* White text */
+}
+
+/* Hover effect for Apply Filters button */
+.btn-filter:hover {
+  background-color: var(--primary-dark); /* Darker blue */
+  transform: translateY(-1px); /* Slight raise */
+  box-shadow: 0 6px 14px rgba(45, 123, 177, 0.3); /* Deeper shadow */
+}
+
+/* Secondary Clear Filters button styling */
+.btn-clear {
+  background-color: var(--secondary-color); /* Gray background */
+  color: white; /* White text */
+}
+
+/* Hover effect for Clear Filters button */
+.btn-clear:hover {
+  background-color: #5a6268; /* Darker gray */
+  transform: translateY(-1px); /* Slight raise */
+  box-shadow: 0 6px 14px rgba(45, 123, 177, 0.3);
+}
+
+/* --- Payments Table Section --- */
+
+/* Section headings */
+section h2 {
+  margin-top: 0; /* Remove default top margin */
+}
+
+/* Wrapper for table to allow styling and scrolling */
+.table-wrapper {
+  background: var(--card-bg-transparent); /* Semi-transparent background */
+  backdrop-filter: var(--blur-effect); /* Frosted glass blur */
+  border: 1px solid var(--border-color-light); /* Light border */
+  border-radius: var(--border-radius-large); /* Rounded corners */
+  box-shadow: var(--shadow-soft); /* Soft shadow for container */
+  overflow: hidden; /* Prevent overflow */
+  transition: box-shadow var(--transition-speed); /* Smooth shadow on hover */
+  padding: 0 0 10px; /* Bottom padding for possible scrollbar */
+}
+
+/* Intensify shadow on hover */
+.table-wrapper:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+/* Table styles */
+table {
+  width: 100%; /* Full width */
+  border-collapse: collapse; /* Remove space between cells */
+  margin-top: 0.8rem; /* Space above table */
+  table-layout: fixed; /* Fixed column widths for better layout */
+  font-size: var(--desktop-table-font-size); /* Smaller font */
+}
+
+/* Table header and data cell styles */
+table th,
+table td {
+  padding: var(--desktop-table-padding); /* Padding inside cells */
+  border-bottom: 1px solid var(--admin-border-color); /* Border below rows */
+  text-align: left; /* Left-align text */
+  color: var(--text-color-dark); /* Text color */
+  white-space: normal; /* Allow wrapping inside cells */
+  word-break: break-word; /* Break long words to avoid overflow */
+}
+
+/* --- Column specific widths for better layout on desktop/tablet (10 columns) --- */
+/* These widths ensure each column takes a consistent portion of the table width,
+   making the table easier to read and keeping button/action columns wider */
+
+table th:nth-child(1),
+table td:nth-child(1) {
+  width: 13%;
+} /* Customer Name column given slightly wider width to accommodate longer names */
+
+table th:nth-child(2),
+table td:nth-child(2) {
+  width: 10%;
+} /* Phone column width */
+
+table th:nth-child(3),
+table td:nth-child(3) {
+  width: 10%;
+} /* Sale Date column width */
+
+table th:nth-child(4),
+table td:nth-child(4) {
+  width: 8%;
+} /* Sale Type column narrower as values are short */
+
+table th:nth-child(5),
+table td:nth-child(5) {
+  width: 10%;
+} /* Grand Total column width */
+
+table th:nth-child(6),
+table td:nth-child(6) {
+  width: 8%;
+} /* Discount column narrower */
+
+table th:nth-child(7),
+table td:nth-child(7) {
+  width: 10%;
+} /* Amount Paid column width */
+
+table th:nth-child(8),
+table td:nth-child(8) {
+  width: 10%;
+} /* Amount Left column width */
+
+table th:nth-child(9),
+table td:nth-child(9) {
+  width: 9%;
+} /* Sales ID column width */
+
+table th:nth-child(10),
+table td:nth-child(10) {
+  width: 12%;
+} /* Action column given slightly wider width to fit buttons */
+
+/* --- Table header styling --- */
+table thead {
+  background: var(--primary-color); /* Use the primary blue background */
+  color: white; /* White text for contrast */
+  font-weight: 600; /* Semi-bold font for readability */
+  text-align: left; /* Align header text to the left */
+}
+
+/* --- Zebra striping for table body rows --- */
+table tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.7); /* Light semi-transparent white for even rows */
+}
+
+/* --- Hover effect for table rows --- */
+table tbody tr:hover {
+  background: rgba(45, 123, 177, 0.15); /* Light blue background highlight on hover */
+}
+
+/* --- Style for action button inside table cells --- */
+button.btn-update {
+  padding: 0.5rem 1rem; /* Smaller padding to fit inside table cell */
+  font-size: 0.85rem; /* Smaller font for compactness */
+  border: none; /* Remove default button border */
+  background-color: var(--primary-color); /* Primary blue background */
+  color: white; /* White text */
+  border-radius: var(--border-radius-small); /* Rounded corners consistent with theme */
+  font-weight: 600; /* Semi-bold */
+  cursor: pointer; /* Pointer cursor to indicate clickability */
+  box-shadow: 0 0 8px rgba(45, 123, 177, 0.25); /* Soft glow shadow */
+  transition: background-color var(--transition-speed), transform 0.2s ease-out,
+    box-shadow var(--transition-speed); /* Smooth hover animations */
+  flex-shrink: 0; /* Prevent shrinking inside flex containers */
+  white-space: nowrap; /* Prevent button text from wrapping */
+}
+
+/* --- Hover effect for update button --- */
+button.btn-update:hover {
+  background-color: var(--primary-dark); /* Darker blue */
+  transform: translateY(-1px); /* Slight lift effect */
+  box-shadow: 0 0 12px rgba(45, 123, 177, 0.35); /* Intensified glow */
+}
+
+/* --- Modal Overlay Styles --- */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Fixed position covering entire viewport */
+  z-index: 10000; /* High z-index to appear above other elements */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Enable scrolling if modal content exceeds viewport */
+  background-color: rgba(
+    31,
+    45,
+    61,
+    0.75
+  ); /* Dark semi-transparent overlay using admin text color as base */
+  backdrop-filter: blur(8px); /* Blur background behind modal */
+  display: flex; /* Use flexbox to center modal content */
+  align-items: center; /* Vertically center */
+  justify-content: center; /* Horizontally center */
+  opacity: 0; /* Fully transparent initially */
+  transition: opacity var(--transition-speed); /* Fade transition */
+  pointer-events: none; /* Prevent interaction when hidden */
+}
+
+/* --- Show modal by adding .active class --- */
+.modal.active {
+  opacity: 1; /* Fully visible */
+  pointer-events: auto; /* Enable interactions */
+}
+
+/* --- Modal Content Container --- */
+.modal-content {
+  background: #ffffff; /* Solid white background for contrast */
+  border-radius: var(--border-radius-medium); /* Rounded corners */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25); /* Strong shadow for elevation */
+  padding: var(--desktop-modal-padding); /* Consistent padding */
+  max-width: 400px; /* Maximum width to prevent very large modals */
+  width: 90%; /* Responsive width to fit smaller screens */
+  position: relative; /* For positioning close button */
+  color: var(--text-color-dark); /* Text color */
+  border: 1px solid var(--admin-border-color); /* Light border around modal */
+  animation: slideIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1.2); /* Slide and fade animation */
+  box-sizing: border-box; /* Include padding and border in width */
+  text-align: center; /* Center text inside modal */
+}
+
+/* --- Close button styling --- */
+.close-btn {
+  color: #a0a0a0; /* Light gray color */
+  font-size: 1.8rem; /* Smaller font size */
+  font-weight: 900; /* Very bold */
+  position: absolute; /* Positioned relative to modal content */
+  right: 1rem; /* Right offset */
+  top: 0.8rem; /* Top offset */
+  cursor: pointer; /* Pointer cursor for interactivity */
+  transition: color var(--transition-speed), transform 0.2s ease-out; /* Smooth hover transitions */
+}
+
+/* --- Close button hover effect --- */
+.close-btn:hover {
+  color: #555; /* Darker gray on hover */
+  transform: rotate(90deg); /* Rotate 90 degrees for fun effect */
+}
+
+/* --- Modal Heading --- */
+.modal-content h3 {
+  margin-bottom: 1rem; /* Space below heading */
+  color: var(--primary-dark); /* Dark primary color */
+  font-size: var(--desktop-modal-h3-font-size); /* Scaled font size */
+  margin-top: 0; /* Remove top margin */
+}
+
+/* --- Form group container --- */
+.form-group {
+  margin-bottom: 1.2rem; /* Space below each input group */
+  text-align: left; /* Left align labels and inputs */
+}
+
+/* --- Labels inside form group --- */
+.form-group label {
+  display: block; /* Block-level to stack above inputs */
+  font-weight: 600; /* Semi-bold for emphasis */
+  margin-bottom: 0.4rem; /* Space between label and input */
+  color: var(--primary-dark); /* Dark primary color */
+  font-size: var(--desktop-form-label-font-size); /* Consistent label font size */
+}
+
+/* --- Inputs and Textareas inside form group --- */
+.form-group input,
+.form-group textarea {
+  width: 100%; /* Fill container width */
+  padding: var(--desktop-modal-input-padding); /* Consistent input padding */
+  border-radius: var(--border-radius-small); /* Rounded corners */
+  border: 1px solid var(--admin-border-color); /* Light border */
+  background: #ffffff; /* White background */
+  color: var(--text-color-dark); /* Text color */
+  font-size: var(--desktop-modal-input-font-size); /* Input font size */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08); /* Inner subtle shadow */
+  transition: border-color var(--transition-speed),
+    box-shadow var(--transition-speed); /* Smooth focus transitions */
+  resize: vertical; /* Allow vertical resize on textarea */
+  min-height: 38px; /* Minimum height */
+}
+
+/* --- Input and Textarea focus styles --- */
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none; /* Remove default outline */
+  border-color: var(--primary-color); /* Blue border on focus */
+  box-shadow: 0 0 0 3px rgba(45, 123, 177, 0.2),
+    inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Blue glow + subtle inner shadow */
+}
+
+/* --- Submit button inside modal --- */
+button.btn-update[type="submit"] {
+  width: 100%; /* Full width */
+  padding: 0.9rem 1.4rem; /* Inner padding */
+  font-size: 1rem; /* Font size */
+  margin-top: 0.8rem; /* Space above button */
+  background-color: var(--primary-color); /* Primary blue */
+  color: white; /* White text */
+  border-radius: var(--border-radius-medium); /* Rounded corners */
+  box-shadow: 0 4px 8px var(--admin-shadow-color); /* Drop shadow */
+  transition: background-color var(--transition-speed), transform 0.2s ease-out,
+    box-shadow var(--transition-speed); /* Smooth hover */
+}
+
+/* --- Submit button hover --- */
+button.btn-update[type="submit"]:hover {
+  background-color: var(--primary-dark); /* Darker blue */
+  transform: translateY(-1px); /* Slight lift */
+  box-shadow: 0 6px 14px rgba(45, 123, 177, 0.3); /* Deeper shadow */
+}
+
+/* --- Keyframe Animations for modal --- */
+/* fadeIn is a generic opacity fade animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0; /* Start fully transparent */
+  }
+  to {
+    opacity: 1; /* End fully opaque */
+  }
+}
+
+/* slideIn animates modal sliding down from above and scaling from smaller */
+@keyframes slideIn {
+  from {
+    transform: translateY(-80px) scale(0.9); /* Start above and scaled down */
+    opacity: 0; /* Transparent */
+  }
+  to {
+    transform: translateY(0) scale(1); /* Move to final position and scale */
+    opacity: 1; /* Fully visible */
+  }
+}
+
+/* --- Responsive Styles --- */
+
+/* For screens larger than 768px (desktop and most tablets) */
+@media (min-width: 769px) {
+  .table-wrapper {
+    overflow-x: hidden; /* Disable horizontal scrolling on large screens */
+  }
+  table {
+    min-width: unset; /* Remove min-width constraint */
+  }
+}
+
+/* Adjustments for mid-size desktops/large tablets (max 1200px) */
+@media (max-width: 1200px) {
+  main {
+    margin-left: 0; /* Remove sidebar margin, full width content */
+    max-width: 100%; /* Full width */
+    border-radius: 0; /* Remove border radius for flush edges */
+    padding: 2rem; /* Consistent padding */
+  }
+  body.sidebar-collapsed main {
+    margin-left: 0; /* Same when sidebar collapsed */
+  }
+
+  /* Larger font sizes and paddings for better readability */
+  h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .pending-payments-summary {
+    padding: 1.8rem 2rem;
+  }
+  .pending-payments-summary ul {
+    gap: 1.2rem;
+  }
+  .pending-payments-summary ul li {
+    padding: 1rem 1.5rem;
+    font-size: 1.05rem;
+  }
+  .pending-payments-summary span {
+    font-size: 1.15rem;
+  }
+
+  .filter-section {
+    padding: 1.8rem 2rem;
+  }
+  .filter-row {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+  .filter-row label {
+    font-size: 0.95rem;
+  }
+  .filter-row input,
+  .filter-row select {
+    padding: 0.9rem 1.2rem;
+    font-size: 0.95rem;
+  }
+  .btn-filter,
+  .btn-clear {
+    padding: 0.9rem 1.8rem;
+    font-size: 1rem;
+  }
+
+  table th,
+  table td {
+    padding: 0.9rem 1rem;
+    font-size: 0.9rem;
+  }
+  button.btn-update {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .modal-content {
+    padding: 2.8rem 3rem;
+    max-width: 480px;
+  }
+  .modal-content h3 {
+    font-size: 1.8rem;
+  }
+  .form-group label {
+    font-size: 1rem;
+  }
+  .form-group input,
+  .form-group textarea {
+    padding: 0.9rem 1.2rem;
+    font-size: 0.95rem;
+  }
+  button.btn-update[type="submit"] {
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+  }
+  .close-btn {
+    font-size: 2.2rem;
+    top: 1rem;
+    right: 1.2rem;
+  }
+}
+
+/* Tablet and smaller desktop adjustments (max-width: 992px) */
+@media (max-width: 992px) {
+  main {
+    padding: 1.8rem; /* Slightly reduced padding */
+    gap: 1.8rem; /* Reduced spacing */
+  }
+
+  h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .pending-payments-summary {
+    padding: 1.5rem 1.8rem; /* Reduced padding */
+    border-radius: var(--border-radius-medium);
+  }
+
+  .pending-payments-summary ul {
+    gap: 1rem; /* Reduced gap */
+  }
+  .pending-payments-summary ul li {
+    flex: 1 1 200px; /* Adjust base width */
+    padding: 0.7rem 1rem; /* Reduced padding */
+    font-size: 1rem;
+  }
+  .pending-payments-summary span {
+    font-size: 1.05rem;
+  }
+
+  .filter-section {
+    padding: 1.5rem 1.8rem; /* Reduced padding */
+    border-radius: var(--border-radius-medium);
+  }
+
+  /* Stack filter fields vertically on smaller tablets */
+  .filter-row {
+    grid-template-columns: 1fr; /* Single column layout */
+    gap: 0.8rem; /* Smaller gap */
+  }
+
+  .filter-row .form-group {
+    flex-direction: column; /* Stack label and input vertically */
+    gap: 0.4rem;
+  }
+
+  .filter-row input,
+  .filter-row select {
+    width: 100%; /* Full width inputs */
+    max-width: none;
+    padding: 0.7rem 1rem; /* Reduced padding */
+    font-size: 0.9rem;
+  }
+  .filter-row label {
+    width: 100%; /* Full width label */
+    text-align: left;
+    margin-bottom: 0.2rem;
+    font-size: 0.95rem;
+  }
+  .filter-buttons {
+    grid-column: unset; /* Remove grid span */
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 0.8rem;
+    margin-top: 0;
+  }
+  .btn-filter,
+  .btn-clear {
+    width: 100%; /* Full width buttons */
+    padding: 0.7rem 1.2rem;
+    font-size: 0.95rem;
+  }
+
+  table th,
+  table td {
+    padding: 0.9rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  /* Reset fixed column widths for scrollable table on smaller screens */
+  table th,
+  table td {
+    width: auto; /* Allow columns to resize */
+  }
+
+  .modal-content {
+    padding: 2rem 2.2rem;
+    max-width: 90%; /* Responsive max width */
+  }
+
+  .modal-content h3 {
+    font-size: 1.6rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  button.btn-update[type="submit"] {
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+  }
+}
+
+/* Small mobile devices - up to 768px */
+@media (max-width: 768px) {
+  main {
+    padding: 1rem; /* Reduced padding for small screens */
+    gap: 1.2rem; /* Reduced vertical gap */
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .pending-payments-summary {
+    padding: 1.2rem 1.5rem; /* Smaller padding */
+  }
+  .pending-payments-summary ul {
+    flex-direction: column; /* Stack items vertically */
+    align-items: stretch; /* Stretch items full width */
+    gap: 0.8rem; /* Smaller gap */
+  }
+  .pending-payments-summary ul li {
+    flex: none;
+    width: 100%; /* Full width items */
+    padding: 0.6rem 0.8rem; /* Smaller padding */
+    font-size: 0.95rem;
+  }
+  .pending-payments-summary span {
+    font-size: 1rem;
+  }
+
+  .filter-section {
+    padding: 1.2rem 1.5rem; /* Smaller padding */
+  }
+  .filter-row {
+    gap: 0.6rem; /* Smaller gap */
+  }
+  .filter-row input,
+  .filter-row select {
+    padding: 0.5rem 0.8rem; /* Smaller inputs */
+    font-size: 0.85rem;
+  }
+  .filter-row label {
+    font-size: 0.85rem;
+  }
+  .btn-filter,
+  .

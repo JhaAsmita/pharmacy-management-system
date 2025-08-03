@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<!--
+  Defines this document as an HTML5 document.
+-->
+<html lang="en">
+  <!--
+    Root element of the page with language set to English.
+  -->
+  <head>
+    <!--
+      Head section contains metadata and resources needed before rendering the page.
+    -->
+    <meta charset="UTF-8" />
+    <!--
+      Sets character encoding to UTF-8 for supporting most characters.
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--
+      Responsive design meta tag:
+      Ensures the page scales properly on different screen widths (mobile-friendly).
+    -->
+    <title>Supplier Management - PMS</title>
+    <!--
+      Title shown in browser tab: "Supplier Management - PMS"
+    -->
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!--
+      Loads Poppins font with various weights from Google Fonts.
+      Used for consistent and professional typography across the page.
+    -->
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <!--
+      Loads Font Awesome CSS for icon fonts (like hamburger menu, logout icon, etc.).
+    -->
+
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="css/sidebar-navigation.css" />
+    <!--
+      Loads shared CSS styles for sidebar navigation.
+      Keeps sidebar styling consistent across multiple pages.
+    -->
+    <link rel="stylesheet" href="css/supplier-management.css" />
+    <!--
+      Loads custom CSS specific to supplier management page.
+      Includes layout, form, list, modal styles, etc.
+    -->
+  </head>
+  <body>
+    <!--
+      Body section contains visible content and interactive elements.
+    -->
+
+    <!-- Sidebar Container (will be populated by JS) -->
+    <!-- Sidebar Navigation -->
+    <div id="sidebar-container">
+      <!--
+        Container for the sidebar menu.
+        This allows toggling and responsive layout.
+      -->
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar">
+        <!--
+          Hamburger button to show/hide sidebar on smaller screens.
+          Accessible label for screen readers.
+        -->
+        <i class="fas fa-bars"></i>
+        <!--
+          Icon representing hamburger menu from Font Awesome.
+        -->
+      </button>
+      <aside class="sidebar" id="sidebar">
+        <!--
+          Sidebar container itself.
+          Contains logo, navigation links, user info, and logout button.
+        -->
+        <div class="logo">PMS</div>
+        <!--
+          Logo or brand name of the system.
+          "PMS" likely stands for Pharmacy Management System or similar.
+        -->
+        <nav>
+          <!--
+            Navigation links inside sidebar.
+            Each <a> leads to different pages of the PMS system.
+          -->
+          <a href="admin.html"
+            ><i class="fas fa-users"></i
+            ><span style="color: white">Users</span></a
+          >
+          <!-- Link to admin users management -->
+          <a href="pharmacy-details.html"
+            ><i class="fas fa-clinic-medical"></i
+            ><span style="color: white">Pharmacy Details</span></a
+          >
+          <!-- Link to pharmacy details page -->
+          <a href="dashboard.html"
+            ><i class="fas fa-chart-line"></i
+            ><span style="color: white">Dashboard</span></a
+          >
+          <!-- Link to main dashboard -->
+          <a href="inventory.html"
+            ><i class="fas fa-boxes"></i
+            ><span style="color: white">Inventory</span></a
+          >
+          <!-- Link to inventory management -->
+          <a href="supplier-management.html" class="active"
+            ><i class="fas fa-file-invoice"></i
+            ><span style="color: white">Suppliers</span></a
+          >
+          <!--
+            Link to current page (supplier management).
+            Has "active" class to highlight current page in sidebar.
+          -->
+          <a href="billing.html"
+            ><i class="fas fa-shopping-cart"></i
+            ><span style="color: white">Billing</span></a
+          >
+          <!-- Billing management -->
+          <a href="payment-management.html"
+            ><i class="fas fa-money-bill-wave"></i
+            ><span style="color: white">Payments</span></a
+          >
+          <!-- Payment management -->
+          <a href="report.html"
+            ><i class="fas fa-chart-pie"></i
+            ><span style="color: white">Reports</span></a
+          >
+          <!-- Reports page -->
+        </nav>
+        <div class="user-info">
+          <!--
+            Section to show currently logged-in user's email.
+            Filled dynamically with JavaScript after user login.
+          -->
+          Logged in as:<br /><strong id="userEmail">Loading...</strong>
+        </div>
+        <button class="logout-btn" id="logoutBtn">
+          <!--
+            Logout button.
+            Clicking will log out the user from the system.
+          -->
+          <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+        </button>
+      </aside>
+    </div>
+    <!--
+      Note: The menu-toggle button at top is used to toggle visibility of this sidebar.
+      The sidebar can be collapsed or expanded especially on mobile.
+    -->
+
+    <main class="main" role="main">
+      <!--
+        Main content area.
+        Marked with role="main" for accessibility (screen readers).
+      -->
+      <section class="form-container">
+        <!--
+          Section containing the form to add/register new suppliers.
+        -->
+        <h2 class="section-title">Register Supplier</h2>
+        <!--
+          Title of this section
+        -->
+        <form id="supplierForm">
+          <!--
+            Form to enter supplier details.
+            Has an ID for JavaScript to attach event listeners.
+          -->
+          <label for="supplierName">Supplier Name</label>
+          <input
+            type="text"
+            id="supplierName"
+            placeholder="Enter supplier name"
+            required
+          />
+          <!-- Supplier's name input field -->
+
+          <label for="supplierCompany">Company Name</label>
+          <input
+            type="text"
+            id="supplierCompany"
+            placeholder="Enter company name"
+            required
+          />
+          <!-- Supplier's company name input field -->
+
+          <label for="supplierEmail">Email</label>
+          <input
+            type="email"
+            id="supplierEmail"
+            placeholder="Enter supplier email"
+            required
+          />
+          <!-- Supplier's email input field -->
+
+          <label for="supplierContact">Contact</label>
+          <input
+            type="text"
+            id="supplierContact"
+            placeholder="Enter contact number"
+            required
+          />
+          <!-- Supplier's contact number input -->
+
+          <label for="supplierGST">VAT Number</label>
+          <input
+            type="text"
+            id="supplierGST"
+            placeholder="Enter VAT number"
+            required
+          />
+          <!-- Supplier's VAT (tax) number input -->
+
+          <label for="supplierAddress">Address</label>
+          <textarea
+            id="supplierAddress"
+            placeholder="Enter supplier address"
+            required
+          ></textarea>
+          <!-- Supplier's physical address -->
+
+          <button type="submit" class="primary-btn">Add Supplier</button>
+          <!-- Submit button for adding supplier -->
+        </form>
+      </section>
+
+      <section class="supplier-list">
+        <!--
+          Section for displaying list of registered suppliers.
+        -->
+        <h2 class="section-title">Registered Suppliers</h2>
+
+        <div class="search-box">
+          <!--
+            Search box for filtering suppliers by name.
+            Input event handled in JS to filter displayed list.
+          -->
+          <input
+            type="text"
+            id="searchSupplier"
+            placeholder="Search supplier by name..."
+          />
+        </div>
+
+        <div id="suppliersContainer"></div>
+        <!--
+          Container element where the list of suppliers will be rendered dynamically by JavaScript.
+        -->
+      </section>
+    </main>
+
+    <!-- Edit Modal -->
+    <div class="modal-container" id="editModal">
+      <!--
+        Hidden modal dialog for editing supplier information.
+        Shown when user clicks "Edit" on a supplier.
+      -->
+      <div
+        class="modal-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+      >
+        <!--
+          The modal dialog itself, with ARIA attributes for accessibility.
+          role="dialog" announces as dialog box.
+          aria-modal="true" indicates modal blocks interaction outside.
+          aria-labelledby references modal title for screen readers.
+        -->
+        <button
+          class="close-btn"
+          data-modal-id="editModal"
+          aria-label="Close edit form"
+        >
+          &times;
+        </button>
+        <!--
+          Close button to dismiss the modal.
+          Uses &times; (×) character.
+          Has data-modal-id for JS to know which modal to close.
+        -->
+        <h3 id="modalTitle">Edit Supplier</h3>
+        <!-- Modal heading -->
+
+        <form id="editSupplierForm">
+          <!-- Form inside modal to edit supplier details -->
+
+          <input type="hidden" id="editSupplierId" />
+          <!-- Hidden field to store supplier ID being edited -->
+
+          <label for="editSupplierName">Supplier Name</label>
+          <input
+            type="text"
+            id="editSupplierName"
+            placeholder="Enter supplier name"
+            required
+          />
+          <!-- Editable supplier name input -->
+
+          <label for="editSupplierCompany">Company Name</label>
+          <input
+            type="text"
+            id="editSupplierCompany"
+            placeholder="Enter company name"
+            required
+          />
+          <!-- Editable company name -->
+
+          <label for="editSupplierEmail">Email</label>
+          <input
+            type="email"
+            id="editSupplierEmail"
+            placeholder="Enter supplier email"
+            required
+          />
+          <!-- Editable email -->
+
+          <label for="editSupplierContact">Contact</label>
+          <input
+            type="text"
+            id="editSupplierContact"
+            placeholder="Enter contact number"
+            required
+          />
+          <!-- Editable contact -->
+
+          <label for="editSupplierGST">GST Number</label>
+          <input
+            type="text"
+            id="editSupplierGST"
+            placeholder="Enter GST number"
+            required
+          />
+          <!-- Editable GST / VAT number -->
+
+          <label for="editSupplierAddress">Address</label>
+          <textarea
+            id="editSupplierAddress"
+            placeholder="Enter supplier address"
+            required
+          ></textarea>
+          <!-- Editable address -->
+
+          <button type="submit" class="primary-btn">Save Changes</button>
+          <!-- Submit button to save edited details -->
+        </form>
+      </div>
+    </div>
+
+    <!-- General Alert Modal -->
+    <div class="modal-container" id="alert-modal">
+      <!--
+        Generic modal for showing alert messages to user.
+        Can be reused for error messages or info messages.
+      -->
+      <div class="modal-dialog">
+        <button class="close-btn" data-modal-id="alert-modal">&times;</button>
+        <!-- Close button -->
+
+        <h3 id="alert-modal-title">Alert</h3>
+        <!-- Alert title -->
+
+        <p id="alert-modal-message"></p>
+        <!-- Alert message content, filled dynamically -->
+
+        <div class="modal-footer">
+          <button id="alert-modal-ok" class="primary-btn">OK</button>
+          <!-- OK button to close the alert -->
+        </div>
+      </div>
+    </div>
+
+    <!-- General Confirm Modal -->
+    <div class="modal-container" id="confirm-modal">
+      <!--
+        Generic modal for asking user to confirm an action.
+        Used for delete confirmations or important choices.
+      -->
+      <div class="modal-dialog">
+        <button class="close-btn" data-modal-id="confirm-modal">&times;</button>
+        <!-- Close button -->
+
+        <h3 id="confirm-modal-title">Confirm Action</h3>
+        <!-- Confirmation modal title -->
+
+        <p id="confirm-modal-message"></p>
+        <!-- Confirmation message -->
+
+        <div class="modal-footer">
+          <button id="confirm-modal-cancel" class="secondary-btn">
+            Cancel
+          </button>
+          <!-- Cancel button -->
+
+          <button id="confirm-modal-ok" class="primary-btn">Confirm</button>
+          <!-- Confirm button -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification Area -->
+    <div id="toast-container"></div>
+    <!--
+      Container for small popup toast notifications.
+      Used to show temporary messages like success or error notifications.
+      Populated and controlled via JavaScript.
+    -->
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <!--
+      Firebase core SDK for initializing Firebase app.
+    -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <!--
+      Firebase Authentication SDK to manage user authentication.
+    -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <!--
+      Firebase Realtime Database SDK to read/write supplier data in realtime.
+    -->
+
+    <!-- Custom Scripts -->
+    <script type="module" src="js/supplier-management.js"></script>
+    <!--
+      Your custom JavaScript code controlling supplier management functionality.
+      Uses ES modules.
+      Handles:
+        - Authentication state
+        - Loading and displaying suppliers
+        - Handling form submissions (add/edit)
+        - Searching/filtering suppliers
+        - Modals for alerts and confirmations
+        - Logout button handling
+    -->
+  </body>
+</html>

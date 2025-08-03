@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!-- Defines this document as an HTML5 document -->
+
+<html lang="en">
+  <!-- Root element of the page with language set to English -->
+
+  <head>
+    <!-- Metadata about the document -->
+
+    <meta charset="UTF-8" />
+    <!-- Sets character encoding to UTF-8 (universal character set) -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Ensures responsive scaling on different devices -->
+
+    <title>Register - B2B Pharmacy</title>
+    <!-- Title shown in browser tab -->
+
+    <!-- Google Fonts & Font Awesome -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Imports Poppins font family with various weights for styling text -->
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <!-- Imports Font Awesome icons library (version 6 beta) for using icons like medical icon -->
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/register-b2b.css" />
+    <!-- Links to the page-specific CSS stylesheet to style the form and page layout -->
+  </head>
+
+  <body>
+    <!-- Main visible content of the page -->
+
+    <main class="container">
+      <!-- Container element to center and contain form elements -->
+
+      <h2><i class="fas fa-clinic-medical"></i> Register Your Pharmacy</h2>
+      <!-- Heading with medical clinic icon from Font Awesome -->
+
+      <!-- Registration form with ID for JavaScript targeting -->
+      <!-- novalidate attribute disables native HTML5 form validation (we'll handle validation manually) -->
+      <form id="b2bForm" novalidate>
+        <div class="form-row">
+          <!-- Grouping inputs in a row for layout -->
+
+          <!-- Company Name field -->
+          <div class="form-group">
+            <label for="companyName">Company Name *</label>
+            <!-- Label linked to input by "for" attribute -->
+
+            <input
+              type="text"
+              id="companyName"
+              required
+              autocomplete="off"
+              maxlength="200"
+              pattern="[A-Za-z\s]{2,200}"
+              placeholder="Enter your company name"
+            />
+            <!-- Text input for company name
+                 required: must be filled before submit
+                 autocomplete off: prevents browser autofill
+                 maxlength: max 200 characters
+                 pattern: regex to allow only letters and spaces, between 2 and 200 chars
+                 placeholder: hint text inside input -->
+          </div>
+
+          <!-- Registration Number field -->
+          <div class="form-group">
+            <label for="regNo">Registration Number *</label>
+            <input
+              type="text"
+              id="regNo"
+              required
+              autocomplete="off"
+              maxlength="30"
+              pattern="^\d{1,30}$"
+              placeholder="Enter registration number"
+            />
+            <!-- Text input for registration number
+                 required
+                 max length 30
+                 pattern: digits only (1 to 30 digits)
+                 placeholder as hint -->
+          </div>
+        </div>
+
+        <div class="form-row">
+          <!-- Another row for contact info -->
+
+          <!-- Contact Number field -->
+          <div class="form-group">
+            <label for="contact">Contact Number *</label>
+            <input
+              type="tel"
+              id="contact"
+              required
+              autocomplete="off"
+              maxlength="14"
+              pattern="^\d{7,14}$"
+              placeholder="Enter contact number"
+            />
+            <!-- Telephone input for contact number
+                 required
+                 max 14 digits
+                 pattern: digits only, 7 to 14 digits long -->
+          </div>
+
+          <!-- Email Address field -->
+          <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input
+              type="email"
+              id="email"
+              required
+              autocomplete="off"
+              placeholder="Enter email address"
+            />
+            <!-- Email input with HTML5 validation for proper email format -->
+          </div>
+        </div>
+
+        <!-- Address textarea field (full width) -->
+        <div class="form-group full-width">
+          <label for="address">Company Address *</label>
+          <textarea
+            id="address"
+            rows="3"
+            required
+            autocomplete="off"
+            maxlength="300"
+            placeholder="Enter company address"
+          ></textarea>
+          <!-- Multi-line text area for company address
+               required, max 300 chars -->
+        </div>
+
+        <!-- Owner name input field (full width) -->
+        <div class="form-group full-width">
+          <label for="owner">Company Owner *</label>
+          <input
+            type="text"
+            id="owner"
+            required
+            autocomplete="off"
+            maxlength="200"
+            pattern="[A-Za-z\s]{2,200}"
+            placeholder="Enter owner's name"
+          />
+          <!-- Owner's name input
+               required, max 200 chars
+               pattern: letters and spaces only -->
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit">Submit Request</button>
+        <!-- Button to submit the form -->
+
+        <!-- Button to redirect user back to login page -->
+        <button type="button" id="goToLoginBtn" class="outline">
+          <i class="fas fa-arrow-left"></i> Go to Login
+        </button>
+
+        <!-- Placeholder for showing form submission messages (success/error) -->
+        <div id="formMessage"></div>
+      </form>
+    </main>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <!-- Core Firebase library to initialize app -->
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <!-- Firebase Authentication library for user authentication -->
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <!-- Firebase Realtime Database library for data storage and retrieval -->
+
+    <!-- Custom JavaScript -->
+    <script type="module" src="js/register-b2b.js"></script>
+    <!-- Our custom script file for form logic, validation, firebase integration -->
+  </body>
+</html>

@@ -1,0 +1,343 @@
+/* Root variables for colors, fonts, sizes, and reusable values */
+:root {
+  /* Background color for the whole page */
+  --bg-color: #f6fbff;
+
+  /* Background for cards (semi-transparent white) */
+  --card-bg: rgba(255, 255, 255, 0.25);
+
+  /* Primary brand color */
+  --primary-color: #2d7bb1;
+
+  /* Darker shade of primary color */
+  --primary-color-dark: #1c5b87;
+
+  /* General text color */
+  --text-color: #1f2d3d;
+
+  /* Border color with transparency */
+  --border-color: rgba(255, 255, 255, 0.3);
+
+  /* Shadow color with primary color tint and transparency */
+  --shadow-color: rgba(45, 123, 177, 0.25);
+
+  /* Glow effect using primary color with more opacity */
+  --glow: 0 0 12px rgba(45, 123, 177, 0.4);
+
+  /* Blur effect for glassmorphism */
+  --blur: blur(14px);
+
+  /* Main font family */
+  --font: "Poppins", sans-serif;
+
+  /* Sidebar widths to keep consistent with sidebar-navigation.css */
+  --sidebar-width-expanded: 260px; /* Width when sidebar is fully expanded */
+  --sidebar-width-collapsed: 80px; /* Width when sidebar is collapsed */
+
+  /* Desktop-specific padding sizes for consistent spacing */
+  --desktop-padding-lg: 2rem;
+  --desktop-padding-md: 1.5rem;
+  --desktop-padding-sm: 1rem;
+
+  /* Desktop-specific font sizes */
+  --desktop-font-lg: 1.8rem;
+  --desktop-font-md: 1.2rem;
+  --desktop-font-sm: 0.9rem;
+
+  /* Gap size between cards in desktop layout */
+  --desktop-card-gap: 1rem;
+}
+
+/* Remove scrollbar styles for IE and Firefox */
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Body styles */
+body {
+  margin: 0; /* Remove default margin */
+  font-family: var(--font); /* Use Poppins font */
+  background: linear-gradient(
+    135deg,
+    #ebf5fc,
+    #dceefb,
+    #f6fbff
+  ); /* Gradient background */
+  color: var(--text-color); /* Set text color */
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  display: flex; /* Arrange sidebar and main content side by side */
+}
+
+/* Main content styles */
+main {
+  margin-left: var(
+    --sidebar-width-expanded
+  ); /* Leave space for expanded sidebar */
+  padding: var(--desktop-padding-lg) 3rem; /* Padding around content */
+  flex: 1; /* Take up remaining horizontal space */
+  box-sizing: border-box; /* Include padding in width calculations */
+  min-height: 100vh; /* Full viewport height */
+  background: var(--bg-color); /* Light background color */
+  transition: margin-left 0.3s ease; /* Smooth transition when sidebar collapses or expands */
+}
+
+/* Adjust main margin when sidebar is collapsed (controlled by body class) */
+body.sidebar-collapsed main {
+  margin-left: var(--sidebar-width-collapsed);
+}
+
+/* Section heading style */
+h2 {
+  color: var(--primary-color-dark); /* Dark primary color for headings */
+  margin-bottom: 1.2rem; /* Space below heading */
+  text-shadow: var(--glow); /* Slight glow effect */
+  font-size: var(--desktop-font-md); /* Medium font size */
+}
+
+/* User info section styling */
+.user-info-section {
+  background: var(--card-bg); /* Semi-transparent background */
+  backdrop-filter: var(--blur); /* Blur effect for glassmorphism */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 8px 20px var(--shadow-color); /* Soft shadow */
+  padding: var(--desktop-padding-md); /* Padding inside the box */
+  margin-bottom: 1.5rem; /* Space below */
+  text-align: center; /* Center text */
+}
+
+/* User name inside user info */
+.user-info-section h3 {
+  margin: 0.2rem 0; /* Tight vertical margin */
+  color: var(--primary-color); /* Primary color text */
+  font-size: var(--desktop-font-md); /* Medium font size */
+}
+
+/* Paragraphs inside user info section */
+.user-info-section p {
+  margin: 0.3rem 0; /* Small vertical margin */
+  font-weight: 500; /* Medium font weight */
+  font-size: var(--desktop-font-sm); /* Smaller font size */
+}
+
+/* General section card styling */
+section {
+  background: var(--card-bg); /* Semi-transparent background */
+  backdrop-filter: var(--blur); /* Blur effect */
+  border-radius: 20px; /* Rounded corners */
+  box-shadow: 0 8px 20px var(--shadow-color); /* Soft shadow */
+  margin-bottom: 2rem; /* Space below sections */
+  padding: var(--desktop-padding-md) 2rem; /* Padding inside */
+}
+
+/* Grid container for KPI cards */
+.kpi-grid {
+  display: grid; /* Use CSS Grid layout */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(180px, 1fr)
+  ); /* Responsive columns with minimum width 180px */
+  gap: var(--desktop-card-gap); /* Space between grid items */
+  margin-top: 0.8rem; /* Space above grid */
+}
+
+/* Individual KPI card styling */
+.kpi-card {
+  background: rgba(255, 255, 255, 0.85); /* Mostly opaque white background */
+  border-radius: 12px; /* Rounded corners */
+  padding: 1rem 1.2rem; /* Inner spacing */
+  box-shadow: 0 4px 12px rgba(45, 123, 177, 0.1); /* Soft shadow tinted with primary color */
+  display: flex; /* Flex layout for icon and text */
+  align-items: center; /* Vertically center contents */
+  gap: 0.8rem; /* Space between icon and text */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth hover transitions */
+  border: 1px solid rgba(45, 123, 177, 0.2); /* Subtle border tinted with primary color */
+}
+
+/* Hover effect for KPI cards */
+.kpi-card:hover {
+  transform: translateY(-3px); /* Slight upward movement */
+  box-shadow: 0 6px 16px rgba(45, 123, 177, 0.2); /* Stronger shadow */
+}
+
+/* Icon inside KPI cards */
+.kpi-card .kpi-icon {
+  font-size: 2rem; /* Icon size */
+  color: var(--primary-color); /* Icon color */
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* Danger icon color for critical KPIs */
+.kpi-card .kpi-icon.danger-icon {
+  color: #dc3545; /* Bootstrap danger red */
+}
+
+/* Warning icon color for warnings */
+.kpi-card .kpi-icon.warning-icon {
+  color: #ffc107; /* Bootstrap warning orange */
+}
+
+/* KPI card heading styling */
+.kpi-card h3 {
+  margin: 0; /* Remove default margin */
+  font-size: 0.85rem; /* Smaller title */
+  color: var(--primary-color-dark); /* Dark primary color */
+  font-weight: 500; /* Medium weight */
+  white-space: nowrap; /* Prevent wrapping */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Show ellipsis if text too long */
+}
+
+/* KPI card value styling */
+.kpi-card p {
+  margin: 0; /* Remove margin */
+  font-size: 1.4rem; /* Large, bold text */
+  font-weight: 600; /* Semi-bold */
+  color: var(--text-color); /* Text color */
+  line-height: 1; /* Tight line height */
+}
+
+/* Legacy styles for ul/li lists (not used for KPI cards) */
+ul {
+  list-style: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  display: flex; /* Horizontal layout */
+  gap: 2rem; /* Space between items */
+  font-weight: 600; /* Bold text */
+  font-size: 1rem; /* Normal font size */
+}
+ul li {
+  flex: 1; /* Equal width */
+  background: rgba(45, 123, 177, 0.1); /* Light primary background */
+  padding: 0.7rem 1rem; /* Padding */
+  border-radius: 12px; /* Rounded corners */
+  text-align: center; /* Center text */
+  color: var(--primary-color-dark); /* Text color */
+  box-shadow: 0 0 8px rgba(45, 123, 177, 0.15); /* Subtle shadow */
+  transition: background 0.3s ease; /* Smooth background color change */
+}
+ul li:hover {
+  background: rgba(45, 123, 177, 0.2); /* Darker background on hover */
+}
+
+/* Table styles */
+table {
+  width: 100%; /* Full width */
+  border-collapse: collapse; /* Remove spacing between cells */
+  margin-top: 0.6rem; /* Space above */
+}
+table th,
+table td {
+  padding: 0.6rem 0.8rem; /* Cell padding */
+  border-bottom: 1px solid var(--border-color); /* Bottom border */
+  text-align: left; /* Left align text */
+  font-size: 0.85rem; /* Smaller text */
+  color: var(--text-color); /* Text color */
+}
+
+/* Table header cells */
+table th {
+  border-bottom: 1px solid var(--primary-color); /* Strong bottom border */
+  border-right: 1px solid var(--primary-color); /* Right border */
+}
+
+/* Table header row */
+table thead tr {
+  border-bottom: 2px solid var(--primary-color); /* Thicker border */
+  color: var(--primary-color); /* Header text color */
+  font-weight: 600; /* Bold */
+  font-size: 0.9rem; /* Slightly larger font */
+}
+
+/* Table row hover effect */
+table tbody tr:hover {
+  background: rgba(45, 123, 177, 0.1); /* Light blue highlight */
+}
+
+/* Dropdown for sales filter (if used) */
+#sales-filter-select {
+  margin-top: 0.5rem;
+  margin-bottom: 0.8rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  background: var(--card-bg);
+  color: var(--text-color);
+  backdrop-filter: var(--blur);
+}
+
+/* Responsive adjustments */
+
+/* For tablets and smaller desktops - screens up to 992px wide */
+@media (max-width: 992px) {
+  main {
+    margin-left: 0; /* Remove margin so sidebar overlays */
+    padding: 1.5rem 2rem; /* Reduce padding */
+  }
+
+  .kpi-grid {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(180px, 1fr)
+    ); /* Responsive columns maintained */
+    gap: 1rem; /* Slightly reduced gap */
+  }
+
+  .kpi-card h3 {
+    font-size: 0.9rem; /* Slightly larger text */
+  }
+
+  .kpi-card p {
+    font-size: 1.4rem;
+  }
+
+  section {
+    padding: 1rem 1.5rem; /* Smaller padding */
+  }
+}
+
+/* For smaller tablets and large phones - screens up to 768px wide */
+@media (max-width: 768px) {
+  main {
+    margin-left: 0; /* Sidebar overlays */
+    padding: 1.5rem 1rem; /* Smaller padding */
+  }
+
+  .kpi-grid {
+    grid-template-columns: 1fr; /* Single column layout for KPI cards */
+  }
+
+  /* Larger user info section fonts for readability */
+  .user-info-section h3 {
+    font-size: 1.8rem;
+  }
+  .user-info-section p {
+    font-size: 1rem;
+  }
+
+  /* Make tables horizontally scrollable on small screens */
+  .table-responsive {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap; /* Prevent wrapping in cells */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  }
+
+  table {
+    min-width: 600px; /* Ensure table can scroll horizontally */
+  }
+
+  /* Maintain table structure */
+  table thead,
+  table tbody {
+    display: table;
+    width: 100%;
+  }
+
+  /* Allow text to wrap inside cells if enough width */
+  table th,
+  table td {
+    white-space: normal;
+  }
+}

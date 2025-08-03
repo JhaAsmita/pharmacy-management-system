@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<!-- Defines document type as HTML5 -->
+<html lang="en">
+  <!-- Sets language to English -->
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Character encoding -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Responsive viewport settings for mobile devices -->
+    <title>Admin - Pharmacy Details</title>
+    <!-- Page title shown on browser tab -->
+
+    <!-- Fonts & Icons -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts (Poppins) for typography -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <!-- Font Awesome icons -->
+
+    <!-- Sidebar styles (shared with other admin pages) -->
+    <link rel="stylesheet" href="css/sidebar-navigation.css" />
+    <!-- Specific styles for pharmacy details page -->
+    <link rel="stylesheet" href="css/pharmacy-details.css" />
+  </head>
+
+  <body>
+    <!-- Sidebar container holds sidebar toggle button and the sidebar itself -->
+    <div id="sidebar-container">
+      <!-- Button to toggle sidebar visibility on small screens -->
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Sidebar navigation menu -->
+      <aside class="sidebar" id="sidebar">
+        <div class="logo">PMS</div>
+        <!-- Application logo/title -->
+
+        <nav>
+          <!-- Navigation links with icons -->
+          <a href="admin.html"
+            ><i class="fas fa-users"></i
+            ><span style="color: white">Users</span></a
+          >
+          <a href="pharmacy-details.html" class="active"
+            ><i class="fas fa-clinic-medical"></i
+            ><span style="color: white">Pharmacy Details</span></a
+          >
+          <a href="dashboard.html"
+            ><i class="fas fa-chart-line"></i
+            ><span style="color: white">Dashboard</span></a
+          >
+          <a href="inventory.html"
+            ><i class="fas fa-boxes"></i
+            ><span style="color: white">Inventory</span></a
+          >
+          <a href="supplier-management.html"
+            ><i class="fas fa-file-invoice"></i
+            ><span style="color: white">Suppliers</span></a
+          >
+          <a href="billing.html"
+            ><i class="fas fa-shopping-cart"></i
+            ><span style="color: white">Billing</span></a
+          >
+          <a href="payment-management.html"
+            ><i class="fas fa-money-bill-wave"></i
+            ><span style="color: white">Payments</span></a
+          >
+          <a href="report.html"
+            ><i class="fas fa-chart-pie"></i
+            ><span style="color: white">Reports</span></a
+          >
+        </nav>
+
+        <!-- Displays logged in user's email -->
+        <div class="user-info">
+          Logged in as:<br /><strong id="userEmail">Loading...</strong>
+        </div>
+
+        <!-- Logout button with icon -->
+        <button class="logout-btn" id="logoutBtn">
+          <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+        </button>
+      </aside>
+    </div>
+
+    <!-- Main content area -->
+    <main role="main" id="adminContent">
+      <!-- Pharmacy master details section -->
+      <section>
+        <h2>Pharmacy Profile</h2>
+
+        <!-- Form grid containing pharmacy details inputs -->
+        <div class="form-grid">
+          <!-- Each form-group is a labeled input field -->
+          <div class="form-group">
+            <label for="pharmacyName">Pharmacy Name</label>
+            <input id="pharmacyName" placeholder="e.g., City Med" />
+          </div>
+
+          <div class="form-group">
+            <label for="registrationNumber">Registration Number</label>
+            <input id="registrationNumber" placeholder="e.g., REG-12345" />
+          </div>
+
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input id="address" placeholder="Street, City, State" />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input id="phone" placeholder="+977-98XXXXXXXX" />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="pharmacy@example.com" />
+          </div>
+
+          <div class="form-group">
+            <label for="operatingHours">Operating Hours</label>
+            <input id="operatingHours" placeholder="e.g., 9 AM – 9 PM" />
+          </div>
+
+          <div class="form-group">
+            <label for="ownerName">Owner Name</label>
+            <input id="ownerName" placeholder="Owner full name" />
+          </div>
+
+          <div class="form-group">
+            <label for="pharmacyType">Pharmacy Type</label>
+            <input id="pharmacyType" placeholder="Retail / Hospital / Clinic" />
+          </div>
+        </div>
+
+        <!-- Hidden sections for Doctors and Staff management -->
+        <div class="subsection" style="display: none">
+          <div class="subsection-header">
+            <h3>Doctors</h3>
+            <!-- Button to add new doctor -->
+            <button class="chip-btn" onclick="addDoctor()">+ Add Doctor</button>
+          </div>
+          <!-- Container where doctor entries will be dynamically added -->
+          <div id="doctorsContainer" class="rows"></div>
+        </div>
+
+        <div class="subsection" style="display: none">
+          <div class="subsection-header">
+            <h3>Staff</h3>
+            <!-- Button to add new staff member -->
+            <button class="chip-btn" onclick="addStaff()">+ Add Staff</button>
+          </div>
+          <!-- Container where staff entries will be dynamically added -->
+          <div id="staffContainer" class="rows"></div>
+        </div>
+
+        <!-- Save button to save all entered pharmacy info -->
+        <div class="form-actions">
+          <button class="primary" onclick="saveAllInfo()">
+            <i class="fas fa-save"></i> Save Details
+          </button>
+        </div>
+      </section>
+
+      <!-- Section for viewing pharmacy requests and approved directory -->
+      <section>
+        <div class="section-header" style="margin-bottom: 30px">
+          <h2>Pharmacy Requests & Directory</h2>
+          <!-- Search input for filtering pharmacies -->
+          <input
+            id="pharmacySearchInput"
+            placeholder="Search name, owner, phone, email…"
+            aria-label="Search pharmacies"
+          />
+        </div>
+
+        <!-- Split layout showing new requests on left and approved pharmacies on right -->
+        <div class="cards-split">
+          <div>
+            <h3 class="group-title">
+              <i class="fas fa-inbox"></i> New Requests
+            </h3>
+            <!-- Container for new pharmacy requests cards -->
+            <div id="pharmacyRequests" class="cards-section"></div>
+          </div>
+
+          <div>
+            <h3 class="group-title">
+              <i class="fas fa-list"></i> Approved Pharmacies
+            </h3>
+            <!-- Container for approved pharmacy cards -->
+            <div id="pharmacyList" class="cards-section"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section for displaying messages when no authorization or errors occur -->
+      <section>
+        <div
+          id="noAuthorityMessage"
+          style="display: none; color: #e53935; font-weight: 600"
+          role="alert"
+          aria-live="polite"
+        ></div>
+      </section>
+    </main>
+
+    <!-- ===== Shared modal system ===== -->
+
+    <!-- Backdrop overlay for modals -->
+    <div id="modal-backdrop" class="modal-backdrop hidden"></div>
+
+    <!-- Info modal for displaying messages -->
+    <div id="info-modal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-content">
+        <h3 id="info-modal-title">Message</h3>
+        <p id="info-modal-body"></p>
+        <div class="modal-actions">
+          <button id="info-modal-close" class="primary">OK</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Confirm modal for yes/no confirmations -->
+    <div
+      id="confirm-modal"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="modal-content">
+        <h3 id="confirm-modal-title">Confirm</h3>
+        <p id="confirm-modal-body"></p>
+        <div class="modal-actions">
+          <button id="confirm-no" class="ghost">Cancel</button>
+          <button id="confirm-yes" class="primary">Yes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for editing pharmacy details -->
+    <div
+      id="editPharmacyModal"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div class="modal-content">
+        <h3>Edit Pharmacy</h3>
+        <!-- Form inputs for editing pharmacy fields -->
+        <form id="editPharmacyForm">
+          <input name="name" placeholder="Pharmacy Name" />
+          <input name="owner" placeholder="Owner Name" />
+          <input name="email" type="email" placeholder="Email" />
+          <input name="phone" placeholder="Phone" />
+          <input name="address" placeholder="Address" />
+          <input name="registrationNumber" placeholder="Registration Number" />
+          <input name="type" placeholder="Type" />
+        </form>
+        <div class="modal-actions">
+          <button id="editCancelBtn" class="ghost">Cancel</button>
+          <button id="editSaveBtn" class="primary">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Firebase SDK libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <!-- Application scripts loaded as ES modules -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/admin-sidebar-navigation.js"></script>
+    <script type="module" src="js/pharmacy-details.js"></script>
+  </body>
+</html>

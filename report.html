@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<!-- Declares the document type and version of HTML used -->
+<html lang="en">
+  <!-- Root element of the page, language set to English -->
+  <head>
+    <!-- Metadata about the document -->
+    <meta charset="UTF-8" />
+    <!-- Sets character encoding to UTF-8 for universal characters -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Ensures responsive layout on different devices by controlling viewport scaling -->
+
+    <title>Admin - Reports</title>
+    <!-- The title displayed in browser tabs and bookmarks -->
+
+    <!-- Import Google Fonts: Poppins font with multiple weights -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Import FontAwesome for icons (version 6 beta) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <!-- Local CSS files for sidebar navigation and page styles -->
+    <link rel="stylesheet" href="css/sidebar-navigation.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+    <link rel="stylesheet" href="css/report.css" />
+  </head>
+
+  <body>
+    <!-- Main container for sidebar and content -->
+
+    <div id="sidebar-container">
+      <!-- Button to toggle sidebar visibility on small screens -->
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle sidebar">
+        <i class="fas fa-bars"></i>
+        <!-- Hamburger menu icon from FontAwesome -->
+      </button>
+
+      <!-- Sidebar navigation -->
+      <aside class="sidebar" id="sidebar">
+        <div class="logo">PMS</div>
+        <!-- Logo or site branding -->
+
+        <nav>
+          <!-- Navigation links to different admin pages -->
+          <a href="admin.html"
+            ><i class="fas fa-users"></i
+            ><span style="color: white">Users</span></a
+          >
+          <a href="pharmacy-details.html"
+            ><i class="fas fa-clinic-medical"></i
+            ><span style="color: white">Pharmacy Details</span></a
+          >
+          <a href="dashboard.html"
+            ><i class="fas fa-chart-line"></i
+            ><span style="color: white">Dashboard</span></a
+          >
+          <a href="inventory.html"
+            ><i class="fas fa-boxes"></i
+            ><span style="color: white">Inventory</span></a
+          >
+          <a href="supplier-management.html"
+            ><i class="fas fa-file-invoice"></i
+            ><span style="color: white">Suppliers</span></a
+          >
+          <a href="billing.html"
+            ><i class="fas fa-shopping-cart"></i
+            ><span style="color: white">Billing</span></a
+          >
+          <a href="payment-management.html"
+            ><i class="fas fa-money-bill-wave"></i
+            ><span style="color: white">Payments</span></a
+          >
+          <!-- Highlight "Reports" as the current active page -->
+          <a href="report.html" class="active"
+            ><i class="fas fa-chart-pie"></i
+            ><span style="color: white">Reports</span></a
+          >
+        </nav>
+
+        <div class="user-info">
+          <!-- Displays the logged-in user's email -->
+          Logged in as:<br /><strong id="userEmail">Loading...</strong>
+        </div>
+
+        <!-- Logout button with icon -->
+        <button class="logout-btn" id="logoutBtn">
+          <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+        </button>
+      </aside>
+    </div>
+
+    <!-- Wrapper for main content and a right detail panel -->
+    <div class="main-content-and-panel-wrapper">
+      <!-- Main content area -->
+      <main role="main" class="content">
+        <header class="page-header">
+          <h1>Analytics & Reports</h1>
+          <!-- Page heading -->
+
+          <p>
+            Welcome, <span id="admin-email"></span>! Dive into the key metrics
+            and detailed records.
+          </p>
+          <!-- Personalized greeting that will be filled with admin email dynamically -->
+        </header>
+
+        <!-- Section for authorization message, initially hidden -->
+        <section id="noAuthorityMessage" class="auth-message hidden"></section>
+
+        <!-- Overview KPIs (Key Performance Indicators) Section -->
+        <section class="kpi-section card-container">
+          <h2>Overview Reports</h2>
+          <div class="kpi-grid">
+            <!-- Each KPI card shows an icon, title, and value -->
+
+            <div class="kpi-card">
+              <i class="fas fa-piggy-bank kpi-icon"></i>
+              <div>
+                <h3>Total Sales Amount</h3>
+                <p id="totalSalesAmount">$0.00</p>
+                <!-- Will be updated dynamically with total sales -->
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <i class="fas fa-chart-line kpi-icon"></i>
+              <div>
+                <h3>Total Profit</h3>
+                <p id="totalProfitAmount">$0.00</p>
+                <!-- Dynamic total profit -->
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <i class="fas fa-exchange-alt kpi-icon"></i>
+              <div>
+                <h3>Total Transactions</h3>
+                <p id="totalTransactions">0</p>
+                <!-- Number of transactions -->
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <i class="fas fa-exclamation-triangle kpi-icon danger-icon"></i>
+              <div>
+                <h3>Unpaid Transactions</h3>
+                <p id="unpaidTransactionsCount">0</p>
+                <!-- Count of unpaid transactions -->
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <i class="fas fa-money-bill-alt kpi-icon danger-icon"></i>
+              <div>
+                <h3>Total Unpaid Amount</h3>
+                <p id="unpaidAmount">$0.00</p>
+                <!-- Total outstanding unpaid amount -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Section for charts showing trends and insights -->
+          <div class="chart-section-layout">
+            <h2>Performance Trends & Insights</h2>
+
+            <!-- Daily sales trend chart -->
+            <div
+              id="dailySalesChartContainer"
+              class="chart-card chart-full-width"
+            >
+              <h3>Daily Sales Trend</h3>
+              <div class="chart-canvas-container">
+                <canvas id="dailySalesTrendChart"></canvas>
+                <!-- Canvas element for Chart.js rendering -->
+              </div>
+            </div>
+
+            <!-- Two charts side by side: monthly and yearly sales -->
+            <div class="chart-row">
+              <div id="monthlySalesChartContainer" class="chart-card">
+                <h3>Monthly Sales Trend</h3>
+                <div class="chart-canvas-container">
+                  <canvas id="monthlySalesTrendChart"></canvas>
+                </div>
+              </div>
+              <div id="yearlySalesChartContainer" class="chart-card">
+                <h3>Yearly Sales Trend</h3>
+                <div class="chart-canvas-container">
+                  <canvas id="yearlySalesTrendChart"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Two charts side by side: inventory status and profit by category -->
+            <div class="chart-row">
+              <div id="inventoryChartContainer" class="chart-card">
+                <h3>Inventory Stock Status</h3>
+                <div class="chart-canvas-container">
+                  <canvas id="inventoryStatusChart"></canvas>
+                </div>
+              </div>
+              <div id="profitChartContainer" class="chart-card">
+                <h3>Profit by Medicine Category</h3>
+                <div class="chart-canvas-container">
+                  <canvas id="profitByCategoryChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Sales Records Section with filters -->
+        <section class="card-container">
+          <h2>Sales Records</h2>
+          <div class="sales-filters">
+            <!-- Search input for sales -->
+            <div class="form-group">
+              <label for="salesSearch"
+                ><i class="fas fa-search"></i> Search Sales</label
+              >
+              <input
+                type="text"
+                id="salesSearch"
+                placeholder="Customer, Staff, Medicine, Sales ID..."
+              />
+            </div>
+
+            <!-- Filter by staff member who made the sale -->
+            <div class="form-group">
+              <label for="soldByFilter"
+                ><i class="fas fa-user-tag"></i> Filter by Staff</label
+              >
+              <select id="soldByFilter">
+                <option value="">All Staff</option>
+                <!-- Staff options will be dynamically loaded -->
+              </select>
+            </div>
+
+            <!-- Filter by type of sale -->
+            <div class="form-group">
+              <label for="salesTypeFilter"
+                ><i class="fas fa-cash-register"></i> Filter by Sales
+                Type</label
+              >
+              <select id="salesTypeFilter">
+                <option value="">All Types</option>
+                <option value="retail">Retail</option>
+                <option value="b2b">B2B</option>
+              </select>
+            </div>
+
+            <!-- Filter by date range -->
+            <div class="form-group">
+              <label for="startDate"
+                ><i class="fas fa-calendar-alt"></i> Start Date</label
+              >
+              <input type="date" id="startDate" />
+            </div>
+            <div class="form-group">
+              <label for="endDate"
+                ><i class="fas fa-calendar-alt"></i> End Date</label
+              >
+              <input type="date" id="endDate" />
+            </div>
+
+            <!-- Filter by min and max total amount -->
+            <div class="form-group">
+              <label for="minAmount"
+                ><i class="fas fa-money-bill-wave"></i> Min Total ($)</label
+              >
+              <input type="number" id="minAmount" placeholder="0" />
+            </div>
+            <div class="form-group">
+              <label for="maxAmount"
+                ><i class="fas fa-money-bill-wave"></i> Max Total ($)</label
+              >
+              <input type="number" id="maxAmount" placeholder="99999" />
+            </div>
+
+            <!-- Buttons to apply and reset filters -->
+            <div class="form-actions">
+              <button id="applySalesFilters" class="btn primary">
+                <i class="fas fa-filter"></i> Apply Filters
+              </button>
+              <button id="resetSalesFilters" class="btn delete-btn">
+                <i class="fas fa-sync-alt"></i> Reset Filters
+              </button>
+            </div>
+          </div>
+
+          <!-- Sales table -->
+          <div class="table-responsive">
+            <table id="salesTable" class="data-table">
+              <thead>
+                <tr>
+                  <th>Sale ID</th>
+                  <th>Date</th>
+                  <th>Customer</th>
+                  <th>Sales Type</th>
+                  <th>Sold By</th>
+                  <th>Grand Total</th>
+                  <th>Payment Status</th>
+                </tr>
+              </thead>
+              <tbody id="salesList">
+                <!-- Initial loading message; this will be replaced dynamically -->
+                <tr>
+                  <td colspan="7">Loading sales records...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Registered Pharmacies section (B2B customers) -->
+        <section class="card-container">
+          <h2>Registered Pharmacies (B2B Customers)</h2>
+          <div class="table-responsive">
+            <table id="pharmacyTable" class="data-table">
+              <thead>
+                <tr>
+                  <th>Pharmacy Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Registration No.</th>
+                </tr>
+              </thead>
+              <tbody id="pharmacyList">
+                <tr>
+                  <td colspan="4">Loading pharmacy details...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Suppliers Section -->
+        <section class="card-container">
+          <h2>Suppliers</h2>
+          <div class="table-responsive">
+            <table id="supplierTable" class="data-table">
+              <thead>
+                <tr>
+                  <th>Company</th>
+                  <th>Contact Person</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                </tr>
+              </thead>
+              <tbody id="supplierList">
+                <tr>
+                  <td colspan="4">Loading suppliers...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+
+      <!-- Right detail panel to show detailed info of selected row -->
+      <aside id="right-detail-panel" class="right-detail-panel">
+        <div class="panel-header">
+          <h3 id="panel-title">Details</h3>
+          <div class="panel-actions">
+            <!-- Print button for details -->
+            <button
+              id="print-panel-btn"
+              class="btn btn-icon"
+              aria-label="Print details"
+            >
+              <i class="fas fa-print"></i>
+            </button>
+            <!-- Close button to hide panel -->
+            <button
+              id="close-panel-btn"
+              class="btn btn-icon"
+              aria-label="Close details"
+            >
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div id="panel-content" class="panel-content">
+          <!-- Placeholder message shown before selection -->
+          <p>Click on a table row to view details here.</p>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Firebase SDK scripts for app, auth, and database -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <!-- Chart.js library for rendering charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Your own module scripts that initialize firebase, handle auth, and load report logic -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/auth-handler.js"></script>
+    <script type="module" src="js/admin-sidebar-navigation.js"></script>
+    <script type="module" src="js/report.js"></script>
+  </body>
+</html>
